@@ -24,8 +24,8 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
   onNext,
   onHome,
   onChapterOverview,
-  previousLabel = "Previous",
-  nextLabel = "Next",
+  previousLabel = "Précédent",
+  nextLabel = "Suivant",
   showProgress = false,
   currentStep = 1,
   totalSteps = 1,
@@ -37,18 +37,18 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
       animate={{ opacity: 1, y: 0 }}
       className="flex items-center justify-between p-6 bg-gray-800/30 border-t border-gray-700"
     >
-      {/* Left Side - Previous & Home */}
+      {/* Côté Gauche - Précédent & Accueil */}
       <div className="flex items-center space-x-3">
         {onHome && (
           <Button variant="ghost" onClick={onHome}>
             <Home className="h-4 w-4 mr-2" />
-            Home
+            Accueil
           </Button>
         )}
         {onChapterOverview && (
           <Button variant="ghost" onClick={onChapterOverview}>
             <BookOpen className="h-4 w-4 mr-2" />
-            Overview
+            Aperçu
           </Button>
         )}
         {onPrevious && (
@@ -63,11 +63,11 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
         )}
       </div>
 
-      {/* Center - Progress Indicator */}
+      {/* Centre - Indicateur de Progression */}
       {showProgress && (
         <div className="flex items-center space-x-2">
           <span className="text-sm text-gray-400">
-            {currentStep} of {totalSteps}
+            {currentStep} sur {totalSteps}
           </span>
           <div className="flex space-x-1">
             {Array.from({ length: totalSteps }, (_, index) => (
@@ -86,7 +86,7 @@ const NavigationControls: React.FC<NavigationControlsProps> = ({
         </div>
       )}
 
-      {/* Right Side - Next */}
+      {/* Côté Droit - Suivant */}
       <div>
         {onNext && (
           <Button

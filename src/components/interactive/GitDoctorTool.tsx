@@ -26,37 +26,37 @@ const GitDoctorTool: React.FC = () => {
     {
       id: '1',
       type: 'error',
-      title: 'Detached HEAD State',
-      description: 'Your repository is in a detached HEAD state. This means you\'re not on any branch.',
-      solution: 'Create a new branch or checkout an existing branch to continue working.',
-      commands: ['git checkout -b new-branch-name', 'git checkout main'],
+      title: 'État HEAD Détaché',
+      description: 'Votre dépôt est dans un état HEAD détaché. Cela signifie que vous n\'êtes sur aucune branche.',
+      solution: 'Créez une nouvelle branche ou basculez vers une branche existante pour continuer à travailler.',
+      commands: ['git checkout -b nom-nouvelle-branche', 'git checkout main'],
       severity: 'high'
     },
     {
       id: '2',
       type: 'warning',
-      title: 'Uncommitted Changes',
-      description: 'You have uncommitted changes in your working directory.',
-      solution: 'Commit your changes or stash them before switching branches.',
-      commands: ['git add .', 'git commit -m "Your message"', 'git stash'],
+      title: 'Modifications Non Commitées',
+      description: 'Vous avez des modifications non commitées dans votre répertoire de travail.',
+      solution: 'Commitez vos modifications ou mettez-les en réserve avant de changer de branche.',
+      commands: ['git add .', 'git commit -m "Votre message"', 'git stash'],
       severity: 'medium'
     },
     {
       id: '3',
       type: 'warning',
-      title: 'Untracked Files',
-      description: 'There are untracked files in your repository.',
-      solution: 'Add files to tracking or add them to .gitignore.',
-      commands: ['git add filename', 'echo "filename" >> .gitignore'],
+      title: 'Fichiers Non Suivis',
+      description: 'Il y a des fichiers non suivis dans votre dépôt.',
+      solution: 'Ajoutez les fichiers au suivi ou ajoutez-les au .gitignore.',
+      commands: ['git add nom-fichier', 'echo "nom-fichier" >> .gitignore'],
       severity: 'low'
     },
     {
       id: '4',
       type: 'info',
-      title: 'Branch Ahead of Remote',
-      description: 'Your local branch is ahead of the remote branch.',
-      solution: 'Push your changes to sync with the remote repository.',
-      commands: ['git push origin branch-name'],
+      title: 'Branche en Avance sur le Distant',
+      description: 'Votre branche locale est en avance sur la branche distante.',
+      solution: 'Poussez vos modifications pour synchroniser avec le dépôt distant.',
+      commands: ['git push origin nom-branche'],
       severity: 'low'
     }
   ];
@@ -66,10 +66,10 @@ const GitDoctorTool: React.FC = () => {
     setScanComplete(false);
     setIssues([]);
     
-    // Simulate scanning process
+    // Simuler le processus de scan
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    // Randomly select some issues
+    // Sélectionner aléatoirement quelques problèmes
     const randomIssues = mockIssues
       .sort(() => Math.random() - 0.5)
       .slice(0, Math.floor(Math.random() * 3) + 1);
@@ -111,16 +111,16 @@ const GitDoctorTool: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h2 className="text-2xl font-bold text-white mb-2">Git Doctor</h2>
-        <p className="text-gray-300">Diagnose and fix common Git issues</p>
+        <h2 className="text-2xl font-bold text-white mb-2">Git Docteur</h2>
+        <p className="text-gray-300">Diagnostiquez et corrigez les problèmes Git courants</p>
       </motion.div>
 
-      {/* Diagnostic Controls */}
+      {/* Contrôles de Diagnostic */}
       <Card>
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center space-x-3">
             <Stethoscope className="h-8 w-8 text-green-400" />
-            <h3 className="text-xl font-semibold text-white">Repository Health Check</h3>
+            <h3 className="text-xl font-semibold text-white">Vérification de Santé du Dépôt</h3>
           </div>
           
           {!scanComplete && (
@@ -130,7 +130,7 @@ const GitDoctorTool: React.FC = () => {
               loading={isScanning}
               size="lg"
             >
-              {isScanning ? 'Scanning Repository...' : 'Run Diagnostic'}
+              {isScanning ? 'Analyse du Dépôt...' : 'Lancer le Diagnostic'}
             </Button>
           )}
 
@@ -142,7 +142,7 @@ const GitDoctorTool: React.FC = () => {
             >
               <div className="flex items-center justify-center space-x-2 text-blue-400">
                 <RefreshCw className="h-4 w-4 animate-spin" />
-                <span>Analyzing repository structure...</span>
+                <span>Analyse de la structure du dépôt...</span>
               </div>
               <div className="w-full bg-gray-700 rounded-full h-2">
                 <motion.div
@@ -157,7 +157,7 @@ const GitDoctorTool: React.FC = () => {
         </div>
       </Card>
 
-      {/* Results */}
+      {/* Résultats */}
       <AnimatePresence>
         {scanComplete && (
           <motion.div
@@ -165,17 +165,17 @@ const GitDoctorTool: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="grid lg:grid-cols-3 gap-6"
           >
-            {/* Issues List */}
+            {/* Liste des Problèmes */}
             <div className="lg:col-span-2">
               <Card
                 header={
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold text-white">
-                      Detected Issues ({issues.length})
+                      Problèmes Détectés ({issues.length})
                     </h3>
                     <Button size="sm" variant="secondary" onClick={runDiagnostic}>
                       <RefreshCw className="h-4 w-4 mr-2" />
-                      Re-scan
+                      Re-scanner
                     </Button>
                   </div>
                 }
@@ -183,8 +183,8 @@ const GitDoctorTool: React.FC = () => {
                 {issues.length === 0 ? (
                   <div className="text-center py-8">
                     <CheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
-                    <h4 className="text-lg font-semibold text-white mb-2">All Clear!</h4>
-                    <p className="text-gray-300">No issues detected in your repository.</p>
+                    <h4 className="text-lg font-semibold text-white mb-2">Tout va bien !</h4>
+                    <p className="text-gray-300">Aucun problème détecté dans votre dépôt.</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -211,7 +211,8 @@ const GitDoctorTool: React.FC = () => {
                               <div className="flex items-center justify-between mb-1">
                                 <h4 className="font-medium text-white">{issue.title}</h4>
                                 <span className={`text-xs ${getSeverityColor(issue.severity)}`}>
-                                  {issue.severity}
+                                  {issue.severity === 'high' ? 'Élevé' : 
+                                   issue.severity === 'medium' ? 'Moyen' : 'Faible'}
                                 </span>
                               </div>
                               <p className="text-sm text-gray-300">{issue.description}</p>
@@ -225,7 +226,7 @@ const GitDoctorTool: React.FC = () => {
               </Card>
             </div>
 
-            {/* Issue Details & Solution */}
+            {/* Détails du Problème & Solution */}
             <Card
               header={
                 <h3 className="font-semibold text-white">Solution</h3>
@@ -238,14 +239,14 @@ const GitDoctorTool: React.FC = () => {
                     <p className="text-sm text-gray-300 mb-3">{selectedIssue.description}</p>
                   </div>
 
-                  <Alert type="info" title="Recommended Solution">
+                  <Alert type="info" title="Solution Recommandée">
                     {selectedIssue.solution}
                   </Alert>
 
                   <div>
                     <h5 className="text-sm font-medium text-gray-300 mb-2 flex items-center">
                       <Terminal className="h-4 w-4 mr-2" />
-                      Commands to Fix
+                      Commandes pour Corriger
                     </h5>
                     <div className="space-y-2">
                       {selectedIssue.commands.map((command, index) => (
@@ -265,17 +266,17 @@ const GitDoctorTool: React.FC = () => {
                       className="w-full"
                       onClick={() => fixIssue(selectedIssue.id)}
                     >
-                      Mark as Fixed
+                      Marquer comme Corrigé
                     </Button>
                     <Button size="sm" variant="secondary" className="w-full">
                       <Lightbulb className="h-4 w-4 mr-2" />
-                      Learn More
+                      En Savoir Plus
                     </Button>
                   </div>
                 </div>
               ) : (
                 <div className="text-center text-gray-400 py-8">
-                  Select an issue to view the solution
+                  Sélectionnez un problème pour voir la solution
                 </div>
               )}
             </Card>

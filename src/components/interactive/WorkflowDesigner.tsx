@@ -18,21 +18,21 @@ const WorkflowDesigner: React.FC = () => {
     {
       id: '1',
       type: 'branch',
-      title: 'Create Feature Branch',
-      description: 'Create a new branch from main',
-      branch: 'feature/new-feature'
+      title: 'Créer une Branche Feature',
+      description: 'Créer une nouvelle branche depuis main',
+      branch: 'feature/nouvelle-fonctionnalite'
     },
     {
       id: '2',
       type: 'commit',
-      title: 'Make Changes',
-      description: 'Implement the feature and commit changes'
+      title: 'Effectuer des Modifications',
+      description: 'Implémenter la fonctionnalité et commiter les changements'
     },
     {
       id: '3',
       type: 'merge',
-      title: 'Merge to Main',
-      description: 'Create PR and merge to main branch'
+      title: 'Fusionner vers Main',
+      description: 'Créer une PR et fusionner vers la branche main'
     }
   ]);
 
@@ -40,18 +40,18 @@ const WorkflowDesigner: React.FC = () => {
   const [editingStep, setEditingStep] = useState<WorkflowStep | null>(null);
 
   const stepTypes = [
-    { type: 'branch', label: 'Create Branch', icon: GitBranch, color: 'blue' },
-    { type: 'commit', label: 'Commit Changes', icon: Save, color: 'green' },
-    { type: 'merge', label: 'Merge Branch', icon: ArrowRight, color: 'purple' },
-    { type: 'deploy', label: 'Deploy', icon: Play, color: 'orange' }
+    { type: 'branch', label: 'Créer Branche', icon: GitBranch, color: 'blue' },
+    { type: 'commit', label: 'Commiter Changements', icon: Save, color: 'green' },
+    { type: 'merge', label: 'Fusionner Branche', icon: ArrowRight, color: 'purple' },
+    { type: 'deploy', label: 'Déployer', icon: Play, color: 'orange' }
   ];
 
   const addStep = (type: string) => {
     const newStep: WorkflowStep = {
       id: Date.now().toString(),
       type: type as WorkflowStep['type'],
-      title: `New ${type} step`,
-      description: `Description for ${type} step`
+      title: `Nouvelle étape ${type}`,
+      description: `Description pour l'étape ${type}`
     };
     setSteps([...steps, newStep]);
   };
@@ -90,15 +90,15 @@ const WorkflowDesigner: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h2 className="text-2xl font-bold text-white mb-2">Git Workflow Designer</h2>
-        <p className="text-gray-300">Design and visualize your Git workflow</p>
+        <h2 className="text-2xl font-bold text-white mb-2">Concepteur de Workflow Git</h2>
+        <p className="text-gray-300">Concevez et visualisez votre workflow Git</p>
       </motion.div>
 
       <div className="grid lg:grid-cols-4 gap-6">
-        {/* Step Types */}
+        {/* Types d'Étapes */}
         <Card
           header={
-            <h3 className="font-semibold text-white">Step Types</h3>
+            <h3 className="font-semibold text-white">Types d'Étapes</h3>
           }
         >
           <div className="space-y-2">
@@ -119,20 +119,20 @@ const WorkflowDesigner: React.FC = () => {
           </div>
         </Card>
 
-        {/* Workflow Canvas */}
+        {/* Canevas de Workflow */}
         <div className="lg:col-span-3">
           <Card
             header={
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-white">Workflow Steps</h3>
+                <h3 className="font-semibold text-white">Étapes du Workflow</h3>
                 <div className="flex space-x-2">
                   <Button size="sm" variant="secondary">
                     <Save className="h-4 w-4 mr-2" />
-                    Save
+                    Sauvegarder
                   </Button>
                   <Button size="sm">
                     <Play className="h-4 w-4 mr-2" />
-                    Simulate
+                    Simuler
                   </Button>
                 </div>
               </div>
@@ -174,7 +174,7 @@ const WorkflowDesigner: React.FC = () => {
                               variant="ghost"
                               onClick={() => editStep(step)}
                             >
-                              Edit
+                              Modifier
                             </Button>
                             <Button
                               size="sm"
@@ -187,7 +187,7 @@ const WorkflowDesigner: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Arrow to next step */}
+                      {/* Flèche vers l'étape suivante */}
                       {index < steps.length - 1 && (
                         <div className="flex justify-center my-2">
                           <ArrowRight className="h-6 w-6 text-gray-400" />
@@ -201,8 +201,8 @@ const WorkflowDesigner: React.FC = () => {
               {steps.length === 0 && (
                 <div className="text-center py-12 text-gray-400">
                   <GitBranch className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>No steps in your workflow yet.</p>
-                  <p className="text-sm">Add steps from the left panel to get started.</p>
+                  <p>Aucune étape dans votre workflow pour le moment.</p>
+                  <p className="text-sm">Ajoutez des étapes depuis le panneau de gauche pour commencer.</p>
                 </div>
               )}
             </div>
@@ -210,17 +210,17 @@ const WorkflowDesigner: React.FC = () => {
         </div>
       </div>
 
-      {/* Edit Step Modal */}
+      {/* Modal de Modification d'Étape */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Edit Workflow Step"
+        title="Modifier l'Étape du Workflow"
       >
         {editingStep && (
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Title
+                Titre
               </label>
               <input
                 type="text"
@@ -245,7 +245,7 @@ const WorkflowDesigner: React.FC = () => {
             {editingStep.type === 'branch' && (
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Branch Name
+                  Nom de la Branche
                 </label>
                 <input
                   type="text"
@@ -258,10 +258,10 @@ const WorkflowDesigner: React.FC = () => {
 
             <div className="flex justify-end space-x-3">
               <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-                Cancel
+                Annuler
               </Button>
               <Button onClick={() => saveStep(editingStep)}>
-                Save Changes
+                Sauvegarder les Modifications
               </Button>
             </div>
           </div>
