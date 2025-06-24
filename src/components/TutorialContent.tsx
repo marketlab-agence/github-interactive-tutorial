@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, CheckCircle, XCircle } from 'lucide-react';
+// Basic tutorial components
 import ChapterIntro from './tutorial/ChapterIntro';
 import LessonContent from './tutorial/LessonContent';
 import QuizQuestion from './tutorial/QuizQuestion';
@@ -11,15 +12,27 @@ import Card from './ui/Card';
 import { useTutorial } from '../context/TutorialContext';
 import { chapters } from '../data/tutorialData';
 
+// Import Introduction components (Chapter 1)
+import GitVsGitHubComparison from './tutorial/GitVsGitHubComparison';
+import VersioningDemo from './tutorial/VersioningDemo';
+import LocalVsRemoteVisual from './tutorial/LocalVsRemoteVisual';
+
+// Import Repositories components (Chapter 2)
+import RepoCreationWizard from './tutorial/RepoCreationWizard';
+import StagingAreaVisualizer from './tutorial/StagingAreaVisualizer';
+import CommitHistoryExplorer from './tutorial/CommitHistoryExplorer';
+
 // Import interactive components for Chapter 3: Branches and Fusion
+import BranchAnimator from './tutorial/BranchAnimator';
 import BranchCreator from './interactive/BranchCreator';
 import MergeSimulator from './interactive/MergeSimulator';
 import ConflictResolver from './interactive/ConflictResolver';
+import MergeTypeComparison from './tutorial/MergeTypeComparison';
+import BranchSandbox from './tutorial/BranchSandbox';
 
 // Import interactive components for Chapter 4: Remote Repositories
 import RemoteConnectionVisual from './tutorial/RemoteConnectionVisual';
 import PushPullAnimator from './tutorial/PushPullAnimator';
-import LocalVsRemoteVisual from './tutorial/LocalVsRemoteVisual';
 import SyncStatusIndicator from './tutorial/SyncStatusIndicator';
 
 // Import interactive components for Chapter 5: Collaboration and Pull Requests
@@ -27,6 +40,7 @@ import ForkVsCloneDemo from './tutorial/ForkVsCloneDemo';
 import PullRequestCreator from './interactive/PullRequestCreator';
 import CodeReviewInterface from './tutorial/CodeReviewInterface';
 import CollaborationSimulator from './interactive/CollaborationSimulator';
+import PRWorkflowSimulator from './tutorial/PRWorkflowSimulator';
 
 // Import interactive components for Chapter 6: Git Workflows
 import WorkflowComparisonTable from './tutorial/WorkflowComparisonTable';
@@ -361,8 +375,17 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
             {lesson.component === 'BranchCreator' && (
               <BranchCreator onComplete={handleCompleteLesson} />
             )}
+            {lesson.component === 'BranchAnimator' && (
+              <BranchAnimator />
+            )}
             {lesson.component === 'MergeSimulator' && (
               <MergeSimulator onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'MergeTypeComparison' && (
+              <MergeTypeComparison />
+            )}
+            {lesson.component === 'BranchSandbox' && (
+              <BranchSandbox />
             )}
             {lesson.component === 'ConflictResolver' && (
               <ConflictResolver onComplete={handleCompleteLesson} />
@@ -379,8 +402,17 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
             {lesson.component === 'SyncStatusIndicator' && (
               <SyncStatusIndicator onComplete={handleCompleteLesson} />
             )}
+            {lesson.component === 'GitVsGitHubComparison' && (
+              <GitVsGitHubComparison />
+            )}
+            {lesson.component === 'VersioningDemo' && (
+              <VersioningDemo />
+            )}
             {lesson.component === 'ForkVsCloneDemo' && (
               <ForkVsCloneDemo onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'PRWorkflowSimulator' && (
+              <PRWorkflowSimulator />
             )}
             {lesson.component === 'PullRequestCreator' && (
               <PullRequestCreator onComplete={handleCompleteLesson} />
@@ -390,6 +422,15 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
             )}
             {lesson.component === 'CollaborationSimulator' && (
               <CollaborationSimulator onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'RepoCreationWizard' && (
+              <RepoCreationWizard />
+            )}
+            {lesson.component === 'StagingAreaVisualizer' && (
+              <StagingAreaVisualizer />
+            )}
+            {lesson.component === 'CommitHistoryExplorer' && (
+              <CommitHistoryExplorer />
             )}
             {lesson.component === 'WorkflowComparisonTable' && (
               <WorkflowComparisonTable onComplete={handleCompleteLesson} />
