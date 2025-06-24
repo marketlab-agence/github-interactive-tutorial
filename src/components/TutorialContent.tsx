@@ -1,0 +1,305 @@
+import React, { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
+import ChapterIntro from './tutorial/ChapterIntro';
+import LessonContent from './tutorial/LessonContent';
+import QuizQuestion from './tutorial/QuizQuestion';
+import ChapterSummary from './tutorial/ChapterSummary';
+import NavigationControls from './tutorial/NavigationControls';
+import Button from './ui/Button';
+import { useTutorial } from '../context/TutorialContext';
+import { chapters } from '../data/tutorialData';
+
+interface TutorialContentProps {
+  onReturnToHome: () => void;
+}
+
+const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => {
+  const { userProgress, updateProgress, completeLesson, completeChapter, completeQuiz, setLastPosition } = useTutorial();
+  const [currentView, setCurrentView] = useState<'chapter-intro' | 'lesson' | 'quiz' | 'chapter-summary'>(
+    userProgress.lastPosition.view === 'chapter-intro' || 
+    userProgress.lastPosition.view === 'lesson' || 
+    userProgress.lastPosition.view === 'quiz' || 
+    userProgress.lastPosition.view === 'chapter-summary' 
+      ? userProgress.lastPosition.view as any 
+      : 'chapter-intro'
+  );
+  const [currentChapter, setCurrentChapter] = useState<number>(userProgress.currentChapter);
+  const [currentLesson, setCurrentLesson] = useState<number>(userProgress.currentLesson);
+  const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(userProgress.lastPosition.quizIndex || 0);
+  const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
+
+  const startChapter = (chapterId: string) => {
+    const chapterIndex = chapters.findIndex(c => c.id === chapterId);
+    if (chapterIndex !== -1) {
+      setCurrentChapter(chapterIndex);
+      setCurrentLesson(0);
+      setCurrentView('lesson');
+      setCurrentQuizIndex(0);
+      setQuizCompleted(false);
+      
+      // Mettre à jour la progression
+      updateProgress({
+        currentChapter: chapterIndex,
+        currentLesson: 0
+      });
+      
+      setLastPosition({
+        view: 'lesson',
+        chapterId: chapters[chapterIndex].id,
+        lessonId: chapters[chapterIndex].lessons[0].id
+      });
+    }
+  };
+
+  const handleCompleteLesson = () => {
+    const currentChapterId = chapters[currentChapter].id;
+    const currentLessonId = chapters[currentChapter].lessons[currentLesson].id;
+    
+    // Marquer la leçon comme complétée
+    completeLesson(currentChapterId, currentLessonId);
+    
+    // Passer à la leçon suivante ou au quiz
+    if (currentLesson < chapters[currentChapter].lessons.length - 1) {
+      // Passer à la leçon suivante
+      setCurrentLesson(currentLesson + 1);
+      
+      // Mettre à jour la progression
+      updateProgress({
+        currentLesson: currentLesson + 1
+      });
+      
+      setLastPosition({
+        view: 'lesson',
+        chapterId: currentChapterId,
+        lessonId: chapters[currentChapter].lessons[currentLesson + 1].id
+      });
+    } else {
+      // Toutes les leçons sont terminées, passer au quiz
+      setCurrentView('quiz');
+      setCurrentQuizIndex(0);
+      
+      setLastPosition({
+        view: 'quiz',
+        chapterId: currentChapterId,
+        quizIndex: 0
+      });
+    }
+  };
+
+  const handleQuizAnswer = (correct: boolean) => {
+    // Si la réponse est correcte, on peut passer à la question suivante
+    if (correct) {
+      if (currentQuizIndex < chapters[currentChapter].quiz.length - 1) {
+        // Passer à la question suivante
+        setCurrentQuizIndex(currentQuizIndex + 1);
+        
+        setLastPosition({
+          view: 'quiz',
+          chapterId: chapters[currentChapter].id,
+          quizIndex: currentQuizIndex + 1
+        });
+      } else {
+        // Toutes les questions sont terminées
+        setQuizCompleted(true);
+        
+        // Marquer le chapitre comme complété
+        const currentChapterId = chapters[currentChapter].id;
+        completeChapter(currentChapterId);
+        completeQuiz(currentChapterId);
+        
+        setLastPosition({
+          view: 'chapter-summary',
+          chapterId: currentChapterId
+        });
+        
+        // Afficher le résumé du chapitre
+        setCurrentView('chapter-summary');
+      }
+    }
+  };
+
+  const goToNextChapter = () => {
+    if (currentChapter < chapters.length - 1) {
+      // Passer au chapitre suivant
+      setCurrentChapter(currentChapter + 1);
+      setCurrentLesson(0);
+      setCurrentView('chapter-intro');
+      setCurrentQuizIndex(0);
+      setQuizCompleted(false);
+      
+      // Mettre à jour la progression
+      updateProgress({
+        currentChapter: currentChapter + 1,
+        currentLesson: 0
+      });
+      
+      setLastPosition({
+        view: 'chapter-intro',
+        chapterId: chapters[currentChapter + 1].id
+      });
+    } else {
+      // Tous les chapitres sont terminés, retourner à l'accueil
+      onReturnToHome();
+      
+      setLastPosition({
+        view: 'certificate'
+      });
+    }
+  };
+
+  if (currentView === 'chapter-intro') {
+    return (
+      <ChapterIntro
+        chapterNumber={currentChapter + 1}
+        title={chapters[currentChapter].title}
+        description={chapters[currentChapter].description}
+        objectives={chapters[currentChapter].objectives}
+        estimatedTime={chapters[currentChapter].estimatedTime}
+        onStart={() => {
+          setCurrentView('lesson');
+          setLastPosition({
+            view: 'lesson',
+            chapterId: chapters[currentChapter].id,
+            lessonId: chapters[currentChapter].lessons[0].id
+          });
+        }}
+      />
+    );
+  }
+  
+  if (currentView === 'lesson') {
+    const lesson = chapters[currentChapter].lessons[currentLesson];
+    return (
+      <div className="space-y-6">
+        <LessonContent
+          title={lesson.title}
+          content={lesson.content}
+          duration={lesson.duration}
+          objectives={chapters[currentChapter].objectives}
+          difficulty="beginner"
+        />
+        
+        {lesson.image && (
+          <div className="max-w-3xl mx-auto">
+            <img 
+              src={lesson.image} 
+              alt={lesson.title} 
+              className="w-full h-auto rounded-xl shadow-lg"
+            />
+          </div>
+        )}
+        
+        {lesson.codeExample && (
+          <div className="max-w-3xl mx-auto bg-gray-900 rounded-xl p-6 border border-gray-700">
+            <h3 className="text-lg font-semibold text-white mb-4">Exemple de code</h3>
+            <pre className="text-green-400 text-sm overflow-x-auto whitespace-pre-wrap">
+              <code>{lesson.codeExample}</code>
+            </pre>
+          </div>
+        )}
+        
+        <NavigationControls
+          onPrevious={() => {
+            if (currentLesson > 0) {
+              setCurrentLesson(currentLesson - 1);
+              updateProgress({
+                currentLesson: currentLesson - 1
+              });
+              setLastPosition({
+                view: 'lesson',
+                chapterId: chapters[currentChapter].id,
+                lessonId: chapters[currentChapter].lessons[currentLesson - 1].id
+              });
+            } else {
+              setCurrentView('chapter-intro');
+              setLastPosition({
+                view: 'chapter-intro',
+                chapterId: chapters[currentChapter].id
+              });
+            }
+          }}
+          onNext={handleCompleteLesson}
+          showProgress={true}
+          currentStep={currentLesson + 1}
+          totalSteps={chapters[currentChapter].lessons.length}
+          disabled={{
+            previous: currentLesson === 0 && currentView === 'chapter-intro',
+            next: false
+          }}
+        />
+      </div>
+    );
+  }
+  
+  if (currentView === 'quiz') {
+    const quiz = chapters[currentChapter].quiz[currentQuizIndex];
+    return (
+      <div className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-white mb-2">
+            Quiz - {chapters[currentChapter].title}
+          </h2>
+          <p className="text-gray-300">Testez vos connaissances sur ce chapitre</p>
+        </div>
+        
+        <QuizQuestion
+          question={quiz.question}
+          options={quiz.options}
+          correctAnswer={quiz.correctAnswer}
+          explanation={quiz.explanation}
+          onAnswer={handleQuizAnswer}
+        />
+        
+        <div className="flex justify-between">
+          <Button
+            variant="secondary"
+            onClick={() => {
+              setCurrentView('lesson');
+              setCurrentLesson(chapters[currentChapter].lessons.length - 1);
+              setLastPosition({
+                view: 'lesson',
+                chapterId: chapters[currentChapter].id,
+                lessonId: chapters[currentChapter].lessons[chapters[currentChapter].lessons.length - 1].id
+              });
+            }}
+          >
+            Retour à la leçon
+          </Button>
+          <div className="flex items-center space-x-2">
+            <span className="text-gray-400">
+              Question {currentQuizIndex + 1} sur {chapters[currentChapter].quiz.length}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  if (currentView === 'chapter-summary') {
+    return (
+      <ChapterSummary
+        chapterNumber={currentChapter + 1}
+        title={chapters[currentChapter].title}
+        completedObjectives={chapters[currentChapter].objectives}
+        keyTakeaways={[
+          "Vous avez maîtrisé les concepts clés de ce chapitre",
+          "Vous pouvez maintenant appliquer ces connaissances dans vos projets",
+          "Continuez à pratiquer pour renforcer votre compréhension"
+        ]}
+        nextChapterTitle={currentChapter < chapters.length - 1 ? chapters[currentChapter + 1].title : undefined}
+        onContinue={goToNextChapter}
+        onReview={() => {
+          setCurrentView('chapter-intro');
+          setLastPosition({
+            view: 'chapter-intro',
+            chapterId: chapters[currentChapter].id
+          });
+        }}
+      />
+    );
+  }
+
+  return null;
+};
+
+export default TutorialContent;
