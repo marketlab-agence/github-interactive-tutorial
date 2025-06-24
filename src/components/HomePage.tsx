@@ -11,6 +11,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartTutorial }) => {
   const { setLastPosition } = useTutorial();
 
   const handleStartTutorial = () => {
+    // Définir le chapitre 1 (index 0) comme point de départ
     setLastPosition({
       view: 'chapter-intro',
       chapterId: chapters[0].id

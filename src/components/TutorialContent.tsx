@@ -52,29 +52,27 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
     }
   }, [userProgress.lastPosition]);
 
-  const startChapter = (chapterId: string) => {
-    const chapterIndex = chapters.findIndex(c => c.id === chapterId);
-    if (chapterIndex !== -1) {
-      setCurrentChapter(chapterIndex);
-      setCurrentLesson(0);
-      setCurrentView('lesson');
-      setCurrentQuizIndex(0);
-      setQuizAnswers([]);
-      setQuizCompleted(false);
-      setQuizQuestions([]);
-      
-      // Mettre à jour la progression
-      updateProgress({
-        currentChapter: chapterIndex,
-        currentLesson: 0
-      });
-      
-      setLastPosition({
-        view: 'lesson',
-        chapterId: chapters[chapterIndex].id,
-        lessonId: chapters[chapterIndex].lessons[0].id
-      });
-    }
+  const startChapter = () => {
+    // Commencer le chapitre actuel, pas le suivant
+    const currentChapterId = chapters[currentChapter].id;
+    setCurrentView('lesson');
+    setCurrentLesson(0);
+    setCurrentQuizIndex(0);
+    setQuizAnswers([]);
+    setQuizCompleted(false);
+    setQuizQuestions([]);
+    
+    // Mettre à jour la progression
+    updateProgress({
+      currentChapter: currentChapter,
+      currentLesson: 0
+    });
+    
+    setLastPosition({
+      view: 'lesson',
+      chapterId: currentChapterId,
+      lessonId: chapters[currentChapter].lessons[0].id
+    });
   };
 
   const handleCompleteLesson = () => {
@@ -222,14 +220,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
         description={chapters[currentChapter].description}
         objectives={chapters[currentChapter].objectives}
         estimatedTime={chapters[currentChapter].estimatedTime}
-        onStart={() => {
-          setCurrentView('lesson');
-          setLastPosition({
-            view: 'lesson',
-            chapterId: chapters[currentChapter].id,
-            lessonId: chapters[currentChapter].lessons[0].id
-          });
-        }}
+        onStart={startChapter}
       />
     );
   }
