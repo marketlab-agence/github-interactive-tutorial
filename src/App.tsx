@@ -37,7 +37,7 @@ import Settings from './components/Settings';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 import { useTutorial } from './context/TutorialContext';
-import { chapters } from './data/tutorialData';
+import { chapters } from './data';
 
 function App() {
   const { userProgress, setLastPosition } = useTutorial();
