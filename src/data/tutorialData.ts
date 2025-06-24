@@ -809,10 +809,9 @@ git pull --rebase origin main
 
 **Bonnes pratiques**
 
-- Faites un \`pull\` avant de commencer à travailler et avant de faire un \`push`
 - Commitez localement souvent, mais poussez uniquement du code fonctionnel
 - Utilisez des branches pour les fonctionnalités en cours de développement
-- Vérifiez toujours ce que vous poussez avec `git status``,
+- Vérifiez toujours ce que vous poussez avec \`git status\``,
         component: 'PushPullAnimator',
         objectives: ["Envoyer des modifications vers un dépôt distant", "Récupérer et intégrer des modifications distantes", "Comprendre la différence entre fetch, pull et push"]
       },
