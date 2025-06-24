@@ -1,10 +1,7 @@
 import React from 'react';
-import { GitCommit, CheckCircle } from 'lucide-react';
+import { GitCommit, CheckCircle, X } from 'lucide-react';
 import { useTutorial } from '../context/TutorialContext';
-import { chapters, menuItems } from '../data/tutorialData';
-
-// Importer l'icône de fermeture pour la version mobile
-import { X } from 'lucide-react';
+import { chapters } from '../data/tutorialData';
 
 interface SidebarProps {
   selectedItem: string;
@@ -13,41 +10,52 @@ interface SidebarProps {
   onCloseMobileMenu?: () => void;
 }
 
-interface Section {
-  id: string;
-  title: string;
-  color: string;
-  bgColor: string;
-  borderColor: string;
-  items: any[];
-}
-
 const Sidebar: React.FC<SidebarProps> = ({ 
   selectedItem, 
   onSelectItem, 
-  mobileMenuOpen = false, 
-  onCloseMobileMenu = () => {} 
+  mobileMenuOpen = false,
+  onCloseMobileMenu = () => {}
 }) => {
   const { userProgress } = useTutorial();
-
+  
   // Fonction pour vérifier si un chapitre est déverrouillé
-  const isChapterUnlocked = (chapterIndex: number) => {
+  const isChapterUnlocked = (chapterId: string, index: number) => {
     // Le premier chapitre est toujours déverrouillé
-    if (chapterIndex === 0) return true;
+    if (index === 0) return true;
     
     // Pour les autres chapitres, vérifier si le chapitre précédent est complété
-    const previousChapterId = chapters[chapterIndex - 1]?.id;
+    const previousChapterId = chapters[index - 1]?.id;
     return previousChapterId && userProgress.completedChapters.includes(previousChapterId);
   };
 
-  const sections: Section[] = [
+  const sections = [
     {
       id: 'entry',
       title: 'Phase d\'Entrée',
       color: 'text-blue-400',
       bgColor: 'bg-blue-900/20',
       borderColor: 'border-blue-500/30',
-      items: menuItems.entry
+      items: [
+        {
+          id: 'accueil',
+          title: 'Page d\'Accueil',
+          subtitle: 'Vue d\'ensemble principale avec présentation du contenu',
+          icon: '🏠',
+          completed: true
+        },
+        {
+          id: 'auth',
+          title: 'Authentification',
+          subtitle: 'Connexion système et gestion compte programmeur',
+          icon: '🔒'
+        },
+        {
+          id: 'dashboard',
+          title: 'Tableau de Bord',
+          subtitle: 'Vue d\'ensemble de la progression et éléments clés du système',
+          icon: '📊'
+        }
+      ]
     },
     {
       id: 'learning',
@@ -59,14 +67,14 @@ const Sidebar: React.FC<SidebarProps> = ({
         id: chapter.id,
         title: `Chapitre ${index + 1}: ${chapter.title}`,
         subtitle: chapter.description.split('.')[0],
-        icon: index === 0 ? 'BookOpen' : 
-              index === 1 ? 'Repository' : 
-              index === 2 ? 'GitBranch' : 
-              index === 3 ? 'Cloud' : 'Users',
-        inProgress: userProgress.currentChapter === index && 
-                   !userProgress.completedChapters.includes(chapter.id),
+        icon: index === 0 ? '📖' : 
+              index === 1 ? '📁' : 
+              index === 2 ? '🔀' : 
+              index === 3 ? '☁️' : '👥',
         completed: userProgress.completedChapters.includes(chapter.id),
-        locked: !isChapterUnlocked(index)
+        inProgress: userProgress.lastPosition.chapterId === chapter.id && 
+                  !userProgress.completedChapters.includes(chapter.id),
+        locked: !isChapterUnlocked(chapter.id, index)
       }))
     },
     {
@@ -80,19 +88,19 @@ const Sidebar: React.FC<SidebarProps> = ({
           id: 'technical',
           title: 'Contrôle Technique',
           subtitle: 'Validation des compétences avec retour directe',
-          icon: 'Settings'
+          icon: '⚙️'
         },
         {
           id: 'simulation',
           title: 'Simulation Interactive',
           subtitle: 'Visualisation directe des concepts Git',
-          icon: 'Play'
+          icon: '▶️'
         },
         {
           id: 'practice',
           title: 'Exercice Pratique',
           subtitle: 'Application par construction en suivant',
-          icon: 'PenTool'
+          icon: '✏️'
         }
       ]
     },
@@ -107,74 +115,23 @@ const Sidebar: React.FC<SidebarProps> = ({
           id: 'evaluation',
           title: 'Évaluation Automatique',
           subtitle: 'Validation des étapes et du devoirs',
-          icon: 'CheckCircle'
+          icon: '✅'
         },
         {
           id: 'feedback',
           title: 'Feedback Personnalisé',
           subtitle: 'Conseils et suggestions basés sur le progrès',
-          icon: 'MessageSquare'
+          icon: '💬'
         },
         {
           id: 'progress',
           title: 'Suivi/mode Progression',
           subtitle: 'Suivi des progrès individuels via l\'envi de logiciel',
-          icon: 'TrendingUp'
-        }
-      ]
-    },
-    {
-      id: 'achievement',
-      title: 'Achèvement',
-      color: 'text-purple-400',
-      bgColor: 'bg-purple-900/20',
-      borderColor: 'border-purple-500/30',
-      items: [
-        {
-          id: 'summary',
-          title: 'Résumé de Chapitre',
-          subtitle: 'Récapitulatif par activité clés acquises',
-          icon: 'BookOpen'
-        },
-        {
-          id: 'certificate',
-          title: 'Certificat de Complétion',
-          subtitle: 'Validation officielle des compétences acquises',
-          icon: 'Award'
-        },
-        {
-          id: 'export',
-          title: 'Partage & Export',
-          subtitle: 'Partage social et téléchargement PDF',
-          icon: 'Share'
+          icon: '📈'
         }
       ]
     }
   ];
-
-  // Fonction pour obtenir l'icône en tant que composant
-  const getIconComponent = (iconName: string) => {
-    const icons = {
-      'Home': () => <span className="flex-shrink-0 mt-1">🏠</span>,
-      'Lock': () => <span className="flex-shrink-0 mt-1">🔒</span>,
-      'LayoutDashboard': () => <span className="flex-shrink-0 mt-1">📊</span>,
-      'BookOpen': () => <span className="flex-shrink-0 mt-1">📖</span>,
-      'Repository': () => <span className="flex-shrink-0 mt-1">📁</span>,
-      'GitBranch': () => <span className="flex-shrink-0 mt-1">🔀</span>,
-      'Cloud': () => <span className="flex-shrink-0 mt-1">☁️</span>,
-      'Users': () => <span className="flex-shrink-0 mt-1">👥</span>,
-      'Settings': () => <span className="flex-shrink-0 mt-1">⚙️</span>,
-      'Play': () => <span className="flex-shrink-0 mt-1">▶️</span>,
-      'PenTool': () => <span className="flex-shrink-0 mt-1">✏️</span>,
-      'CheckCircle': () => <span className="flex-shrink-0 mt-1">✅</span>,
-      'MessageSquare': () => <span className="flex-shrink-0 mt-1">💬</span>,
-      'TrendingUp': () => <span className="flex-shrink-0 mt-1">📈</span>,
-      'Award': () => <span className="flex-shrink-0 mt-1">🏆</span>,
-      'Share': () => <span className="flex-shrink-0 mt-1">📤</span>
-    };
-    
-    return icons[iconName] ? icons[iconName]() : <span className="flex-shrink-0 mt-1">📄</span>;
-  };
 
   return (
     <div className={`${mobileMenuOpen ? 'mobile-sidebar open' : 'hidden md:block'} w-64 md:w-72 lg:w-80 bg-gray-800/50 border-r border-gray-700 min-h-screen z-40`}>
@@ -189,6 +146,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <button 
           className="md:hidden text-gray-400 hover:text-white"
           onClick={onCloseMobileMenu}
+          aria-label="Fermer le menu"
         >
           <X className="h-6 w-6" />
         </button>
@@ -202,7 +160,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               {section.title}
             </h2>
             <div className="space-y-2">
-              {section.items.map((item) => (
+              {section.items.map((item: any) => (
                 <button
                   key={item.id}
                   onClick={() => !item.locked && onSelectItem(item.id)}
@@ -216,7 +174,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   }`}
                 >
                   <div className="flex items-start space-x-3">
-                    {getIconComponent(item.icon)}
+                    <span className="flex-shrink-0 mt-1">{item.icon}</span>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
                         <h3 className="font-medium text-white text-xs sm:text-sm">{item.title}</h3>

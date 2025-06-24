@@ -6,11 +6,11 @@ import Badge from './ui/Badge';
 
 interface HeaderProps {
   onNavigate: (view: string) => void;
+  onMenuToggle: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
+const Header: React.FC<HeaderProps> = ({ onNavigate, onMenuToggle }) => {
   const { userProgress, resetProgress } = useTutorial();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
@@ -44,9 +44,10 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
           <div className="flex items-center space-x-3">
             <button 
               className="md:hidden text-gray-400 hover:text-white"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={onMenuToggle}
+              aria-label="Toggle menu"
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              <Menu className="h-6 w-6" />
             </button>
             <div 
               className="flex items-center space-x-2" 
@@ -118,6 +119,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
               <button 
                 className="flex items-center space-x-2"
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                aria-label="Menu utilisateur"
               >
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                   U
@@ -184,116 +186,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
             </div>
           </div>
         </div>
-        
-        {/* Menu mobile - overlay */}
-        <div 
-          className={`mobile-sidebar-overlay ${isMenuOpen ? 'active' : ''}`} 
-          onClick={() => setIsMenuOpen(false)}
-        ></div>
-        
-        {/* Menu mobile - sidebar */}
-        {isMenuOpen && (
-          <div className="md:hidden mobile-sidebar bg-gray-800 border-r border-gray-700 open animate-fadeIn p-4">
-            <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-700">
-              <div className="flex items-center space-x-2">
-                <div className="bg-blue-600 text-white p-1.5 sm:p-2 rounded-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                    <path d="M9 18c-4.51 2-5-2-7-2" />
-                  </svg>
-                </div>
-                <h1 className="font-bold text-white">Menu</h1>
-              </div>
-              <button 
-                className="text-gray-400 hover:text-white"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <X className="h-6 w-6" />
-              </button>
-            </div>
-            
-            <nav className="flex flex-col space-y-4">
-              <button 
-                onClick={() => {
-                  onNavigate('accueil');
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-              >
-                <Home className="h-5 w-5" />
-                <span>Accueil</span>
-              </button>
-              <button 
-                onClick={() => {
-                  onNavigate('tutorial');
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-              >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-                <span>Tutoriel</span>
-              </button>
-              <button 
-                onClick={() => {
-                  onNavigate('practice');
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-              >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-                <span>Exercices</span>
-              </button>
-              <button 
-                onClick={() => {
-                  onNavigate('dashboard');
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-              >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>Tableau de bord</span>
-              </button>
-              <button 
-                onClick={() => {
-                  onNavigate('certificate');
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-              >
-                <Award className="h-5 w-5" />
-                <span>Certificat</span>
-              </button>
-              <button 
-                onClick={() => {
-                  onNavigate('help');
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-              >
-                <HelpCircle className="h-5 w-5" />
-                <span>Aide</span>
-              </button>
-            </nav>
-
-            <div className="mt-8 pt-6 border-t border-gray-700">
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                  U
-                </div>
-                <div>
-                  <div className="text-sm text-white">Utilisateur</div>
-                  <div className={`text-xs ${userLevel.color}`}>{userLevel.name}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </header>
   );

@@ -108,9 +108,9 @@ const HomePage: React.FC<HomePageProps> = ({ onStartTutorial }) => {
           onClick={handleStartTutorial}
           size="lg"
           className="px-4 sm:px-6 py-2.5 sm:py-3 w-full sm:w-auto"
+          className="px-4 sm:px-6 py-2.5 sm:py-3 w-full sm:w-auto"
         >
-          <span>
-            {userProgress.lastPosition.chapterId 
+          <span>{userProgress.lastPosition.chapterId 
               ? "Continuer le tutoriel" 
               : "Commencer le tutoriel"}
           </span>
