@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, CheckCircle, Award } from 'lucide-react';
+import { LayoutDashboard, CheckCircle, Award, Lock } from 'lucide-react';
 import { useTutorial } from '../context/TutorialContext';
 import { chapters } from '../data/tutorialData';
 import Button from './ui/Button';
@@ -30,6 +30,16 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   };
   
   const userLevel = getLevel(userProgress.globalScore);
+
+  // Fonction pour vérifier si un chapitre est déverrouillé
+  const isChapterUnlocked = (chapterIndex: number) => {
+    // Le premier chapitre est toujours déverrouillé
+    if (chapterIndex === 0) return true;
+    
+    // Pour les autres chapitres, vérifier si le chapitre précédent est complété
+    const previousChapterId = chapters[chapterIndex - 1]?.id;
+    return previousChapterId && userProgress.completedChapters.includes(previousChapterId);
+  };
 
   return (
     <div className="space-y-8">
@@ -163,6 +173,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
               const isStarted = userProgress.completedLessons.some(lessonId => 
                 chapter.lessons.some(lesson => lesson.id === lessonId)
               );
+              const isUnlocked = isChapterUnlocked(index);
               
               // Obtenir le score du quiz pour ce chapitre - avec vérification de sécurité
               const quizScore = userProgress.quizScores && userProgress.quizScores[chapter.id] 
@@ -177,12 +188,15 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                       ? 'bg-green-900/20 border-green-500/30' 
                       : isStarted
                         ? 'bg-blue-900/20 border-blue-500/30'
-                        : 'bg-gray-800/50 border-gray-700'
+                        : !isUnlocked
+                          ? 'bg-gray-800/50 border-gray-700 opacity-70'
+                          : 'bg-gray-800/50 border-gray-700'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium text-white">Chapitre {index + 1}: {chapter.title}</h4>
                     {isCompleted && <CheckCircle className="h-5 w-5 text-green-400" />}
+                    {!isUnlocked && <Lock className="h-5 w-5 text-gray-500" />}
                   </div>
                   <div className="flex justify-between items-center">
                     <div className="text-sm text-gray-400">
@@ -190,13 +204,18 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                         ? `Complété - Score: ${quizScore}%` 
                         : isStarted
                           ? 'En cours'
-                          : 'Non commencé'}
+                          : !isUnlocked
+                            ? 'Verrouillé'
+                            : 'Non commencé'}
                     </div>
                     <Button
                       size="sm"
                       onClick={() => {
-                        onNavigate('chapter-intro', chapter.id);
+                        if (isUnlocked) {
+                          onNavigate('chapter-intro', chapter.id);
+                        }
                       }}
+                      disabled={!isUnlocked}
                     >
                       {isCompleted ? 'Revoir' : isStarted ? 'Continuer' : 'Commencer'}
                     </Button>

@@ -32,6 +32,7 @@ import Dashboard from './components/Dashboard';
 import Sidebar from './components/Sidebar';
 import Certificate from './components/Certificate';
 import { useTutorial } from './context/TutorialContext';
+import { chapters } from './data/tutorialData';
 
 function App() {
   const { userProgress, setLastPosition } = useTutorial();
@@ -45,7 +46,27 @@ function App() {
       : userProgress.lastPosition.view || 'accueil'
   );
 
+  // Fonction pour vérifier si un chapitre est déverrouillé
+  const isChapterUnlocked = (chapterId: string) => {
+    const chapterIndex = chapters.findIndex(c => c.id === chapterId);
+    
+    // Le premier chapitre est toujours déverrouillé
+    if (chapterIndex === 0) return true;
+    
+    // Pour les autres chapitres, vérifier si le chapitre précédent est complété
+    const previousChapterId = chapters[chapterIndex - 1]?.id;
+    return previousChapterId && userProgress.completedChapters.includes(previousChapterId);
+  };
+
   const handleSelectItem = (itemId: string) => {
+    // Si c'est un chapitre, vérifier s'il est déverrouillé
+    if (['intro', 'repositories', 'branches', 'remote', 'collaboration', 'workflows'].includes(itemId)) {
+      if (!isChapterUnlocked(itemId)) {
+        // Chapitre verrouillé, ne pas changer de vue
+        return;
+      }
+    }
+    
     setSelectedItem(itemId);
     
     // Si l'utilisateur sélectionne un chapitre, mettre à jour la position
@@ -62,6 +83,14 @@ function App() {
   };
 
   const handleNavigate = (view: string, chapterId?: string, lessonId?: string, quizIndex?: number) => {
+    // Si c'est un chapitre, vérifier s'il est déverrouillé
+    if (chapterId && view === 'chapter-intro') {
+      if (!isChapterUnlocked(chapterId)) {
+        // Chapitre verrouillé, ne pas naviguer
+        return;
+      }
+    }
+    
     setSelectedItem('tutorial');
     setLastPosition({
       view,
@@ -127,6 +156,38 @@ function App() {
       case 'remote':
       case 'collaboration':
       case 'workflows':
+        // Vérifier si le chapitre est déverrouillé
+        if (!isChapterUnlocked(selectedItem)) {
+          return (
+            <div className="max-w-2xl mx-auto space-y-6">
+              <div className="bg-gray-800/50 rounded-xl p-8 border border-gray-700 text-center">
+                <span className="text-5xl">🔒</span>
+                <h2 className="text-2xl font-bold text-white mt-4 mb-2">Chapitre verrouillé</h2>
+                <p className="text-gray-300 mb-6">
+                  Vous devez compléter le chapitre précédent et réussir son quiz avant de pouvoir accéder à ce chapitre.
+                </p>
+                <Button 
+                  onClick={() => {
+                    // Trouver le dernier chapitre déverrouillé
+                    let lastUnlockedChapter = 0;
+                    for (let i = 0; i < chapters.length; i++) {
+                      if (isChapterUnlocked(chapters[i].id)) {
+                        lastUnlockedChapter = i;
+                      } else {
+                        break;
+                      }
+                    }
+                    
+                    handleSelectItem(chapters[lastUnlockedChapter].id);
+                  }}
+                >
+                  Retourner au dernier chapitre déverrouillé
+                </Button>
+              </div>
+            </div>
+          );
+        }
+        
         // Rediriger vers le contenu du tutoriel avec le chapitre sélectionné
         setSelectedItem('tutorial');
         setLastPosition({
@@ -149,6 +210,7 @@ function App() {
               options={["git start", "git init", "git create", "git new"]}
               correctAnswer={1}
               explanation="La commande 'git init' initialise un nouveau dépôt Git dans le répertoire courant."
+              onAnswer={() => {}}
             />
           </div>
         );

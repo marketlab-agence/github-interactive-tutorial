@@ -9,13 +9,45 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onStartTutorial }) => {
-  const { setLastPosition } = useTutorial();
+  const { userProgress, setLastPosition } = useTutorial();
+
+  // Trouver le dernier chapitre déverrouillé
+  const findLastUnlockedChapter = () => {
+    // Le premier chapitre est toujours déverrouillé
+    let lastUnlockedChapter = 0;
+    
+    // Parcourir les chapitres pour trouver le dernier déverrouillé
+    for (let i = 1; i < chapters.length; i++) {
+      const previousChapterId = chapters[i - 1]?.id;
+      if (previousChapterId && userProgress.completedChapters.includes(previousChapterId)) {
+        lastUnlockedChapter = i;
+      } else {
+        break;
+      }
+    }
+    
+    return lastUnlockedChapter;
+  };
 
   const handleStartTutorial = () => {
-    // Définir le chapitre 1 (index 0) comme point de départ
+    // Trouver le dernier chapitre déverrouillé
+    const lastUnlockedChapter = findLastUnlockedChapter();
+    
+    // Si l'utilisateur a déjà commencé, le rediriger vers sa dernière position
+    if (userProgress.lastPosition.chapterId) {
+      // Vérifier si le chapitre de la dernière position est déverrouillé
+      const chapterIndex = chapters.findIndex(c => c.id === userProgress.lastPosition.chapterId);
+      if (chapterIndex !== -1 && chapterIndex <= lastUnlockedChapter) {
+        // Utiliser la dernière position
+        onStartTutorial();
+        return;
+      }
+    }
+    
+    // Sinon, commencer par le premier chapitre ou le dernier déverrouillé
     setLastPosition({
       view: 'chapter-intro',
-      chapterId: chapters[0].id
+      chapterId: chapters[lastUnlockedChapter].id
     });
     onStartTutorial();
   };
@@ -68,14 +100,20 @@ const HomePage: React.FC<HomePageProps> = ({ onStartTutorial }) => {
       <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-xl p-8 border border-blue-500/30">
         <h2 className="text-2xl font-bold text-white mb-4">Prêt à commencer ?</h2>
         <p className="text-gray-300 mb-6">
-          Démarrez votre apprentissage avec le Chapitre 1: Introduction aux concepts de base de Git et GitHub.
+          {userProgress.lastPosition.chapterId 
+            ? "Reprenez votre apprentissage là où vous vous êtes arrêté."
+            : "Démarrez votre apprentissage avec le Chapitre 1: Introduction aux concepts de base de Git et GitHub."}
         </p>
         <Button 
           onClick={handleStartTutorial}
           size="lg"
           className="px-6 py-3"
         >
-          <span>Commencer le tutoriel</span>
+          <span>
+            {userProgress.lastPosition.chapterId 
+              ? "Continuer le tutoriel" 
+              : "Commencer le tutoriel"}
+          </span>
           <ChevronRight className="h-5 w-5 ml-2" />
         </Button>
       </div>

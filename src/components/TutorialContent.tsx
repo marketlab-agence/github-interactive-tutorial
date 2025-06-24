@@ -6,6 +6,7 @@ import QuizQuestion from './tutorial/QuizQuestion';
 import ChapterSummary from './tutorial/ChapterSummary';
 import NavigationControls from './tutorial/NavigationControls';
 import Button from './ui/Button';
+import Card from './ui/Card';
 import { useTutorial } from '../context/TutorialContext';
 import { chapters } from '../data/tutorialData';
 
@@ -41,28 +42,63 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
   const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
   const [quizQuestions, setQuizQuestions] = useState<Array<{question: string, isCorrect: boolean}>>([]);
 
+  // Vérifier si le chapitre actuel est déverrouillé
+  const isChapterUnlocked = (chapterIndex: number) => {
+    // Le premier chapitre est toujours déverrouillé
+    if (chapterIndex === 0) return true;
+    
+    // Pour les autres chapitres, vérifier si le chapitre précédent est complété
+    const previousChapterId = chapters[chapterIndex - 1]?.id;
+    return previousChapterId && userProgress.completedChapters.includes(previousChapterId);
+  };
+
   // Initialiser l'état en fonction de la dernière position sauvegardée
   useEffect(() => {
     if (userProgress.lastPosition.chapterId) {
       const chapterIndex = chapters.findIndex(c => c.id === userProgress.lastPosition.chapterId);
       if (chapterIndex !== -1) {
-        setCurrentChapter(chapterIndex);
-        
-        if (userProgress.lastPosition.view === 'lesson' && userProgress.lastPosition.lessonId) {
-          const lessonIndex = chapters[chapterIndex].lessons.findIndex(l => l.id === userProgress.lastPosition.lessonId);
-          if (lessonIndex !== -1) {
-            setCurrentLesson(lessonIndex);
+        // Vérifier si le chapitre est déverrouillé
+        if (isChapterUnlocked(chapterIndex)) {
+          setCurrentChapter(chapterIndex);
+          
+          if (userProgress.lastPosition.view === 'lesson' && userProgress.lastPosition.lessonId) {
+            const lessonIndex = chapters[chapterIndex].lessons.findIndex(l => l.id === userProgress.lastPosition.lessonId);
+            if (lessonIndex !== -1) {
+              setCurrentLesson(lessonIndex);
+            }
           }
-        }
-        
-        if (userProgress.lastPosition.view === 'quiz' && userProgress.lastPosition.quizIndex !== undefined) {
-          setCurrentQuizIndex(userProgress.lastPosition.quizIndex);
+          
+          if (userProgress.lastPosition.view === 'quiz' && userProgress.lastPosition.quizIndex !== undefined) {
+            setCurrentQuizIndex(userProgress.lastPosition.quizIndex);
+          }
+        } else {
+          // Si le chapitre n'est pas déverrouillé, rediriger vers le dernier chapitre déverrouillé
+          let lastUnlockedChapter = 0;
+          for (let i = 0; i < chapters.length; i++) {
+            if (isChapterUnlocked(i)) {
+              lastUnlockedChapter = i;
+            } else {
+              break;
+            }
+          }
+          
+          setCurrentChapter(lastUnlockedChapter);
+          setLastPosition({
+            view: 'chapter-intro',
+            chapterId: chapters[lastUnlockedChapter].id
+          });
         }
       }
     }
-  }, [userProgress.lastPosition]);
+  }, [userProgress.lastPosition, userProgress.completedChapters]);
 
   const startChapter = () => {
+    // Vérifier si le chapitre est déverrouillé
+    if (!isChapterUnlocked(currentChapter)) {
+      // Afficher un message d'erreur ou rediriger
+      return;
+    }
+    
     // Commencer le chapitre actuel, pas le suivant
     const currentChapterId = chapters[currentChapter].id;
     setCurrentView('lesson');
@@ -196,8 +232,14 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
 
   const goToNextChapter = () => {
     if (currentChapter < chapters.length - 1) {
-      // Passer au chapitre suivant
+      // Vérifier si le prochain chapitre est déverrouillé
       const nextChapterIndex = currentChapter + 1;
+      if (!isChapterUnlocked(nextChapterIndex)) {
+        // Afficher un message d'erreur
+        return;
+      }
+      
+      // Passer au chapitre suivant
       setCurrentChapter(nextChapterIndex);
       setCurrentLesson(0);
       setCurrentView('chapter-intro');
@@ -225,6 +267,45 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       });
     }
   };
+
+  // Si le chapitre n'est pas déverrouillé, afficher un message
+  if (!isChapterUnlocked(currentChapter)) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        <Card>
+          <div className="text-center space-y-6 py-8">
+            <span className="text-5xl">🔒</span>
+            <h2 className="text-2xl font-bold text-white">Chapitre verrouillé</h2>
+            <p className="text-gray-300">
+              Vous devez compléter le chapitre précédent et réussir son quiz avant de pouvoir accéder à ce chapitre.
+            </p>
+            <Button 
+              onClick={() => {
+                // Trouver le dernier chapitre déverrouillé
+                let lastUnlockedChapter = 0;
+                for (let i = 0; i < chapters.length; i++) {
+                  if (isChapterUnlocked(i)) {
+                    lastUnlockedChapter = i;
+                  } else {
+                    break;
+                  }
+                }
+                
+                setCurrentChapter(lastUnlockedChapter);
+                setCurrentView('chapter-intro');
+                setLastPosition({
+                  view: 'chapter-intro',
+                  chapterId: chapters[lastUnlockedChapter].id
+                });
+              }}
+            >
+              Retourner au dernier chapitre déverrouillé
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
 
   if (currentView === 'chapter-intro') {
     return (

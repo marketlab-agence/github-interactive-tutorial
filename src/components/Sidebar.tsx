@@ -20,6 +20,16 @@ interface Section {
 const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
   const { userProgress } = useTutorial();
 
+  // Fonction pour vérifier si un chapitre est déverrouillé
+  const isChapterUnlocked = (chapterIndex: number) => {
+    // Le premier chapitre est toujours déverrouillé
+    if (chapterIndex === 0) return true;
+    
+    // Pour les autres chapitres, vérifier si le chapitre précédent est complété
+    const previousChapterId = chapters[chapterIndex - 1]?.id;
+    return previousChapterId && userProgress.completedChapters.includes(previousChapterId);
+  };
+
   const sections: Section[] = [
     {
       id: 'entry',
@@ -45,7 +55,8 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
               index === 3 ? 'Cloud' : 'Users',
         inProgress: userProgress.currentChapter === index && 
                    !userProgress.completedChapters.includes(chapter.id),
-        completed: userProgress.completedChapters.includes(chapter.id)
+        completed: userProgress.completedChapters.includes(chapter.id),
+        locked: !isChapterUnlocked(index)
       }))
     },
     {
@@ -178,11 +189,14 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
               {section.items.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => onSelectItem(item.id)}
+                  onClick={() => !item.locked && onSelectItem(item.id)}
+                  disabled={item.locked}
                   className={`w-full text-left p-3 rounded-lg transition-all duration-200 border ${
                     selectedItem === item.id
                       ? 'bg-white/10 border-white/30'
-                      : 'border-transparent hover:bg-white/5'
+                      : item.locked
+                        ? 'border-transparent bg-gray-800/50 opacity-50 cursor-not-allowed'
+                        : 'border-transparent hover:bg-white/5'
                   }`}
                 >
                   <div className="flex items-start space-x-3">
@@ -195,6 +209,9 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
                         )}
                         {item.inProgress && (
                           <div className="w-4 h-4 bg-orange-400 rounded-full flex-shrink-0 animate-pulse"></div>
+                        )}
+                        {item.locked && (
+                          <span className="text-gray-500">🔒</span>
                         )}
                       </div>
                       <p className="text-xs text-gray-400 mt-1 line-clamp-2">{item.subtitle}</p>
