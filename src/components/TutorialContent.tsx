@@ -421,6 +421,23 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
     );
   }
 
+  if (chapters.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        <Card>
+          <div className="text-center py-8">
+          <span className="text-5xl">⚠️</span>
+          <h2 className="text-2xl font-bold text-white mt-4 mb-2">Contenu non disponible</h2>
+          <p className="text-gray-300 mb-6">
+            Aucun contenu n'a été trouvé pour ce chapitre. Veuillez revenir à l'accueil.
+          </p>
+          <Button onClick={onReturnToHome}>Retourner à l'accueil</Button>
+          </div>
+        </Card>
+       </div>
+    );
+  }
+
   if (currentView === 'chapter-intro') {
     return (
       <ChapterIntro
@@ -449,16 +466,31 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
         {/* Dynamic Component Rendering */}
         {lesson.component && (
           <div className="max-w-4xl mx-auto my-8">
-            {renderComponent(lesson.component, lesson.workflowType)}
+            <div className="relative">
+              {renderComponent(lesson.component, lesson.workflowType)}
+            </div>
           </div>
         )}
         
-        {lesson.image && (
-          <div className="max-w-3xl mx-auto">
+        {/* Image fallback si le composant échoue ou n'existe pas */}
+        {lesson.image && !lesson.component && (
+          <div className="max-w-3xl mx-auto my-8">
             <img 
               src={lesson.image} 
               alt={lesson.title} 
               className="w-full h-auto rounded-xl shadow-lg"
+            />
+          </div>
+        )}
+        
+        {/* Image en plus du composant si les deux sont définis */}
+        {lesson.image && lesson.component && (
+          <div className="max-w-3xl mx-auto">
+            <h3 className="text-md text-center font-semibold text-gray-300 mb-3">Illustration</h3>
+            <img 
+              src={lesson.image} 
+              alt={lesson.title} 
+              className="w-full h-auto rounded-xl shadow-lg mb-8"
             />
           </div>
         )}
@@ -504,6 +536,14 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
           previousLabel="Précédent"
           nextLabel="Suivant"
         />
+        
+        {/* Debugging info - to help identify any issues */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mt-6 p-4 bg-gray-800/50 border border-gray-700 rounded-lg text-xs text-gray-400">
+            <div><strong>Debug:</strong> Chapitre: {chapters[currentChapter].id}, Leçon: {currentLesson}, Vue: {currentView}</div>
+            <div>Composant: {chapters[currentChapter].lessons[currentLesson].component || 'none'}</div>
+          </div>
+        )}
       </div>
     );
   }

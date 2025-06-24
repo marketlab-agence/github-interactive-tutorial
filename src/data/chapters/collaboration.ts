@@ -25,7 +25,8 @@ export const collaborationChapter: Chapter = {
         'Compare forking and cloning workflows',
         'Learn when to fork versus when to clone'
       ],
-      description: 'Understand the difference between fork and clone'
+      description: 'Understand the difference between fork and clone',
+      image: 'https://res.cloudinary.com/practicaldev/image/fetch/s--M_fHUEqA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/128hsgntnsu9bww0y8sz.png'
     },
     {
       id: 'pull-requests',
@@ -39,7 +40,8 @@ export const collaborationChapter: Chapter = {
         'Add meaningful descriptions and context',
         'Link issues and reference relevant resources'
       ],
-      description: 'Master the pull request workflow'
+      description: 'Master the pull request workflow',
+      image: 'https://docs.github.com/assets/images/help/pull_requests/pull-request-review-page.png'
     },
     {
       id: 'code-reviews',
@@ -53,7 +55,8 @@ export const collaborationChapter: Chapter = {
         'Understand how to give and receive feedback',
         'Use GitHub\'s code review tools effectively'
       ],
-      description: 'Practice effective code review techniques'
+      description: 'Practice effective code review techniques',
+      image: 'https://github.blog/wp-content/uploads/2022/06/code-review.png?fit=1200%2C630'
     },
     {
       id: 'collaboration-tools',
@@ -67,7 +70,8 @@ export const collaborationChapter: Chapter = {
         'Implement project boards for workflow visualization',
         'Leverage GitHub discussions and team features'
       ],
-      description: 'Explore GitHub\'s collaboration features'
+      description: 'Explore GitHub\'s collaboration features',
+      image: 'https://cdn.ttgtmedia.com/rms/onlineimages/cio-github_collaboration-f.png'
     }
   ],
   quiz: [

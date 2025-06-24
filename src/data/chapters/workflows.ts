@@ -20,6 +20,7 @@ export const workflowsChapter: Chapter = {
       type: 'theory',
       duration: 25,
       component: 'WorkflowComparisonTable',
+      image: 'https://miro.medium.com/v2/resize:fit:1358/1*uUpzVOpdFw5V-tJ_YvgFmA.png',
       objectives: [
         'Compare different Git workflow models',
         'Understand the pros and cons of each approach',
@@ -34,6 +35,7 @@ export const workflowsChapter: Chapter = {
       type: 'practice',
       duration: 20,
       component: 'WorkflowSimulator',
+      image: 'https://res.cloudinary.com/practicaldev/image/fetch/s--pFn95DCz--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n18u4rg6s0hz1qy5r1wf.png',
       workflowType: 'github-flow',
       objectives: [
         'Implement the GitHub Flow workflow',
@@ -49,6 +51,7 @@ export const workflowsChapter: Chapter = {
       type: 'practice',
       duration: 20,
       component: 'WorkflowSimulator',
+      image: 'https://nvie.com/img/git-model@2x.png',
       workflowType: 'git-flow',
       objectives: [
         'Understand the GitFlow branching strategy',
@@ -64,6 +67,7 @@ export const workflowsChapter: Chapter = {
       type: 'practice',
       duration: 15,
       component: 'FlowDiagramBuilder',
+      image: 'https://mermaid.ink/img/pako:eNp1kM9qwzAMxl8l6NRBn8ApuzThkEJyWBctbC3ErrKIxU6JnbGSeO8VJ2VdD9MfkpA-fb9PjN4jjUh97GNz9YaXhxBfXy5-tVm_Xct28_E4WGy8_-sNvs2LZbNdQgwUG7fexHi7V6vj0WG5X-xglOJ1aBKtYYMpTT_RzWtYi9_bF9i5IMF2ATX0ThpnIBHCh1ZFYKgzwbdJmQMZuZhMCkYHC8esoMKaE-RqJJ0TZ2WXU6b2ggQ_6T-nZzpKm4XoBTuKbQ26bXeYTCwPsxgXv6Hc_LjLaM5IfVK-Z35FXrDV42gGU0XH4WDPQEbjpyVqhzHCRv5ue_0Gm8p3dA?type=png',
       objectives: [
         'Design custom Git workflows',
         'Adapt existing models to specific requirements',

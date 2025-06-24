@@ -20,6 +20,7 @@ export const remoteReposChapter: Chapter = {
       type: 'theory',
       duration: 15,
       component: 'RemoteConnectionVisual',
+      image: 'https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2016/11/Git-Architechture-Git-Tutorial-Edureka.png',
       objectives: [
         'Understand what remote repositories are',
         'Learn the relationship between local and remote repos',
@@ -34,6 +35,7 @@ export const remoteReposChapter: Chapter = {
       type: 'practice',
       duration: 25,
       component: 'PushPullAnimator',
+      image: 'https://wac-cdn.atlassian.com/dam/jcr:df13d351-6189-4f0b-94f0-21d3fcd66038/01.svg?cdnVersion=1096',
       objectives: [
         'Learn to push local changes to a remote',
         'Understand how to pull remote changes',
@@ -48,6 +50,7 @@ export const remoteReposChapter: Chapter = {
       type: 'practice',
       duration: 20,
       component: 'SyncStatusIndicator',
+      image: 'https://docs.github.com/assets/images/help/branches/pr-retargeting-diagram1.png',
       objectives: [
         'Understand remote-tracking branches',
         'Learn how to set up branch tracking',
@@ -62,6 +65,7 @@ export const remoteReposChapter: Chapter = {
       type: 'theory',
       duration: 15,
       component: 'LocalVsRemoteVisual',
+      image: 'https://www.flagship.io/wp-content/uploads/git-flow.png',
       objectives: [
         'Learn effective remote workflow patterns',
         'Understand how to stay in sync with team members',
