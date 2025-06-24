@@ -177,6 +177,7 @@ export const chapters: Chapter[] = [
       }
     ]
   }
+  ,
   {
     id: 'remote-repos',
     title: 'Remote Repositories',
