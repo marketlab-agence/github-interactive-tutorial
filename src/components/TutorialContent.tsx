@@ -20,7 +20,7 @@ import ConflictResolver from './interactive/ConflictResolver';
 import RemoteConnectionVisual from './tutorial/RemoteConnectionVisual';
 import PushPullAnimator from './tutorial/PushPullAnimator';
 import LocalVsRemoteVisual from './tutorial/LocalVsRemoteVisual';
-import SyncStatusIndicator from './interactive/SyncStatusIndicator';
+import SyncStatusIndicator from './tutorial/SyncStatusIndicator';
 
 // Import interactive components for Chapter 5: Collaboration and Pull Requests
 import ForkVsCloneDemo from './tutorial/ForkVsCloneDemo';
