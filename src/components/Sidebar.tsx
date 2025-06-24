@@ -23,9 +23,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     // Le premier chapitre est toujours déverrouillé
     if (index === 0) return true;
     
-    // Pour les autres chapitres, vérifier si le chapitre précédent est complété
+    // Pour les autres chapitres, vérifier si le chapitre précédent est complété ou si le chapitre lui-même est déjà complété
     const previousChapterId = chapters[index - 1]?.id;
-    return previousChapterId && userProgress.completedChapters.includes(previousChapterId);
+    return (previousChapterId && userProgress.completedChapters.includes(previousChapterId)) || 
+           userProgress.completedChapters.includes(chapterId);
   };
 
   const sections = [
@@ -159,15 +160,15 @@ const Sidebar: React.FC<SidebarProps> = ({
               <span className="w-2 h-2 bg-current rounded-full mr-3"></span>
               {section.title}
             </h2>
-            <div className="space-y-2">
+            <div className="space-y-2 max-h-[300px] overflow-y-auto">
               {section.items.map((item: any) => (
                 <button
                   key={item.id}
                   onClick={() => !item.locked && onSelectItem(item.id)}
                   disabled={item.locked}
-                  className={`w-full text-left p-2 md:p-3 rounded-lg transition-all duration-200 border ${
+                  className={`w-full text-left p-2 md:p-3 rounded-lg transition-all duration-200 border relative ${
                     selectedItem === item.id
-                      ? 'bg-white/20 border-white/40 shadow-md'
+                      ? 'bg-blue-600/20 border-blue-500/40 shadow-md'
                       : item.locked
                         ? 'border-transparent bg-gray-800/50 opacity-50 cursor-not-allowed'
                         : 'border-transparent hover:bg-white/10 hover:border-white/20'
@@ -186,6 +187,12 @@ const Sidebar: React.FC<SidebarProps> = ({
                         )}
                         {item.locked && (
                           <span className="text-gray-500">🔒</span>
+                        )}
+                        {item.inProgress && (
+                          <span className="absolute right-3 top-2 flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                          </span>
                         )}
                       </div>
                       <p className="text-xs text-gray-400 mt-1 line-clamp-1 sm:line-clamp-2">{item.subtitle}</p>
