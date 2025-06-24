@@ -32,13 +32,8 @@ const TutorialContext = createContext<TutorialContextType | undefined>(undefined
 
 export const useTutorial = () => {
   const context = useContext(TutorialContext);
-    // Ensure we're working with an object before calling Object.values
-    const quizScoresValues = Object.values(progress.quizScores || {});
-    const totalQuizScore = quizScoresValues.reduce((sum, score) => sum + score, 0);
-    const averageQuizScore = quizScoresValues.length > 0 
-      ? totalQuizScore / quizScoresValues.length 
-      : 0;
-    quizScore = (progress.completedQuizzes.length / totalQuizzes) * averageQuizScore * quizWeight;
+  if (!context) {
+    throw new Error('useTutorial must be used within a TutorialProvider');
   }
   return context;
 };
@@ -93,7 +88,7 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       ...prev,
       ...updates,
       // Ensure quizScores is always an object when updating
-      quizScores: updates.quizScores || prev.quizScores || {}
+      quizScores: updates.quizScores || prev.quizScores || {},
       // Ensure quizScores is always an object when updating
       quizScores: updates.quizScores || prev.quizScores || {}
     }));
@@ -166,7 +161,7 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       const updatedProgress = {
         ...prev,
         completedQuizzes,
-        quizScores
+        quizScores,
         quizScores
       };
       
