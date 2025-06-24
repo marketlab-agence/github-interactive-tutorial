@@ -136,18 +136,31 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
           <div className="flex justify-between">
             {showResult ? (
               <Button onClick={reset} variant="secondary">
-                Try Again
+                Réessayer
               </Button>
             ) : (
               <div />
             )}
-            <Button
-              onClick={handleSubmit}
-              disabled={selectedAnswer === null || showResult}
-            >
-              Submit Answer
-              <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
+            {!showResult ? (
+              <Button
+                onClick={handleSubmit}
+                disabled={selectedAnswer === null}
+              >
+                Soumettre
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  if (onAnswer && isCorrect) {
+                    onAnswer(true);
+                  }
+                }}
+              >
+                Continuer
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            )}
           </div>
         </div>
       </Card>
