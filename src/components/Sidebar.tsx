@@ -134,7 +134,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   return (
-    <div className={`${mobileMenuOpen ? 'mobile-sidebar open' : 'hidden md:block'} w-64 md:w-72 lg:w-80 bg-gray-800 border-r border-gray-700 min-h-screen z-40`}>
+    <div className={`${mobileMenuOpen ? 'mobile-sidebar open' : 'hidden md:block'} w-64 md:w-72 lg:w-80 bg-gray-800/95 border-r border-gray-700 min-h-screen z-40`}>
       <div className="p-4 md:p-6 border-b border-gray-700 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <GitCommit className="h-8 w-8 text-blue-400" />
@@ -154,7 +154,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <div className="p-3 md:p-4 space-y-3 md:space-y-4 overflow-y-auto max-h-[calc(100vh-150px)]">
         {sections.map((section) => (
-          <div key={section.id} className={`${section.bgColor} bg-opacity-80 rounded-xl p-4 border ${section.borderColor}`}>
+          <div key={section.id} className={`${section.bgColor} bg-opacity-95 rounded-xl p-4 border-2 ${section.borderColor}`}>
             <h2 className={`font-bold mb-4 flex items-center ${section.color}`}>
               <span className="w-2 h-2 bg-current rounded-full mr-3"></span>
               {section.title}
@@ -167,10 +167,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                   disabled={item.locked}
                   className={`w-full text-left p-2 md:p-3 rounded-lg transition-all duration-200 border ${
                     selectedItem === item.id
-                      ? 'bg-white/20 border-white/40'
+                      ? 'bg-white/20 border-white/40 shadow-md'
                       : item.locked
                         ? 'border-transparent bg-gray-800/50 opacity-50 cursor-not-allowed'
-                        : 'border-transparent hover:bg-white/10'
+                        : 'border-transparent hover:bg-white/10 hover:border-white/20'
                   }`}
                 >
                   <div className="flex items-start space-x-3">
