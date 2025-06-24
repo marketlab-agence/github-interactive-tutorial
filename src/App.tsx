@@ -1340,7 +1340,7 @@ jobs:
       - name: Deploy to production
         run: ./deploy.sh
         env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}`,
+          DEPLOY_KEY: \${{ secrets.DEPLOY_KEY }}`,
           duration: 15
         }
       ],
