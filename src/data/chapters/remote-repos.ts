@@ -72,22 +72,39 @@ export const remoteReposChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'Which command is used to download changes from a remote repository without merging them?',
+      question: 'Quelle commande est utilisée pour télécharger les changements depuis un dépôt distant sans les fusionner ?',
       options: ['git pull', 'git push', 'git fetch', 'git clone'],
       correctAnswer: 2,
-      explanation: 'git fetch downloads changes from a remote repository without automatically merging them into your local branches, unlike git pull which both fetches and merges.'
+      explanation: 'git fetch télécharge les changements depuis un dépôt distant sans automatiquement les fusionner dans vos branches locales, contrairement à git pull qui récupère et fusionne en même temps.'
     },
     {
-      question: 'What is the default name Git gives to the remote repository when you clone it?',
+      question: 'Quel est le nom par défaut que Git donne au dépôt distant lorsque vous le clonez ?',
       options: ['master', 'origin', 'upstream', 'remote'],
       correctAnswer: 1,
-      explanation: 'When you clone a repository, Git automatically sets up a remote named "origin" that points to the cloned repository.'
+      explanation: 'Lorsque vous clonez un dépôt, Git configure automatiquement un distant nommé "origin" qui pointe vers le dépôt cloné.'
     },
     {
-      question: 'What happens when you try to push commits to a remote branch that has been updated by someone else?',
-      options: ['Git automatically merges the changes', 'Your push is rejected', 'Git creates a new branch', 'Your commits are overwritten'],
+      question: 'Que se passe-t-il lorsque vous essayez de pousser des commits vers une branche distante qui a été mise à jour par quelqu\'un d\'autre ?',
+      options: ['Git fusionne automatiquement les changements', 'Votre push est rejeté', 'Git crée une nouvelle branche', 'Vos commits sont écrasés'],
       correctAnswer: 1,
-      explanation: 'Git rejects your push to prevent you from overwriting changes. You need to pull and merge the remote changes first.'
+      explanation: 'Git rejette votre push pour éviter que vous n\'écrasiez les changements. Vous devez d\'abord pull et fusionner les changements distants.'
+    },
+    {
+      question: 'Quelle commande permet d\'ajouter un nouveau dépôt distant à votre configuration Git ?',
+      options: ['git remote create', 'git add remote', 'git remote add', 'git create remote'],
+      correctAnswer: 2,
+      explanation: 'git remote add nom-distant url-distant ajoute un nouveau dépôt distant avec le nom et l\'URL spécifiés à votre configuration Git locale.'
+    },
+    {
+      question: 'Comment pouvez-vous configurer une branche locale pour suivre une branche distante ?',
+      options: [
+        'git branch --track branche-locale origin/branche-distante', 
+        'git remote track branche-locale branche-distante', 
+        'git push --set-upstream origin branche-locale', 
+        'git follow branche-distante'
+      ],
+      correctAnswer: 0,
+      explanation: 'git branch --track branche-locale origin/branche-distante crée une branche locale qui suit une branche distante. Vous pouvez aussi utiliser git checkout --track origin/branche-distante ou git checkout -b branche-locale origin/branche-distante.'
     }
   ]
 };

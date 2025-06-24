@@ -58,13 +58,13 @@ export const undoingChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'Which command creates a new commit that undoes the changes made in a previous commit?',
+      question: 'Quelle commande crée un nouveau commit qui annule les modifications effectuées dans un commit précédent ?',
       options: ['git reset', 'git revert', 'git restore', 'git checkout'],
       correctAnswer: 1,
-      explanation: 'git revert creates a new commit that undoes the changes made by a specific commit, while preserving the project history, making it safe for shared branches.'
+      explanation: 'git revert crée un nouveau commit qui annule les modifications apportées par un commit spécifique, tout en préservant l\'historique du projet, ce qui le rend sûr pour les branches partagées.'
     },
     {
-      question: 'If you want to move the HEAD and branch pointer to a previous commit, discarding all commits after it, which command should you use?',
+      question: 'Si vous souhaitez déplacer le pointeur HEAD et de branche vers un commit précédent, en supprimant tous les commits suivants, quelle commande devriez-vous utiliser ?',
       options: [
         'git checkout HEAD~3',
         'git reset --hard HEAD~3',
@@ -72,13 +72,35 @@ export const undoingChapter: Chapter = {
         'git restore --source=HEAD~3 .'
       ],
       correctAnswer: 1,
-      explanation: 'git reset --hard HEAD~3 moves the HEAD and branch pointer back 3 commits and discards all changes made in those commits, effectively erasing them from the branch history.'
+      explanation: 'git reset --hard HEAD~3 déplace le pointeur HEAD et de branche 3 commits en arrière et supprime tous les changements effectués dans ces commits, les effaçant effectivement de l\'historique de la branche.'
     },
     {
-      question: 'What Git feature allows you to recover commits even after a hard reset?',
+      question: 'Quelle fonctionnalité Git vous permet de récupérer des commits même après un reset --hard ?',
       options: ['git bisect', 'git stash', 'git reflog', 'git cherry-pick'],
       correctAnswer: 2,
-      explanation: 'The git reflog (reference log) records all changes to branch tips and other references, allowing you to find and restore commits that are no longer referenced in your repository, even after operations like git reset --hard.'
+      explanation: 'Le git reflog (journal de référence) enregistre tous les changements apportés aux extrémités des branches et autres références, vous permettant de retrouver et restaurer des commits qui ne sont plus référencés dans votre dépôt, même après des opérations comme git reset --hard.'
+    },
+    {
+      question: 'Quelle commande permet d\'annuler les modifications dans un fichier qui n\'a pas encore été ajouté à l\'index (staged) ?',
+      options: [
+        'git reset --hard fichier.txt',
+        'git checkout -- fichier.txt',
+        'git revert fichier.txt',
+        'git rm --cached fichier.txt'
+      ],
+      correctAnswer: 1,
+      explanation: 'git checkout -- fichier.txt (ou git restore fichier.txt dans les versions récentes de Git) annule les modifications dans un fichier qui n\'a pas encore été ajouté à l\'index, le ramenant à l\'état du dernier commit.'
+    },
+    {
+      question: 'Comment pouvez-vous temporairement mettre de côté vos modifications non commitées pour travailler sur autre chose ?',
+      options: [
+        'git save',
+        'git stash',
+        'git store',
+        'git hide'
+      ],
+      correctAnswer: 1,
+      explanation: 'git stash enregistre temporairement vos modifications non commitées (fichiers suivis), les met de côté pour une utilisation ultérieure, et restaure votre répertoire de travail à l\'état du dernier commit. Vous pouvez ensuite récupérer ces modifications avec git stash apply ou git stash pop.'
     }
   ]
 };

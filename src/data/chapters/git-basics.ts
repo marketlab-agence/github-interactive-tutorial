@@ -57,22 +57,39 @@ export const gitBasicsChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'What does Git primarily help you track?',
-      options: ['System resources', 'Changes in files', 'User logins', 'Network traffic'],
+      question: 'Que permet Git de suivre principalement ?',
+      options: ['Les ressources système', 'Les changements dans les fichiers', 'Les connexions utilisateur', 'Le trafic réseau'],
       correctAnswer: 1,
-      explanation: 'Git is designed to track changes in files, making it easy to maintain different versions and collaborate with others.'
+      explanation: 'Git est conçu pour suivre les changements dans les fichiers, facilitant la maintenance de différentes versions et la collaboration avec d\'autres personnes.'
     },
     {
-      question: 'Which command initializes a new Git repository?',
+      question: 'Quelle commande initialise un nouveau dépôt Git ?',
       options: ['git start', 'git init', 'git begin', 'git create'],
       correctAnswer: 1,
-      explanation: 'git init is the command used to create a new Git repository in the current directory.'
+      explanation: 'git init est la commande utilisée pour créer un nouveau dépôt Git dans le répertoire courant.'
     },
     {
-      question: 'What Git command adds changes to the staging area?',
+      question: 'Quelle commande Git ajoute les changements à la zone de staging ?',
       options: ['git commit', 'git stage', 'git add', 'git update'],
       correctAnswer: 2,
-      explanation: 'git add is used to stage changes before committing them to the repository.'
+      explanation: 'git add est utilisée pour mettre en scène (stage) les changements avant de les commiter dans le dépôt.'
+    },
+    {
+      question: 'Comment vérifier l\'état actuel de votre dépôt Git ?',
+      options: ['git check', 'git state', 'git status', 'git info'],
+      correctAnswer: 2,
+      explanation: 'git status affiche l\'état du répertoire de travail et de la zone de staging, montrant les fichiers modifiés, stagés ou non suivis.'
+    },
+    {
+      question: 'Quelle est la différence entre Git et GitHub ?',
+      options: [
+        'Git est une interface graphique et GitHub est en ligne de commande', 
+        'Git est un système de contrôle de version et GitHub est une plateforme d\'hébergement', 
+        'Git est payant et GitHub est gratuit', 
+        'Il n\'y a pas de différence'
+      ],
+      correctAnswer: 1,
+      explanation: 'Git est un système de contrôle de version distribué pour suivre les changements de code, tandis que GitHub est une plateforme d\'hébergement basée sur le web pour les dépôts Git, offrant des fonctionnalités supplémentaires comme les issues, les pull requests, etc.'
     }
   ]
 };

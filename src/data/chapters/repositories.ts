@@ -58,22 +58,39 @@ export const repositoriesChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'What command is used to create a copy of a remote repository on your local machine?',
+      question: 'Quelle commande est utilisée pour créer une copie d\'un dépôt distant sur votre machine locale ?',
       options: ['git copy', 'git duplicate', 'git clone', 'git download'],
       correctAnswer: 2,
-      explanation: 'git clone creates a copy of a remote repository on your local machine, allowing you to work on it.'
+      explanation: 'git clone crée une copie d\'un dépôt distant sur votre machine locale, vous permettant d\'y travailler.'
     },
     {
-      question: 'What folder contains all the Git metadata in a repository?',
+      question: 'Quel dossier contient toutes les métadonnées Git dans un dépôt ?',
       options: ['.github', '.git', '.gitconfig', '.gitdata'],
       correctAnswer: 1,
-      explanation: 'The .git directory contains all the metadata and object database for your repository.'
+      explanation: 'Le répertoire .git contient toutes les métadonnées et la base de données d\'objets pour votre dépôt.'
     },
     {
-      question: 'What is the default name Git assigns to the remote repository when you clone it?',
+      question: 'Quel est le nom par défaut que Git attribue au dépôt distant lorsque vous le clonez ?',
       options: ['main', 'origin', 'source', 'remote'],
       correctAnswer: 1,
-      explanation: 'When you clone a repository, Git automatically names the remote "origin".'
+      explanation: 'Lorsque vous clonez un dépôt, Git nomme automatiquement le distant "origin".'
+    },
+    {
+      question: 'Quelle commande permet de voir la liste des dépôts distants associés à votre dépôt local ?',
+      options: ['git list remotes', 'git show remote', 'git remote -v', 'git remotes list'],
+      correctAnswer: 2,
+      explanation: 'git remote -v (verbose) affiche la liste des dépôts distants avec leurs URLs, vous permettant de voir où vos commandes pull et push enverront et récupéreront les données.'
+    },
+    {
+      question: 'Que contient le fichier .gitignore ?',
+      options: [
+        'Les commits ignorés lors d\'un merge', 
+        'Les fichiers et dossiers à ne pas suivre dans Git', 
+        'Les conflits de fusion non résolus', 
+        'Les configurations d\'authentification Git'
+      ],
+      correctAnswer: 1,
+      explanation: 'Le fichier .gitignore spécifie les fichiers et dossiers que Git doit ignorer. C\'est utile pour éviter d\'inclure des fichiers temporaires, des données sensibles ou des dossiers de build dans votre dépôt.'
     }
   ]
 };

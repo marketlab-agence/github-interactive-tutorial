@@ -57,32 +57,54 @@ export const conflictsChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'What do conflict markers like "<<<<<<< HEAD" indicate in a file?',
+      question: 'Que signifient les marqueurs de conflit comme "<<<<<<< HEAD" dans un fichier ?',
       options: [
-        'The file has been deleted in one branch',
-        'The beginning of your changes in the current branch',
-        'The file permissions have changed',
-        'The file is binary and cannot be merged'
+        'Le fichier a été supprimé dans une branche',
+        'Le début de vos modifications dans la branche actuelle',
+        'Les permissions du fichier ont changé',
+        'Le fichier est binaire et ne peut pas être fusionné'
       ],
       correctAnswer: 1,
-      explanation: 'The "<<<<<<< HEAD" marker indicates the beginning of the changes in your current branch (HEAD), while "=======" separates your changes from the incoming changes, and ">>>>>>> branch-name" marks the end of the incoming changes.'
+      explanation: 'Le marqueur "<<<<<<< HEAD" indique le début des modifications dans votre branche actuelle (HEAD), tandis que "=======" sépare vos modifications des modifications entrantes, et ">>>>>>> nom-branche" marque la fin des modifications entrantes.'
     },
     {
-      question: 'Which command can help minimize merge conflicts when integrating a long-running branch?',
+      question: 'Quelle commande peut aider à minimiser les conflits de fusion lors de l\'intégration d\'une branche à longue durée de vie ?',
       options: ['git merge --force', 'git pull --rebase', 'git push --all', 'git clone --depth=1'],
       correctAnswer: 1,
-      explanation: 'Using "git pull --rebase" can help minimize merge conflicts by replaying your local commits on top of the updated remote branch, often resulting in a cleaner history and fewer conflicts.'
+      explanation: 'Utiliser "git pull --rebase" peut aider à minimiser les conflits de fusion en rejouant vos commits locaux par-dessus la branche distante mise à jour, résultant souvent en un historique plus propre et moins de conflits.'
     },
     {
-      question: 'When resolving a merge conflict, what must you do after editing the conflicted files?',
+      question: 'Lors de la résolution d\'un conflit de fusion, que devez-vous faire après avoir édité les fichiers en conflit ?',
       options: [
-        'Run git revert to undo the merge',
-        'Delete the conflict markers and save the file only',
-        'Add the resolved files and complete the merge with git commit',
-        'Create a new branch for the resolved files'
+        'Exécuter git revert pour annuler la fusion',
+        'Supprimer uniquement les marqueurs de conflit et sauvegarder le fichier',
+        'Ajouter les fichiers résolus et terminer la fusion avec git commit',
+        'Créer une nouvelle branche pour les fichiers résolus'
       ],
       correctAnswer: 2,
-      explanation: 'After manually resolving conflicts by editing the files and removing conflict markers, you must add the resolved files using git add and then complete the merge with git commit.'
+      explanation: 'Après avoir résolu manuellement les conflits en éditant les fichiers et en supprimant les marqueurs de conflit, vous devez ajouter les fichiers résolus avec git add puis terminer la fusion avec git commit.'
+    },
+    {
+      question: 'Quelle est une bonne pratique pour éviter les conflits de fusion ?',
+      options: [
+        'Travailler uniquement sur la branche main',
+        'Ne jamais fusionner les branches entre elles',
+        'Faire des commits fréquents et de petite taille',
+        'Désactiver les vérifications de conflits avec --no-verify'
+      ],
+      correctAnswer: 2,
+      explanation: 'Faire des commits fréquents et de petite taille réduit la probabilité de conflits en limitant la quantité de code modifié entre les synchronisations. Cela rend également les conflits plus faciles à résoudre quand ils surviennent.'
+    },
+    {
+      question: 'Quel outil Git peut vous aider à résoudre visuellement les conflits de fusion ?',
+      options: [
+        'git conflict-resolver',
+        'git difftool',
+        'git mergetool',
+        'git visual-merge'
+      ],
+      correctAnswer: 2,
+      explanation: 'git mergetool lance un utilitaire de fusion visuelle configuré dans Git qui vous permet de résoudre les conflits de manière interactive avec une interface plus conviviale que l\'édition manuelle des marqueurs de conflit.'
     }
   ]
 };

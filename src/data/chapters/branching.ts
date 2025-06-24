@@ -72,32 +72,44 @@ export const branchingChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'What Git command creates a new branch and switches to it in one step?',
+      question: 'Quelle commande Git crée une nouvelle branche et y bascule en une seule étape ?',
       options: ['git branch --switch', 'git checkout -b', 'git switch --create', 'git new-branch'],
       correctAnswer: 1,
-      explanation: 'git checkout -b creates a new branch and immediately switches to it, combining two commands in one.'
+      explanation: 'git checkout -b crée une nouvelle branche et y bascule immédiatement, combinant deux commandes en une.'
     },
     {
-      question: 'What is a fast-forward merge in Git?',
+      question: 'Qu\'est-ce qu\'une fusion fast-forward dans Git ?',
       options: [
-        'A merge that happens automatically',
-        'A merge that occurs when the target branch is directly ahead of the current branch',
-        'A merge that skips the staging area',
-        'A merge that requires fewer confirmations'
+        'Une fusion qui se produit automatiquement',
+        'Une fusion qui se produit quand la branche cible est directement en avance sur la branche courante',
+        'Une fusion qui ignore la zone de staging',
+        'Une fusion qui nécessite moins de confirmations'
       ],
       correctAnswer: 1,
-      explanation: 'A fast-forward merge occurs when the branch being merged in is directly ahead of the current branch, allowing Git to simply move the current branch pointer forward.'
+      explanation: 'Une fusion fast-forward se produit lorsque la branche à fusionner est directement en avance sur la branche courante, permettant à Git de simplement avancer le pointeur de la branche courante.'
     },
     {
-      question: 'What is the main difference between merging and rebasing?',
+      question: 'Quelle est la principale différence entre la fusion (merge) et le rebasage (rebase) ?',
       options: [
-        'Merging is faster, rebasing is slower',
-        'Merging creates a new commit, rebasing rewrites history',
-        'Merging works on public branches, rebasing doesn\'t',
-        'All of the above'
+        'La fusion est plus rapide, le rebasage est plus lent',
+        'La fusion crée un nouveau commit, le rebasage réécrit l\'historique',
+        'La fusion fonctionne sur les branches publiques, le rebasage non',
+        'Toutes les réponses ci-dessus'
       ],
       correctAnswer: 3,
-      explanation: 'All statements are correct: merging tends to be faster, creates a merge commit, and is safe for public branches, while rebasing rewrites history and should be avoided on public branches.'
+      explanation: 'Toutes les affirmations sont correctes : la fusion est généralement plus rapide, crée un commit de fusion, et est sûre pour les branches publiques, tandis que le rebasage réécrit l\'historique et devrait être évité sur les branches publiques.'
+    },
+    {
+      question: 'Quelle commande permet de voir la liste de toutes les branches dans votre dépôt ?',
+      options: ['git show branches', 'git branch -a', 'git list', 'git branches'],
+      correctAnswer: 1,
+      explanation: 'git branch -a (all) affiche toutes les branches, y compris les branches locales et les branches distantes suivies.'
+    },
+    {
+      question: 'Comment supprimer une branche locale qui n\'est plus nécessaire ?',
+      options: ['git branch --remove nom-branche', 'git delete nom-branche', 'git branch -d nom-branche', 'git remove nom-branche'],
+      correctAnswer: 2,
+      explanation: 'git branch -d nom-branche supprime une branche locale. Git vous empêchera de la supprimer si elle contient des commits non fusionnés. Pour forcer la suppression, utilisez git branch -D nom-branche.'
     }
   ]
 };

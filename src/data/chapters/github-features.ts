@@ -71,32 +71,54 @@ export const githubFeaturesChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'Which GitHub feature allows you to automate build, test, and deployment workflows directly from your repository?',
+      question: 'Quelle fonctionnalité GitHub vous permet d\'automatiser les workflows de build, test et déploiement directement depuis votre dépôt ?',
       options: ['GitHub Pages', 'GitHub Projects', 'GitHub Actions', 'GitHub Packages'],
       correctAnswer: 2,
-      explanation: 'GitHub Actions allows you to automate custom software development workflows directly in your GitHub repository, including building, testing, and deploying your code.'
+      explanation: 'GitHub Actions vous permet d\'automatiser des workflows de développement logiciel personnalisés directement dans votre dépôt GitHub, y compris la compilation, les tests et le déploiement de votre code.'
     },
     {
-      question: 'What is the best way to link a pull request to an issue it resolves?',
+      question: 'Quelle est la meilleure façon de lier une pull request à une issue qu\'elle résout ?',
       options: [
-        'Manually add a comment with the issue number',
-        'Use keywords like "fixes" or "closes" followed by the issue number in the PR description or commit message',
-        'Assign the same label to both the issue and PR',
-        'Change the issue status to "In Progress"'
+        'Ajouter manuellement un commentaire avec le numéro d\'issue',
+        'Utiliser des mots-clés comme "fixes" ou "closes" suivi du numéro d\'issue dans la description de la PR ou le message de commit',
+        'Assigner la même étiquette à l\'issue et à la PR',
+        'Changer le statut de l\'issue à "En cours"'
       ],
       correctAnswer: 1,
-      explanation: 'Using keywords like "fixes #123" or "closes #123" in your PR description or commit message automatically links the PR to the issue and will close the issue when the PR is merged.'
+      explanation: 'L\'utilisation de mots-clés comme "fixes #123" ou "closes #123" dans votre description de PR ou message de commit lie automatiquement la PR à l\'issue et fermera l\'issue lorsque la PR sera fusionnée.'
     },
     {
-      question: 'What is a GitHub workflow file?',
+      question: 'Qu\'est-ce qu\'un fichier de workflow GitHub ?',
       options: [
-        'A text file that contains instructions for GitHub Pages',
-        'A YAML file that defines a GitHub Actions workflow',
-        'A markdown file that describes project contribution guidelines',
-        'A JSON file that configures repository settings'
+        'Un fichier texte qui contient des instructions pour GitHub Pages',
+        'Un fichier YAML qui définit un workflow GitHub Actions',
+        'Un fichier markdown qui décrit les directives de contribution au projet',
+        'Un fichier JSON qui configure les paramètres du dépôt'
       ],
       correctAnswer: 1,
-      explanation: 'A GitHub workflow file is a YAML file located in the .github/workflows directory of your repository that defines your GitHub Actions workflow, including triggers, jobs, and steps.'
+      explanation: 'Un fichier de workflow GitHub est un fichier YAML situé dans le répertoire .github/workflows de votre dépôt qui définit votre workflow GitHub Actions, y compris les déclencheurs, les jobs et les étapes.'
+    },
+    {
+      question: 'Quelle fonctionnalité GitHub permet de gérer visuellement les tâches et les projets avec des tableaux Kanban ?',
+      options: [
+        'GitHub Milestones',
+        'GitHub Projects',
+        'GitHub Boards',
+        'GitHub Tasks'
+      ],
+      correctAnswer: 1,
+      explanation: 'GitHub Projects offre des tableaux de type Kanban personnalisables pour organiser et prioriser les issues, pull requests et notes, permettant une gestion de projet visuelle directement intégrée à GitHub.'
+    },
+    {
+      question: 'Comment pouvez-vous configurer un site web statique à partir d\'un dépôt GitHub ?',
+      options: [
+        'En utilisant GitHub Hosting',
+        'En activant GitHub Pages dans les paramètres du dépôt',
+        'En installant un plugin GitHub Web',
+        'En exécutant la commande git publish'
+      ],
+      correctAnswer: 1,
+      explanation: 'GitHub Pages est une fonctionnalité permettant d\'héberger des sites web statiques directement depuis un dépôt GitHub. Il peut être activé dans les paramètres du dépôt et peut utiliser le contenu de la branche main, d\'une branche gh-pages, ou d\'un dossier /docs.'
     }
   ]
 };

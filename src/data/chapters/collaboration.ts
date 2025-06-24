@@ -72,37 +72,59 @@ export const collaborationChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'What is the main benefit of forking a repository over simply cloning it?',
+      question: 'Quel est le principal avantage de forker un dépôt plutôt que de simplement le cloner ?',
       options: [
-        'Forking is faster than cloning',
-        'Forking creates a personal copy on your GitHub account that you can modify freely',
-        'Forking automatically sets up tracking branches',
-        'Forking gives you admin rights to the original repository'
+        'Le fork est plus rapide que le clone',
+        'Le fork crée une copie personnelle sur votre compte GitHub que vous pouvez modifier librement',
+        'Le fork configure automatiquement des branches de suivi',
+        'Le fork vous donne des droits d\'administrateur sur le dépôt d\'origine'
       ],
       correctAnswer: 1,
-      explanation: 'Forking creates your own copy of the repository on your GitHub account, allowing you to freely modify it without affecting the original project, and making it easy to contribute back via pull requests.'
+      explanation: 'Le fork crée votre propre copie du dépôt sur votre compte GitHub, vous permettant de le modifier librement sans affecter le projet d\'origine, et facilitant la contribution via des pull requests.'
     },
     {
-      question: 'What is the recommended approach when you notice issues during a code review?',
+      question: 'Quelle est l\'approche recommandée lorsque vous remarquez des problèmes lors d\'une revue de code ?',
       options: [
-        'Reject the pull request immediately',
-        'Fix the issues yourself directly in the main branch',
-        'Provide constructive feedback and suggestions for improvement',
-        'Ignore small issues to avoid delaying the merge'
+        'Rejeter immédiatement la pull request',
+        'Corriger les problèmes vous-même directement dans la branche principale',
+        'Fournir des commentaires constructifs et des suggestions d\'amélioration',
+        'Ignorer les petits problèmes pour éviter de retarder la fusion'
       ],
       correctAnswer: 2,
-      explanation: 'Providing constructive feedback with specific suggestions helps the original author learn and improve their code while maintaining a positive collaborative environment.'
+      explanation: 'Fournir des commentaires constructifs avec des suggestions spécifiques aide l\'auteur original à apprendre et à améliorer son code tout en maintenant un environnement de collaboration positif.'
     },
     {
-      question: 'When creating a pull request, what should you include to make it effective?',
+      question: 'Lors de la création d\'une pull request, que devriez-vous inclure pour la rendre efficace ?',
       options: [
-        'Only the code changes, comments are unnecessary',
-        'A detailed description of what changes were made and why',
-        'As many reviewers as possible to ensure faster approval',
-        'Multiple unrelated features to reduce the number of PRs'
+        'Uniquement les changements de code, les commentaires sont inutiles',
+        'Une description détaillée des changements effectués et de leur raison',
+        'Autant de réviseurs que possible pour assurer une approbation plus rapide',
+        'Plusieurs fonctionnalités sans rapport pour réduire le nombre de PRs'
       ],
       correctAnswer: 1,
-      explanation: 'A good pull request includes a detailed description explaining what changes were made, why they were necessary, how they were implemented, and any other context that would help reviewers understand the changes.'
+      explanation: 'Une bonne pull request inclut une description détaillée expliquant quels changements ont été effectués, pourquoi ils étaient nécessaires, comment ils ont été implémentés, et tout autre contexte qui aiderait les réviseurs à comprendre les changements.'
+    },
+    {
+      question: 'Quelle est la meilleure façon de gérer les commentaires reçus sur votre pull request ?',
+      options: [
+        'Ignorer les commentaires que vous trouvez inutiles',
+        'Argumenter vigoureusement contre toutes les suggestions',
+        'Répondre à chaque commentaire et apporter les modifications demandées quand approprié',
+        'Fermer la PR actuelle et en créer une nouvelle avec les corrections'
+      ],
+      correctAnswer: 2,
+      explanation: 'Il est important de répondre de manière professionnelle à tous les commentaires, de discuter poliment des désaccords éventuels, et d\'intégrer les suggestions pertinentes. Cela maintient une collaboration saine et améliore la qualité du code.'
+    },
+    {
+      question: 'Quel est le rôle d\'un mainteneur de dépôt dans le processus de pull request ?',
+      options: [
+        'Développer la majorité des fonctionnalités',
+        'Examiner les contributions, suggérer des améliorations et approuver ou rejeter les changements',
+        'Uniquement gérer les problèmes de serveur GitHub',
+        'Promouvoir le projet sur les réseaux sociaux'
+      ],
+      correctAnswer: 1,
+      explanation: 'Les mainteneurs de dépôt sont responsables de l\'examen des contributions, en s\'assurant qu\'elles respectent les normes du projet, en suggérant des améliorations si nécessaire, et finalement en approuvant et fusionnant ou rejetant les changements proposés.'
     }
   ]
 };

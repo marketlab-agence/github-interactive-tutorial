@@ -74,27 +74,44 @@ export const workflowsChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'Which workflow is most suitable for teams practicing continuous deployment?',
-      options: ['GitFlow', 'GitHub Flow', 'Centralized Workflow', 'Feature Branch Workflow'],
+      question: 'Quel workflow est le plus adapté aux équipes pratiquant le déploiement continu ?',
+      options: ['GitFlow', 'GitHub Flow', 'Workflow centralisé', 'Workflow de branche de fonctionnalité'],
       correctAnswer: 1,
-      explanation: 'GitHub Flow is designed for simplicity and continuous deployment. Its streamlined approach with feature branches and pull requests works well for teams deploying regularly.'
+      explanation: 'GitHub Flow est conçu pour la simplicité et le déploiement continu. Son approche simplifiée avec des branches de fonctionnalités et des pull requests fonctionne bien pour les équipes déployant régulièrement.'
     },
     {
-      question: 'In GitFlow, what is the purpose of a release branch?',
+      question: 'Dans GitFlow, quel est le but d\'une branche de release ?',
       options: [
-        'To develop new features in isolation',
-        'To prepare a new production release and make minor fixes',
-        'To fix critical bugs in production',
-        'To maintain documentation'
+        'Développer de nouvelles fonctionnalités isolément',
+        'Préparer une nouvelle version pour la production et faire des corrections mineures',
+        'Corriger des bugs critiques en production',
+        'Maintenir la documentation'
       ],
       correctAnswer: 1,
-      explanation: 'In GitFlow, release branches are created from the develop branch to prepare for a new production release. They allow for minor bug fixes and preparation while feature development continues on the develop branch.'
+      explanation: 'Dans GitFlow, les branches de release sont créées à partir de la branche develop pour préparer une nouvelle version de production. Elles permettent des corrections de bugs mineures et la préparation pendant que le développement de fonctionnalités continue sur la branche develop.'
     },
     {
-      question: 'Which of the following is NOT a typical branch in the GitFlow model?',
+      question: 'Laquelle de ces branches N\'EST PAS typique dans le modèle GitFlow ?',
       options: ['main', 'develop', 'feature', 'update'],
       correctAnswer: 3,
-      explanation: 'GitFlow typically uses main, develop, feature, release, and hotfix branches. "Update" branches are not part of the standard GitFlow model.'
+      explanation: 'GitFlow utilise typiquement les branches main, develop, feature, release, et hotfix. Les branches "update" ne font pas partie du modèle GitFlow standard.'
+    },
+    {
+      question: 'Quel workflow Git est le plus adapté pour les projets avec des releases planifiées et des cycles de développement plus longs ?',
+      options: ['GitHub Flow', 'GitFlow', 'Trunk-based development', 'GitLab Flow'],
+      correctAnswer: 1,
+      explanation: 'GitFlow, avec ses branches dédiées pour les features, releases et hotfixes, est particulièrement bien adapté aux projets ayant des releases planifiées et des cycles de développement plus longs.'
+    },
+    {
+      question: 'Quelle est la principale caractéristique du workflow GitLab Flow par rapport à GitHub Flow ?',
+      options: [
+        'Il n\'utilise pas de branches du tout',
+        'Il ajoute des branches d\'environnement comme production, staging',
+        'Il nécessite moins de revues de code',
+        'Il est exclusivement utilisable sur GitLab'
+      ],
+      correctAnswer: 1,
+      explanation: 'GitLab Flow étend GitHub Flow en ajoutant le concept de branches d\'environnement (comme production, staging, etc.) qui représentent les différentes étapes du déploiement, permettant un meilleur contrôle du processus de release.'
     }
   ]
 };

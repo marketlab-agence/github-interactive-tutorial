@@ -71,37 +71,59 @@ export const finalProjectChapter: Chapter = {
   ],
   quiz: [
     {
-      question: 'When contributing to an open source project, what is typically the first step?',
+      question: 'Lors de la contribution à un projet open source, quelle est généralement la première étape ?',
       options: [
-        'Submit a pull request immediately with your changes',
-        'Fork the repository to your GitHub account',
-        'Email the maintainers for permission',
-        'Clone the main repository directly'
+        'Soumettre immédiatement une pull request avec vos modifications',
+        'Forker le dépôt sur votre compte GitHub',
+        'Envoyer un email aux mainteneurs pour obtenir la permission',
+        'Cloner directement le dépôt principal'
       ],
       correctAnswer: 1,
-      explanation: 'The typical first step in contributing to an open source project is forking the repository to your own GitHub account. This creates your own copy that you can freely modify before submitting changes back via pull requests.'
+      explanation: 'La première étape typique pour contribuer à un projet open source est de forker le dépôt sur votre propre compte GitHub. Cela crée votre propre copie que vous pouvez modifier librement avant de soumettre des changements via des pull requests.'
     },
     {
-      question: 'What is a good practice when creating a feature branch for a new contribution?',
+      question: 'Quelle est une bonne pratique lors de la création d\'une branche de fonctionnalité pour une nouvelle contribution ?',
       options: [
-        'Always name it "feature"',
-        'Use a descriptive name related to the changes you\'re making',
-        'Create multiple branches for a single feature',
-        'Base it off the oldest stable tag'
+        'Toujours la nommer "feature"',
+        'Utiliser un nom descriptif en rapport avec les modifications que vous effectuez',
+        'Créer plusieurs branches pour une seule fonctionnalité',
+        'La baser sur le tag stable le plus ancien'
       ],
       correctAnswer: 1,
-      explanation: 'Using descriptive branch names that indicate the purpose or content of your changes (like "fix-login-bug" or "add-search-feature") makes it easier for others to understand what each branch is for at a glance.'
+      explanation: 'Utiliser des noms de branches descriptifs qui indiquent le but ou le contenu de vos modifications (comme "fix-login-bug" ou "add-search-feature") permet aux autres de comprendre plus facilement à quoi sert chaque branche.'
     },
     {
-      question: 'What should you do before submitting a pull request to an open source project?',
+      question: 'Que devriez-vous faire avant de soumettre une pull request à un projet open source ?',
       options: [
-        'Wait for explicit permission from maintainers',
-        'Add the maintainers as collaborators to your fork',
-        'Read the contribution guidelines and ensure your changes follow them',
-        'Create a new repository with just your changes'
+        'Attendre l\'autorisation explicite des mainteneurs',
+        'Ajouter les mainteneurs comme collaborateurs à votre fork',
+        'Lire les directives de contribution et vous assurer que vos modifications les respectent',
+        'Créer un nouveau dépôt avec uniquement vos modifications'
       ],
       correctAnswer: 2,
-      explanation: 'Most open source projects have contribution guidelines that outline coding standards, commit message formats, and other requirements. Reading and following these guidelines increases the likelihood of your contribution being accepted.'
+      explanation: 'La plupart des projets open source ont des directives de contribution qui définissent les standards de codage, les formats de messages de commit et d\'autres exigences. Lire et suivre ces directives augmente les chances que votre contribution soit acceptée.'
+    },
+    {
+      question: 'Comment devriez-vous réagir si votre pull request est rejetée ?',
+      options: [
+        'Abandonner le projet complètement',
+        'Créer une issue pour vous plaindre de la décision',
+        'Comprendre les raisons, apprendre de l\'expérience et essayer à nouveau si approprié',
+        'Forker le projet à nouveau sous un nouveau nom'
+      ],
+      correctAnswer: 2,
+      explanation: 'Il est normal que des pull requests soient rejetées. L\'important est de comprendre pourquoi, d\'apprendre des commentaires reçus, et d\'utiliser cette expérience pour améliorer vos futures contributions, que ce soit à ce projet ou à d\'autres.'
+    },
+    {
+      question: 'Quelle pratique est recommandée pour maintenir votre fork à jour avec le dépôt original ?',
+      options: [
+        'Supprimer et recréer votre fork régulièrement',
+        'Configurer le dépôt original comme "upstream" et régulièrement faire des pulls depuis celui-ci',
+        'Copier manuellement les fichiers modifiés',
+        'Créer une nouvelle branche pour chaque mise à jour'
+      ],
+      correctAnswer: 1,
+      explanation: 'La pratique recommandée est d\'ajouter le dépôt original comme remote, généralement nommé "upstream", puis de faire régulièrement git fetch upstream suivi de git merge upstream/main pour garder votre branche principale à jour.'
     }
   ]
 };
