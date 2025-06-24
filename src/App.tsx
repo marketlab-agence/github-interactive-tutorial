@@ -31,6 +31,10 @@ import HomePage from './components/HomePage';
 import Dashboard from './components/Dashboard';
 import Sidebar from './components/Sidebar';
 import Certificate from './components/Certificate';
+import Header from './components/Header';
+import Settings from './components/Settings';
+import AdminLogin from './components/AdminLogin';
+import AdminDashboard from './components/AdminDashboard';
 import { useTutorial } from './context/TutorialContext';
 import { chapters } from './data/tutorialData';
 
@@ -45,6 +49,8 @@ function App() {
       ? 'tutorial'
       : userProgress.lastPosition.view || 'accueil'
   );
+  const [isAdminMode, setIsAdminMode] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
   // Fonction pour vérifier si un chapitre est déverrouillé
   const isChapterUnlocked = (chapterId: string) => {
@@ -100,6 +106,23 @@ function App() {
     });
   };
 
+  // Si on est en mode admin et pas encore connecté
+  if (isAdminMode && !isAdminLoggedIn) {
+    return <AdminLogin onLogin={() => setIsAdminLoggedIn(true)} />;
+  }
+
+  // Si on est en mode admin et connecté
+  if (isAdminMode && isAdminLoggedIn) {
+    return <AdminDashboard />;
+  }
+
+  // Vérifier si l'URL contient /admin pour activer le mode admin
+  React.useEffect(() => {
+    if (window.location.pathname.includes('/admin')) {
+      setIsAdminMode(true);
+    }
+  }, []);
+
   const renderMainContent = () => {
     if (selectedItem === 'tutorial') {
       return <TutorialContent onReturnToHome={() => setSelectedItem('accueil')} />;
@@ -149,6 +172,9 @@ function App() {
 
       case 'dashboard':
         return <Dashboard onNavigate={handleNavigate} />;
+
+      case 'settings':
+        return <Settings />;
 
       case 'intro':
       case 'repositories':
@@ -371,12 +397,17 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      {/* Header - visible sur toutes les pages */}
+      <Header onNavigate={handleSelectItem} />
+      
       <div className="flex">
-        {/* Sidebar */}
-        <Sidebar selectedItem={selectedItem} onSelectItem={handleSelectItem} />
+        {/* Sidebar - visible uniquement sur les pages qui en ont besoin */}
+        {selectedItem !== 'accueil' && selectedItem !== 'auth' && selectedItem !== 'certificate' && selectedItem !== 'settings' && (
+          <Sidebar selectedItem={selectedItem} onSelectItem={handleSelectItem} />
+        )}
 
-        {/* Main Content */}
-        <div className="flex-1 p-8">
+        {/* Main Content - adapte sa largeur selon la présence du sidebar */}
+        <div className={`${selectedItem !== 'accueil' && selectedItem !== 'auth' && selectedItem !== 'certificate' && selectedItem !== 'settings' ? 'flex-1' : 'w-full'} p-8`}>
           {renderMainContent()}
         </div>
       </div>
