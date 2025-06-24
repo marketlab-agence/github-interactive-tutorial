@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, onMenuToggle }) => {
   const userLevel = getLevel(userProgress.globalScore);
 
   return (
-    <header className={`bg-gray-800/90 border-b border-gray-700 backdrop-blur-sm sticky top-0 z-50 ${
+    <header className={`bg-gray-800 border-b border-gray-700 backdrop-blur-sm sticky top-0 z-50 ${
       scrolled ? 'shadow-md' : ''
     }`}>
       <div className="container mx-auto px-4 py-3">

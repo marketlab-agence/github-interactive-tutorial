@@ -409,6 +409,7 @@ function App() {
       <div 
         className={`mobile-sidebar-overlay ${mobileMenuOpen ? 'active' : ''}`}
         onClick={() => setMobileMenuOpen(false)}
+        aria-hidden="true"
       ></div>
 
       <div className="flex flex-col md:flex-row">
@@ -423,7 +424,7 @@ function App() {
         )}
         
         {/* Main content */}
-        <main className="flex-1 p-3 md:p-6">
+        <main className="flex-1 p-3 md:p-6 z-30">
           {renderMainContent()}
         </main>
       </div>

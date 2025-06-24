@@ -36,6 +36,7 @@ html, body {
   width: 85%;
   max-width: 280px;
   z-index: 50;
+  background-color: #111827;
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
   box-shadow: 2px 0 10px rgba(0,0,0,0.3);
@@ -53,6 +54,7 @@ html, body {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
+  backdrop-filter: blur(2px);
 }
 
 .mobile-sidebar-overlay.active {
@@ -95,6 +97,29 @@ html, body {
 
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Menu improvements */
+.mobile-sidebar .rounded-xl {
+  background-color: rgba(31, 41, 55, 0.8);
+  border-color: rgba(55, 65, 81, 0.7);
+}
+
+.mobile-sidebar .text-gray-400 {
+  color: rgba(156, 163, 175, 0.9);
+}
+
+.mobile-sidebar .text-white {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.mobile-sidebar .border-gray-700 {
+  border-color: rgba(55, 65, 81, 0.8);
+}
+
+/* Improve menu shadow for better visibility */
+.mobile-sidebar {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Media queries responsive adjustments */
