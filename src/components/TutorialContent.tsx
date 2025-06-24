@@ -9,8 +9,8 @@ import NavigationControls from './tutorial/NavigationControls';
 import Button from './ui/Button';
 import Badge from './ui/Badge';
 import Card from './ui/Card';
-import { useTutorial } from '../context/TutorialContext';
-import { chapters } from '../data/tutorialData';
+import { useTutorial } from '../context/TutorialContext'; 
+import { chapters } from '../data';
 
 // Import Introduction components (Chapter 1)
 import GitVsGitHubComparison from './tutorial/GitVsGitHubComparison';

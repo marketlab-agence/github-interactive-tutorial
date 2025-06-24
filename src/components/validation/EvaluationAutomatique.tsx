@@ -5,7 +5,7 @@ import Card from '../ui/Card';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 import { useTutorial } from '../../context/TutorialContext';
-import { chapters } from '../../data/tutorialData';
+import { chapters } from '../../data';
 
 const EvaluationAutomatique: React.FC = () => {
   const { userProgress } = useTutorial();

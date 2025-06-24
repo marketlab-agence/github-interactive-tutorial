@@ -4,7 +4,7 @@ import { TrendingUp, Calendar, Clock, Award, GitBranch, GitCommit, GitMerge, Clo
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import { useTutorial } from '../../context/TutorialContext';
-import { chapters } from '../../data/tutorialData';
+import { chapters } from '../../data';
 
 const SuiviProgression: React.FC = () => {
   const { userProgress } = useTutorial();

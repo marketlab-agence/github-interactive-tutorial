@@ -1,7 +1,7 @@
 import React from 'react';
 import { GitCommit, BookOpen, Play, Award, ChevronRight } from 'lucide-react';
 import { useTutorial } from '../context/TutorialContext';
-import { chapters } from '../data/tutorialData';
+import { chapters } from '../data';
 import Button from './ui/Button';
 
 interface HomePageProps {

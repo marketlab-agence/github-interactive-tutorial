@@ -4,7 +4,7 @@ import { MessageSquare, Lightbulb, TrendingUp, Target, RefreshCw, User } from 'l
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import { useTutorial } from '../../context/TutorialContext';
-import { chapters } from '../../data/tutorialData';
+import { chapters } from '../../data';
 
 const FeedbackPersonnalise: React.FC = () => {
   const { userProgress } = useTutorial();

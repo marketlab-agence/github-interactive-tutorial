@@ -1,7 +1,7 @@
 import React from 'react';
 import { GitCommit, CheckCircle, X } from 'lucide-react';
 import { useTutorial } from '../context/TutorialContext';
-import { chapters } from '../data/tutorialData';
+import { chapters } from '../data';
 
 interface SidebarProps {
   selectedItem: string;

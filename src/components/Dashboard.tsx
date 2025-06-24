@@ -1,7 +1,7 @@
 import React from 'react';
 import { LayoutDashboard, CheckCircle, Award, Lock } from 'lucide-react';
 import { useTutorial } from '../context/TutorialContext';
-import { chapters } from '../data/tutorialData';
+import { chapters } from '../data';
 import Button from './ui/Button';
 import StatisticsChart from './visualizations/StatisticsChart';
 

@@ -5,7 +5,7 @@ import BranchCreator from './interactive/BranchCreator';
 import GitRepositoryPlayground from './interactive/GitRepositoryPlayground';
 import ConflictResolver from './interactive/ConflictResolver';
 import PullRequestCreator from './interactive/PullRequestCreator';
-import { chapters } from '../data/tutorialData';
+import { chapters } from '../data';
 import Card from './ui/Card';
 
 const ExercisesContainer: React.FC = () => {
