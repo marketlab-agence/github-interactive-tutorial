@@ -85,17 +85,18 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
     // Passer à la leçon suivante ou au quiz
     if (currentLesson < chapters[currentChapter].lessons.length - 1) {
       // Passer à la leçon suivante
-      setCurrentLesson(currentLesson + 1);
+      const nextLessonIndex = currentLesson + 1;
+      setCurrentLesson(nextLessonIndex);
       
       // Mettre à jour la progression
       updateProgress({
-        currentLesson: currentLesson + 1
+        currentLesson: nextLessonIndex
       });
       
       setLastPosition({
         view: 'lesson',
         chapterId: currentChapterId,
-        lessonId: chapters[currentChapter].lessons[currentLesson + 1].id
+        lessonId: chapters[currentChapter].lessons[nextLessonIndex].id
       });
     } else {
       // Toutes les leçons sont terminées, passer au quiz
@@ -129,15 +130,17 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
     // Passer à la question suivante
     if (currentQuizIndex < chapters[currentChapter].quiz.length - 1) {
       // Passer à la question suivante
-      setCurrentQuizIndex(currentQuizIndex + 1);
+      const nextQuizIndex = currentQuizIndex + 1;
+      setCurrentQuizIndex(nextQuizIndex);
       
       setLastPosition({
         view: 'quiz',
         chapterId: chapters[currentChapter].id,
-        quizIndex: currentQuizIndex + 1
+        quizIndex: nextQuizIndex
       });
     } else {
       // Toutes les questions sont terminées, afficher les résultats
+      setQuizCompleted(true);
       setCurrentView('quiz-results');
       
       setLastPosition({
@@ -184,7 +187,8 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
   const goToNextChapter = () => {
     if (currentChapter < chapters.length - 1) {
       // Passer au chapitre suivant
-      setCurrentChapter(currentChapter + 1);
+      const nextChapterIndex = currentChapter + 1;
+      setCurrentChapter(nextChapterIndex);
       setCurrentLesson(0);
       setCurrentView('chapter-intro');
       setCurrentQuizIndex(0);
@@ -194,13 +198,13 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       
       // Mettre à jour la progression
       updateProgress({
-        currentChapter: currentChapter + 1,
+        currentChapter: nextChapterIndex,
         currentLesson: 0
       });
       
       setLastPosition({
         view: 'chapter-intro',
-        chapterId: chapters[currentChapter + 1].id
+        chapterId: chapters[nextChapterIndex].id
       });
     } else {
       // Tous les chapitres sont terminés, retourner à l'accueil
@@ -259,14 +263,15 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
         <NavigationControls
           onPrevious={() => {
             if (currentLesson > 0) {
-              setCurrentLesson(currentLesson - 1);
+              const prevLessonIndex = currentLesson - 1;
+              setCurrentLesson(prevLessonIndex);
               updateProgress({
-                currentLesson: currentLesson - 1
+                currentLesson: prevLessonIndex
               });
               setLastPosition({
                 view: 'lesson',
                 chapterId: chapters[currentChapter].id,
-                lessonId: chapters[currentChapter].lessons[currentLesson - 1].id
+                lessonId: chapters[currentChapter].lessons[prevLessonIndex].id
               });
             } else {
               setCurrentView('chapter-intro');
@@ -284,6 +289,8 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
             previous: currentLesson === 0 && currentView === 'chapter-intro',
             next: false
           }}
+          previousLabel="Précédent"
+          nextLabel="Suivant"
         />
       </div>
     );
@@ -337,6 +344,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
   if (currentView === 'quiz-results') {
     const score = calculateQuizScore();
     const isPassed = score >= 80;
+    const correctAnswers = quizAnswers.filter(answer => answer).length;
     
     return (
       <div className="space-y-6">
