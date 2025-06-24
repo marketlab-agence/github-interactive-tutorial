@@ -405,6 +405,12 @@ function App() {
         {selectedItem !== 'accueil' && selectedItem !== 'auth' && selectedItem !== 'certificate' && selectedItem !== 'settings' && (
           <Sidebar selectedItem={selectedItem} onSelectItem={handleSelectItem} />
         )}
+        
+        {/* Main content */}
+        <main className="flex-1 p-6">
+          {renderMainContent()}
+        </main>
+      </div>
     </div>
   );
 }
