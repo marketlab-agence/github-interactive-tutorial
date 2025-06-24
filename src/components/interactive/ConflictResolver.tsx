@@ -202,7 +202,7 @@ export default Header;`,
                 
                 {hasConflictMarkers && (
                   <Alert type="info" title="Conflict Markers Detected">
-                    Supprimez tous les marqueurs de conflit (&lt;&lt;&lt;&lt;&lt;&lt;&lt;, =======, &gt;&gt;&gt;&gt;&gt;&gt;&gt;) 
+                    Supprimez tous les marqueurs de conflit (&lt;&lt;&lt;&lt;&lt;&lt;&lt;, =======, &gt;&gt;&gt;&gt;&gt;&gt;&gt;)
                     et choisissez le contenu correct pour résoudre le conflit.
                   </Alert>
                 )}
