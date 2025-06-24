@@ -315,7 +315,7 @@ const AnimatedFlow: React.FC = () => {
               </div>
             </motion.div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid md:grid-cols-4 gap-4">
               <div className="bg-gray-700/30 p-4 rounded-lg text-center">
                 <div className="w-6 h-6 bg-blue-600 rounded-full mx-auto mb-2" />
                 <div className="text-sm text-gray-300">Local</div>
