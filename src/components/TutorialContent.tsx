@@ -305,6 +305,83 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
     }
   };
 
+  // Fonction pour rendre les composants dynamiquement
+  const renderComponent = (componentName: string, workflowType?: string) => {
+    switch (componentName) {
+      // Composants Chapitre 1 (Introduction)
+      case 'GitVsGitHubComparison':
+        return <GitVsGitHubComparison />;
+      case 'VersioningDemo':
+        return <VersioningDemo />;
+      case 'LocalVsRemoteVisual':
+        return <LocalVsRemoteVisual onComplete={handleCompleteLesson} />;
+
+      // Composants Chapitre 2 (Repositories)
+      case 'RepoCreationWizard':
+        return <RepoCreationWizard />;
+      case 'StagingAreaVisualizer':
+        return <StagingAreaVisualizer />;
+      case 'CommitHistoryExplorer':
+        return <CommitHistoryExplorer />;
+
+      // Composants Chapitre 3 (Branches & Fusions)
+      case 'BranchCreator':
+        return <BranchCreator onComplete={handleCompleteLesson} />;
+      case 'BranchAnimator':
+        return <BranchAnimator />;
+      case 'MergeSimulator':
+        return <MergeSimulator onComplete={handleCompleteLesson} />;
+      case 'MergeTypeComparison':
+        return <MergeTypeComparison />;
+      case 'BranchSandbox':
+        return <BranchSandbox />;
+      case 'ConflictResolver':
+        return <ConflictResolver onComplete={handleCompleteLesson} />;
+
+      // Composants Chapitre 4 (Remote Repositories)
+      case 'RemoteConnectionVisual':
+        return <RemoteConnectionVisual onComplete={handleCompleteLesson} />;
+      case 'PushPullAnimator':
+        return <PushPullAnimator onComplete={handleCompleteLesson} />;
+      case 'SyncStatusIndicator':
+        return <SyncStatusIndicator onComplete={handleCompleteLesson} />;
+
+      // Composants Chapitre 5 (Collaboration)
+      case 'ForkVsCloneDemo':
+        return <ForkVsCloneDemo onComplete={handleCompleteLesson} />;
+      case 'PRWorkflowSimulator':
+        return <PRWorkflowSimulator />;
+      case 'PullRequestCreator':
+        return <PullRequestCreator onComplete={handleCompleteLesson} />;
+      case 'CodeReviewInterface':
+        return <CodeReviewInterface onComplete={handleCompleteLesson} />;
+      case 'CollaborationSimulator':
+        return <CollaborationSimulator onComplete={handleCompleteLesson} />;
+
+      // Composants Chapitre 6 (Workflows)
+      case 'WorkflowComparisonTable':
+        return <WorkflowComparisonTable onComplete={handleCompleteLesson} />;
+      case 'WorkflowSimulator':
+        return <WorkflowSimulator workflowType={workflowType || 'github-flow'} onComplete={handleCompleteLesson} />;
+      case 'FlowDiagramBuilder':
+        return <FlowDiagramBuilder onComplete={handleCompleteLesson} />;
+
+      // Visualisations
+      case 'CommitTimeline':
+        return <CommitTimeline />;
+      case 'BranchDiagram':
+        return <BranchDiagram />;
+      case 'GitGraph':
+        return <GitGraph />;
+      
+      default:
+        console.warn(`Composant "${componentName}" non trouvé`);
+        return <div className="p-4 bg-yellow-900/20 border border-yellow-500/30 rounded-lg text-center">
+          <p className="text-yellow-300">Composant "{componentName}" non disponible</p>
+        </div>;
+    }
+  };
+
   // Si le chapitre n'est pas déverrouillé, afficher un message
   if (!isChapterUnlocked(currentChapter)) {
     return (
@@ -371,79 +448,8 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
         
         {/* Dynamic Component Rendering */}
         {lesson.component && (
-          <div className="max-w-4xl mx-auto">
-            {lesson.component === 'BranchCreator' && (
-              <BranchCreator onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'BranchAnimator' && (
-              <BranchAnimator />
-            )}
-            {lesson.component === 'MergeSimulator' && (
-              <MergeSimulator onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'MergeTypeComparison' && (
-              <MergeTypeComparison />
-            )}
-            {lesson.component === 'BranchSandbox' && (
-              <BranchSandbox />
-            )}
-            {lesson.component === 'ConflictResolver' && (
-              <ConflictResolver onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'RemoteConnectionVisual' && (
-              <RemoteConnectionVisual onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'PushPullAnimator' && (
-              <PushPullAnimator onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'LocalVsRemoteVisual' && (
-              <LocalVsRemoteVisual onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'SyncStatusIndicator' && (
-              <SyncStatusIndicator onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'GitVsGitHubComparison' && (
-              <GitVsGitHubComparison />
-            )}
-            {lesson.component === 'VersioningDemo' && (
-              <VersioningDemo />
-            )}
-            {lesson.component === 'ForkVsCloneDemo' && (
-              <ForkVsCloneDemo onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'PRWorkflowSimulator' && (
-              <PRWorkflowSimulator />
-            )}
-            {lesson.component === 'PullRequestCreator' && (
-              <PullRequestCreator onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'CodeReviewInterface' && (
-              <CodeReviewInterface onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'CollaborationSimulator' && (
-              <CollaborationSimulator onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'RepoCreationWizard' && (
-              <RepoCreationWizard />
-            )}
-            {lesson.component === 'StagingAreaVisualizer' && (
-              <StagingAreaVisualizer />
-            )}
-            {lesson.component === 'CommitHistoryExplorer' && (
-              <CommitHistoryExplorer />
-            )}
-            {lesson.component === 'WorkflowComparisonTable' && (
-              <WorkflowComparisonTable onComplete={handleCompleteLesson} />
-            )}
-            {lesson.component === 'WorkflowSimulator' && (
-              <WorkflowSimulator 
-                workflowType={lesson.workflowType || 'github-flow'} 
-                onComplete={handleCompleteLesson} 
-              />
-            )}
-            {lesson.component === 'FlowDiagramBuilder' && (
-              <FlowDiagramBuilder onComplete={handleCompleteLesson} />
-            )}
+          <div className="max-w-4xl mx-auto my-8">
+            {renderComponent(lesson.component, lesson.workflowType)}
           </div>
         )}
         

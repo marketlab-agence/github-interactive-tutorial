@@ -25,7 +25,8 @@ export const gitBasicsChapter: Chapter = {
         'Identify the benefits of using Git'
       ],
       description: 'Introduction to version control and Git',
-      component: 'GitVsGitHubComparison'
+      component: 'GitVsGitHubComparison',
+      image: 'https://miro.medium.com/v2/resize:fit:1400/1*iL2J8k4ygQlg3xriKGimbQ.png'
     },
     {
       id: 'git-setup',
@@ -52,7 +53,8 @@ export const gitBasicsChapter: Chapter = {
         'Practice basic repository operations'
       ],
       description: 'Learn essential Git commands for daily use',
-      component: 'VersioningDemo'
+      component: 'VersioningDemo',
+      image: 'https://www.edureka.co/blog/wp-content/uploads/2016/11/Git-Architechture-Git-Tutorial-Edureka-2.png'
     }
   ],
   quiz: [

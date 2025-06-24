@@ -25,7 +25,8 @@ export const repositoriesChapter: Chapter = {
         'Understand local vs remote repositories'
       ],
       description: 'Learn to initialize and clone repositories',
-      component: 'RepoCreationWizard'
+      component: 'RepoCreationWizard',
+      image: 'https://i.ytimg.com/vi/RGOj5yH7evk/maxresdefault.jpg'
     },
     {
       id: 'repo-structure',
@@ -39,7 +40,8 @@ export const repositoriesChapter: Chapter = {
         'Learn about the working directory, staging area, and repository'
       ],
       description: 'Explore how Git repositories are structured internally',
-      component: 'StagingAreaVisualizer'
+      component: 'StagingAreaVisualizer',
+      image: 'https://git-scm.com/book/en/v2/images/areas.png'
     },
     {
       id: 'remote-repos',
@@ -53,7 +55,8 @@ export const repositoriesChapter: Chapter = {
         'Practice fetching and pulling changes'
       ],
       description: 'Master working with remote repositories',
-      component: 'CommitHistoryExplorer'
+      component: 'CommitHistoryExplorer',
+      image: 'https://uidaholib.github.io/get-git/images/workflow.png'
     }
   ],
   quiz: [
