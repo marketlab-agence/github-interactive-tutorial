@@ -234,7 +234,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </div>
                   </div>
                 </button>
-              <p className="text-xs text-gray-400 mt-1 line-clamp-1">{item.subtitle}</p>
+              ))}
             </div>
           </div>
         ))}
