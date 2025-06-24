@@ -793,19 +793,19 @@ git pull <remote> <branche>
 \`\`\`
 
 La commande \`git pull\` est en fait une combinaison de deux opérations:
-1. \`git fetch`: Télécharge les modifications du dépôt distant
-2. \`git merge`: Fusionne ces modifications dans votre branche locale
+1. \\\`git fetch\\\`: Télécharge les modifications du dépôt distant
+2. \\\`git merge\\\`: Fusionne ces modifications dans votre branche locale
 
 Pour plus de contrôle, vous pouvez exécuter ces commandes séparément:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git fetch origin
 git merge origin/main
-\`\`\`
+\\\`\\\`\\\`
 
 Ou utiliser un rebase au lieu d'un merge:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git pull --rebase origin main
-\`\`\`
+\\\`\\\`\\\`
 
 **Bonnes pratiques**
 
