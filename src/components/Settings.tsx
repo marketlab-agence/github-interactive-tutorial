@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Settings as SettingsIcon, User, Bell, Moon, Sun, Globe, Shield, Save } from 'lucide-react';
 import Card from './ui/Card';
-import Button from './ui/Button';
+import Button from './ui/Button'; 
+import { useTutorial } from '../context/TutorialContext';
+import Alert from './ui/Alert';
 
 const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'profile' | 'notifications' | 'appearance' | 'privacy'>('profile');
+  const [saveSuccess, setSaveSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: 'Utilisateur',
     email: 'utilisateur@exemple.com',
@@ -30,12 +33,20 @@ const Settings: React.FC = () => {
     }
   };
 
+  // Fonction pour sauvegarder les paramètres dans localStorage
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simuler la sauvegarde
+    
+    // Sauvegarder les paramètres dans localStorage
+    localStorage.setItem('user-settings', JSON.stringify(formData));
+    
+    // Afficher le message de succès dans l'interface
+    setSaveSuccess(true);
+    
+    // Masquer le message après 3 secondes
     setTimeout(() => {
-      alert('Paramètres sauvegardés avec succès !');
-    }, 500);
+      setSaveSuccess(false);
+    }, 3000);
   };
 
   return (
@@ -49,6 +60,12 @@ const Settings: React.FC = () => {
       <div className="grid md:grid-cols-4 gap-6">
         {/* Sidebar */}
         <div className="md:col-span-1">
+          {saveSuccess && (
+            <Alert type="success" title="Paramètres sauvegardés" dismissible onDismiss={() => setSaveSuccess(false)}>
+              Vos paramètres ont été enregistrés avec succès !
+            </Alert>
+          )}
+          
           <Card>
             <nav className="space-y-1">
               <button
