@@ -783,7 +783,7 @@ git push -u origin ma-branche
 git push --set-upstream origin ma-branche
 \`\`\`
 
-Après cela, un simple \`git push` suffira pour cette branche.
+Après cela, un simple \`git push\` suffira pour cette branche.
 
 **Pull: Récupérer et intégrer des modifications distantes**
 
@@ -792,7 +792,7 @@ git pull <remote> <branche>
 # Exemple: git pull origin main
 \`\`\`
 
-La commande \`git pull` est en fait une combinaison de deux opérations:
+La commande \`git pull\` est en fait une combinaison de deux opérations:
 1. \`git fetch`: Télécharge les modifications du dépôt distant
 2. \`git merge`: Fusionne ces modifications dans votre branche locale
 
@@ -809,7 +809,7 @@ git pull --rebase origin main
 
 **Bonnes pratiques**
 
-- Faites un \`pull` avant de commencer à travailler et avant de faire un `push`
+- Faites un \`pull\` avant de commencer à travailler et avant de faire un `push`
 - Commitez localement souvent, mais poussez uniquement du code fonctionnel
 - Utilisez des branches pour les fonctionnalités en cours de développement
 - Vérifiez toujours ce que vous poussez avec `git status``,
@@ -865,9 +865,9 @@ Cette commande supprime les références aux branches distantes qui n'existent p
 **Relations de suivi**
 
 Quand une branche locale suit une branche distante:
-- \`git pull` sans arguments sait quelle branche distante récupérer
-- \`git push` sans arguments sait où pousser les changements
-- \`git status` indique si votre branche est en avance, en retard ou les deux par rapport à la branche distante
+- \`git pull\` sans arguments sait quelle branche distante récupérer
+- \`git push\` sans arguments sait où pousser les changements
+- \`git status\` indique si votre branche est en avance, en retard ou les deux par rapport à la branche distante
 
 Pour voir les relations de suivi configurées:
 \`\`\`bash
