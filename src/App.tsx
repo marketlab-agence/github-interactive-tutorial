@@ -90,7 +90,7 @@ function App() {
         },
         {
           id: 'repositories',
-          title: 'Chapitre 2: Repositories',
+          title: 'Chapitre 2: Dépôts',
           subtitle: 'Création, commits, historique',
           icon: Repository
         },
@@ -283,7 +283,7 @@ function App() {
           <div className="space-y-8">
             <ChapterIntro
               chapterNumber={2}
-              title="Repositories et Commits"
+              title="Dépôts et Commits"
               description="Apprenez à créer et gérer des dépôts Git, ainsi qu'à effectuer vos premiers commits."
               objectives={[
                 "Créer un nouveau dépôt Git",
