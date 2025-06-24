@@ -258,9 +258,9 @@ const AnimatedFlow: React.FC = () => {
                         initial={{ scale: 0 }}
                         animate={{ 
                           scale: isActive ? 1.1 : 1,
-                          opacity: isActive ? 1 : 0.8
+                          opacity: isActive ? 1 : 0.7
                         }}
-                        transition={{ delay: index * 0.1 }}
+                        transition={{ delay: index * 0.05 }}
                       >
                         <circle
                           cx={step.position.x}
@@ -315,22 +315,22 @@ const AnimatedFlow: React.FC = () => {
               </div>
             </motion.div>
           ) : (
-            <div className="grid md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 text-xs sm:text-sm">
               <div className="bg-gray-700/30 p-4 rounded-lg text-center">
                 <div className="w-6 h-6 bg-blue-600 rounded-full mx-auto mb-2" />
-                <div className="text-sm text-gray-300">Local</div>
+                <div className="text-gray-300">Local</div>
               </div>
               <div className="bg-gray-700/30 p-4 rounded-lg text-center">
                 <div className="w-6 h-6 bg-yellow-600 rounded-full mx-auto mb-2" />
-                <div className="text-sm text-gray-300">Staging</div>
+                <div className="text-gray-300">Staging</div>
               </div>
               <div className="bg-gray-700/30 p-4 rounded-lg text-center">
                 <div className="w-6 h-6 bg-green-600 rounded-full mx-auto mb-2" />
-                <div className="text-sm text-gray-300">Distant</div>
+                <div className="text-gray-300">Distant</div>
               </div>
               <div className="bg-gray-700/30 p-4 rounded-lg text-center">
                 <ArrowRight className="h-6 w-6 text-purple-400 mx-auto mb-2" />
-                <div className="text-sm text-gray-300">Flux</div>
+                <div className="text-gray-300">Flux</div>
               </div>
             </div>
           )}
