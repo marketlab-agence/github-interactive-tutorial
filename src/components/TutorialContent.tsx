@@ -29,6 +29,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
   const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(userProgress.lastPosition.quizIndex || 0);
   const [quizAnswers, setQuizAnswers] = useState<boolean[]>([]);
   const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
+  const [quizQuestions, setQuizQuestions] = useState<Array<{question: string, isCorrect: boolean}>>([]);
 
   // Initialiser l'état en fonction de la dernière position sauvegardée
   useEffect(() => {
@@ -60,6 +61,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       setCurrentQuizIndex(0);
       setQuizAnswers([]);
       setQuizCompleted(false);
+      setQuizQuestions([]);
       
       // Mettre à jour la progression
       updateProgress({
@@ -102,6 +104,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       setCurrentView('quiz');
       setCurrentQuizIndex(0);
       setQuizAnswers([]);
+      setQuizQuestions([]);
       
       setLastPosition({
         view: 'quiz',
@@ -116,6 +119,14 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
     const newQuizAnswers = [...quizAnswers];
     newQuizAnswers[currentQuizIndex] = correct;
     setQuizAnswers(newQuizAnswers);
+    
+    // Enregistrer la question et si la réponse est correcte
+    const newQuizQuestions = [...quizQuestions];
+    newQuizQuestions[currentQuizIndex] = {
+      question: chapters[currentChapter].quiz[currentQuizIndex].question,
+      isCorrect: correct
+    };
+    setQuizQuestions(newQuizQuestions);
     
     // Passer à la question suivante
     if (currentQuizIndex < chapters[currentChapter].quiz.length - 1) {
@@ -180,6 +191,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       setCurrentView('chapter-intro');
       setCurrentQuizIndex(0);
       setQuizAnswers([]);
+      setQuizQuestions([]);
       setQuizCompleted(false);
       
       // Mettre à jour la progression
@@ -389,6 +401,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
                     setCurrentView('quiz');
                     setCurrentQuizIndex(0);
                     setQuizAnswers([]);
+                    setQuizQuestions([]);
                     setLastPosition({
                       view: 'quiz',
                       chapterId: chapters[currentChapter].id,
@@ -406,21 +419,33 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
         <div className="max-w-2xl mx-auto">
           <h3 className="text-xl font-semibold text-white mb-4">Détail des réponses</h3>
           <div className="space-y-3">
-            {quizAnswers.map((isCorrect, index) => (
+            {quizQuestions.map((item, index) => (
               <div 
                 key={index}
-                className={`p-3 rounded-lg border ${
-                  isCorrect 
+                className={`p-4 rounded-lg border ${
+                  item.isCorrect 
                     ? 'bg-green-900/20 border-green-500/30' 
                     : 'bg-red-900/20 border-red-500/30'
                 }`}
               >
-                <div className="flex items-center space-x-2">
-                  {isCorrect 
-                    ? <CheckCircle className="h-5 w-5 text-green-400" />
-                    : <XCircle className="h-5 w-5 text-red-400" />
+                <div className="flex items-start space-x-3">
+                  {item.isCorrect 
+                    ? <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    : <XCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
                   }
-                  <span className="text-white">Question {index + 1}</span>
+                  <div>
+                    <div className="font-medium text-white mb-1">
+                      Question {index + 1}
+                    </div>
+                    <div className="text-sm text-gray-300">
+                      {item.question}
+                    </div>
+                    <div className="mt-1 text-sm">
+                      <span className={item.isCorrect ? "text-green-400" : "text-red-400"}>
+                        {item.isCorrect ? "Correct" : "Incorrect"}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
