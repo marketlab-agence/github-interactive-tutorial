@@ -52,12 +52,12 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
               {copied ? (
                 <>
                   <Check className="w-4 h-4" />
-                  <span className="text-xs">Copied!</span>
+                  <span className="text-xs">Copié !</span>
                 </>
               ) : (
                 <>
                   <Copy className="w-4 h-4" />
-                  <span className="text-xs">Copy</span>
+                  <span className="text-xs">Copier</span>
                 </>
               )}
             </button>

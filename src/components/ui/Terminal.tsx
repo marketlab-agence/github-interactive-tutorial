@@ -72,7 +72,7 @@ const Terminal: React.FC<TerminalProps> = ({
               <span>{cmd}</span>
             </div>
             <div className="text-gray-300 ml-4 text-xs">
-              Command executed successfully
+              Commande exécutée avec succès
             </div>
           </div>
         ))}

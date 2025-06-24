@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Play, CheckCircle, AlertCircle, Lightbulb } from 'lucide-react';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
-import Terminal from '../ui/Terminal';
 
 interface PracticeExerciseProps {
   title: string;
@@ -93,7 +92,7 @@ const PracticeExercise: React.FC<PracticeExerciseProps> = ({
                 </div>
                 <div>
                   <div className="font-medium text-white mb-1">
-                    Step {index + 1}
+                    Étape {index + 1}
                   </div>
                   <div className="text-sm text-gray-300">
                     {instruction}
@@ -110,7 +109,7 @@ const PracticeExercise: React.FC<PracticeExerciseProps> = ({
                   onClick={() => setShowHint(!showHint)}
                 >
                   <Lightbulb className="h-4 w-4 mr-2" />
-                  {showHint ? 'Hide Hint' : 'Show Hint'}
+                  {showHint ? 'Masquer l\'indice' : 'Afficher l\'indice'}
                 </Button>
                 {showHint && (
                   <motion.div
@@ -132,7 +131,7 @@ const PracticeExercise: React.FC<PracticeExerciseProps> = ({
         {/* Terminal */}
         <Card
           header={
-            <h3 className="text-lg font-semibold text-white">Practice Terminal</h3>
+            <h3 className="text-lg font-semibold text-white">Terminal d'Exercice</h3>
           }
         >
           <div className="space-y-4">
@@ -149,12 +148,12 @@ const PracticeExercise: React.FC<PracticeExerciseProps> = ({
                     {entry.success ? (
                       <div className="flex items-center space-x-1">
                         <CheckCircle className="h-3 w-3" />
-                        <span>Command executed successfully</span>
+                        <span>Commande exécutée avec succès</span>
                       </div>
                     ) : (
                       <div className="flex items-center space-x-1">
                         <AlertCircle className="h-3 w-3" />
-                        <span>Expected: {expectedCommands[currentStep]}</span>
+                        <span>Attendu : {expectedCommands[currentStep]}</span>
                       </div>
                     )}
                   </div>
@@ -168,7 +167,7 @@ const PracticeExercise: React.FC<PracticeExerciseProps> = ({
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && executeCommand()}
-                  placeholder="Type your command here..."
+                  placeholder="Tapez votre commande ici..."
                   className="bg-transparent border-none outline-none flex-1 text-blue-400"
                 />
               </div>
@@ -177,10 +176,10 @@ const PracticeExercise: React.FC<PracticeExerciseProps> = ({
             <div className="flex space-x-2">
               <Button onClick={executeCommand} disabled={!userInput.trim()}>
                 <Play className="h-4 w-4 mr-2" />
-                Execute
+                Exécuter
               </Button>
               <Button variant="secondary" onClick={resetExercise}>
-                Reset
+                Réinitialiser
               </Button>
             </div>
           </div>

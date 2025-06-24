@@ -137,7 +137,7 @@ const ConceptDiagram: React.FC = () => {
       </motion.div>
 
       <div className="grid lg:grid-cols-4 gap-6">
-        {/* Controls */}
+        {/* Contrôles */}
         <Card
           header={
             <h3 className="font-semibold text-white">Contrôles</h3>
@@ -180,17 +180,17 @@ const ConceptDiagram: React.FC = () => {
           </div>
         </Card>
 
-        {/* Diagram */}
+        {/* Diagramme */}
         <div className="lg:col-span-2">
           <Card>
             <div className="relative h-96 bg-gray-900/50 rounded-lg overflow-hidden">
               <svg width="100%" height="100%" viewBox="0 0 600 400">
-                {/* Connections */}
+                {/* Connexions */}
                 <g>
                   {renderConnections()}
                 </g>
 
-                {/* Nodes */}
+                {/* Nœuds */}
                 <g>
                   {concepts.map((concept, index) => {
                     const Icon = concept.icon;
@@ -245,7 +245,7 @@ const ConceptDiagram: React.FC = () => {
           </Card>
         </div>
 
-        {/* Concept Details */}
+        {/* Détails du Concept */}
         <Card
           header={
             <h3 className="font-semibold text-white">Détails du Concept</h3>
@@ -279,7 +279,8 @@ const ConceptDiagram: React.FC = () => {
                       </div>
                       <h4 className="font-medium text-white">{concept.title}</h4>
                       <span className={`inline-block px-2 py-1 rounded-full text-xs mt-2 ${getTypeColor(concept.type)}`}>
-                        {concept.type}
+                        {concept.type === 'concept' ? 'concept' : 
+                         concept.type === 'action' ? 'action' : 'résultat'}
                       </span>
                     </div>
 
@@ -290,7 +291,7 @@ const ConceptDiagram: React.FC = () => {
                     {connectedConcepts.length > 0 && (
                       <div>
                         <h5 className="text-sm font-medium text-gray-300 mb-2">
-                          Concepts liés:
+                          Concepts liés :
                         </h5>
                         <div className="space-y-1">
                           {connectedConcepts.map(connected => (

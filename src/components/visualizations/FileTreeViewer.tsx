@@ -123,7 +123,7 @@ const FileTreeViewer: React.FC<FileTreeViewerProps> = ({
             }
           }}
         >
-          {/* Expand/Collapse Icon */}
+          {/* Icône d'expansion/réduction */}
           {node.type === 'folder' && hasChildren && (
             <button
               onClick={(e) => {
@@ -140,7 +140,7 @@ const FileTreeViewer: React.FC<FileTreeViewerProps> = ({
             </button>
           )}
 
-          {/* File/Folder Icon */}
+          {/* Icône de fichier/dossier */}
           <div className="flex-shrink-0">
             {node.type === 'folder' ? (
               isExpanded ? (
@@ -153,17 +153,17 @@ const FileTreeViewer: React.FC<FileTreeViewerProps> = ({
             )}
           </div>
 
-          {/* Name */}
+          {/* Nom */}
           <span className="flex-1 text-sm text-white truncate">{node.name}</span>
 
-          {/* Status */}
+          {/* Statut */}
           {showStatus && node.status && (
             <span className={`text-xs font-mono ${getStatusColor(node.status)}`}>
               {getStatusSymbol(node.status)}
             </span>
           )}
 
-          {/* File Size */}
+          {/* Taille du fichier */}
           {node.type === 'file' && node.size && (
             <span className="text-xs text-gray-500">
               {formatFileSize(node.size)}
@@ -183,7 +183,7 @@ const FileTreeViewer: React.FC<FileTreeViewerProps> = ({
           )}
         </motion.div>
 
-        {/* Children */}
+        {/* Enfants */}
         <AnimatePresence>
           {node.type === 'folder' && isExpanded && hasChildren && (
             <motion.div
@@ -229,7 +229,7 @@ const FileTreeViewer: React.FC<FileTreeViewerProps> = ({
       </motion.div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* File Tree */}
+        {/* Arborescence de fichiers */}
         <div className="lg:col-span-2">
           <Card
             header={
@@ -250,26 +250,26 @@ const FileTreeViewer: React.FC<FileTreeViewerProps> = ({
           </Card>
         </div>
 
-        {/* File Info */}
+        {/* Informations sur les fichiers */}
         <Card
           header={
             <h3 className="font-semibold text-white">Informations</h3>
           }
         >
           <div className="space-y-4">
-            {/* Project Stats */}
+            {/* Statistiques du projet */}
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-400">Total fichiers:</span>
+                <span className="text-gray-400">Total fichiers :</span>
                 <span className="text-white">{getTotalFiles(tree)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Taille totale:</span>
+                <span className="text-gray-400">Taille totale :</span>
                 <span className="text-white">{formatFileSize(getTotalSize(tree))}</span>
               </div>
             </div>
 
-            {/* Status Legend */}
+            {/* Légende des statuts */}
             {showStatus && (
               <div className="space-y-2">
                 <h4 className="text-sm font-medium text-gray-300">Légende des statuts</h4>
@@ -294,7 +294,7 @@ const FileTreeViewer: React.FC<FileTreeViewerProps> = ({
               </div>
             )}
 
-            {/* Selected File Info */}
+            {/* Informations sur le fichier sélectionné */}
             {selectedNode && (
               <div className="space-y-2 pt-4 border-t border-gray-700">
                 <h4 className="text-sm font-medium text-gray-300">Fichier sélectionné</h4>
@@ -316,22 +316,22 @@ const FileTreeViewer: React.FC<FileTreeViewerProps> = ({
                   return (
                     <div className="space-y-1 text-xs">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Nom:</span>
+                        <span className="text-gray-400">Nom :</span>
                         <span className="text-white">{node.name}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Type:</span>
+                        <span className="text-gray-400">Type :</span>
                         <span className="text-white">{node.type === 'file' ? 'Fichier' : 'Dossier'}</span>
                       </div>
                       {node.size && (
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Taille:</span>
+                          <span className="text-gray-400">Taille :</span>
                           <span className="text-white">{formatFileSize(node.size)}</span>
                         </div>
                       )}
                       {node.modified && (
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Modifié:</span>
+                          <span className="text-gray-400">Modifié :</span>
                           <span className="text-white">{node.modified}</span>
                         </div>
                       )}

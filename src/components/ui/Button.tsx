@@ -2,7 +2,17 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
-import { ButtonProps } from '../../types/ui.types';
+
+interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  loading?: boolean;
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
 
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
@@ -12,6 +22,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   className,
+  type = 'button',
   ...props
 }) => {
   const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900';
@@ -46,6 +57,7 @@ const Button: React.FC<ButtonProps> = ({
       )}
       disabled={isDisabled}
       onClick={onClick}
+      type={type}
       {...props}
     >
       {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}

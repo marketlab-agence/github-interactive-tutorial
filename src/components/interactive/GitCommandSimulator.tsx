@@ -24,13 +24,13 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
 
     setIsExecuting(true);
     
-    // Simulate command execution delay
+    // Simuler un délai d'exécution
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     const isCorrect = currentCommand.trim() === expectedCommand;
     const output = isCorrect 
-      ? 'Command executed successfully!' 
-      : `Error: Expected "${expectedCommand}", got "${currentCommand}"`;
+      ? 'Commande exécutée avec succès !' 
+      : `Erreur : Attendu "${expectedCommand}", reçu "${currentCommand}"`;
 
     const newEntry = {
       command: currentCommand,
@@ -57,14 +57,14 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
       <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
         <div className="flex items-center space-x-3 mb-4">
           <Terminal className="h-6 w-6 text-green-400" />
-          <h3 className="text-xl font-semibold text-white">Git Command Simulator</h3>
+          <h3 className="text-xl font-semibold text-white">Simulateur de Commandes Git</h3>
         </div>
         
         <p className="text-gray-300 mb-6">
-          Practice Git commands in a safe environment. Try executing: <code className="bg-gray-700 px-2 py-1 rounded text-green-400">{expectedCommand}</code>
+          Pratiquez les commandes Git dans un environnement sécurisé. Essayez d'exécuter : <code className="bg-gray-700 px-2 py-1 rounded text-green-400">{expectedCommand}</code>
         </p>
 
-        {/* Command History */}
+        {/* Historique des commandes */}
         <div className="bg-gray-900 rounded-lg p-4 mb-4 min-h-[200px] font-mono text-sm">
           <AnimatePresence>
             {history.map((entry, index) => (
@@ -95,7 +95,7 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
             ))}
           </AnimatePresence>
           
-          {/* Current Input */}
+          {/* Saisie actuelle */}
           <div className="flex items-center text-blue-400">
             <span className="text-gray-500 mr-2">$</span>
             <input
@@ -103,7 +103,7 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
               value={currentCommand}
               onChange={(e) => setCurrentCommand(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && executeCommand()}
-              placeholder="Type a Git command..."
+              placeholder="Tapez une commande Git..."
               className="bg-transparent border-none outline-none flex-1 text-blue-400"
               disabled={isExecuting}
             />
@@ -119,9 +119,9 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
           </div>
         </div>
 
-        {/* Available Commands */}
+        {/* Commandes disponibles */}
         <div className="mb-4">
-          <h4 className="text-sm font-medium text-gray-300 mb-2">Available Commands:</h4>
+          <h4 className="text-sm font-medium text-gray-300 mb-2">Commandes disponibles :</h4>
           <div className="flex flex-wrap gap-2">
             {availableCommands.map((cmd, index) => (
               <button
@@ -135,7 +135,7 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
           </div>
         </div>
 
-        {/* Controls */}
+        {/* Contrôles */}
         <div className="flex space-x-3">
           <Button
             onClick={executeCommand}
@@ -143,14 +143,14 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
             loading={isExecuting}
           >
             <Play className="h-4 w-4 mr-2" />
-            Execute
+            Exécuter
           </Button>
           <Button
             variant="secondary"
             onClick={resetSimulator}
           >
             <RotateCcw className="h-4 w-4 mr-2" />
-            Reset
+            Réinitialiser
           </Button>
         </div>
       </div>
