@@ -1084,14 +1084,14 @@ git rebase -i HEAD~3  # Pour modifier les 3 derniers commits
 \`\`\`
 
 Options disponibles :
-- `pick` : utiliser le commit
+- \`pick` : utiliser le commit
 - `reword` : modifier le message du commit
 - `edit` : modifier le contenu du commit
 - `squash` : fusionner avec le commit précédent
 - `fixup` : comme squash, mais ignorer le message
 - `drop` : supprimer le commit
 
-**Cas d'utilisation** : Nettoyer l'historique avant de pousser, combiner plusieurs petits commits en un seul commit logique.
+**Cas d'utilisation** : Nettoyer l\'historique avant de pousser, combiner plusieurs petits commits en un seul commit logique.
 
 ## Branches de suivi
 
@@ -1105,7 +1105,7 @@ git checkout -b locale origin/distante
 git branch -u origin/distante
 \`\`\`
 
-**Cas d'utilisation** : Simplifier les opérations push et pull (vous pouvez simplement utiliser `git pull` et `git push` sans arguments).
+**Cas d'utilisation** : Simplifier les opérations push et pull (vous pouvez simplement utiliser \`git pull` et \`git push` sans arguments).
 
 ## Branches orphelines
 
@@ -1268,7 +1268,7 @@ git remote -v
 
 Les branches distantes sont des références à l'état des branches sur vos dépôts distants. Elles ont généralement le format : `<remote>/<branch>`.
 
-Par exemple, `origin/main` fait référence à la branche "main" sur le dépôt distant "origin".
+Par exemple, `origin/main\` fait référence à la branche "main\" sur le dépôt distant "origin".
 
 Ces branches sont automatiquement mises à jour lorsque vous communiquez avec le serveur distant, mais vous ne pouvez pas les modifier directement.`
       },
@@ -1278,7 +1278,7 @@ Ces branches sont automatiquement mises à jour lorsque vous communiquez avec le
         type: 'practice',
         duration: 15,
         component: 'PushPullAnimator',
-        content: `Une fois votre dépôt distant configuré, vous devez savoir comment synchroniser votre travail entre votre dépôt local et le dépôt distant. Cela se fait principalement via les commandes "push" et "pull".
+        content: \`Une fois votre dépôt distant configuré, vous devez savoir comment synchroniser votre travail entre votre dépôt local et le dépôt distant. Cela se fait principalement via les commandes "push\" et "pull".
 
 ## Pousser des changements (git push)
 
@@ -2765,7 +2765,7 @@ git log --graph --oneline --all
 
 Git offre plusieurs façons de désigner des commits :
 
-- **Hash SHA-1** : `abc123f` (l'identifiant unique du commit)
+- **Hash SHA-1** : \`abc123f` (l'identifiant unique du commit)
 - **HEAD** : Le commit actuel sur lequel vous vous trouvez
 - **HEAD~n** : n commits avant HEAD (ex: HEAD~3 = 3 commits en arrière)
 - **branch-name** : Le dernier commit d'une branche
@@ -2773,7 +2773,7 @@ Git offre plusieurs façons de désigner des commits :
 
 ### Voyager dans le temps avec checkout
 
-Vous pouvez "voyager dans le temps" en utilisant la commande \`checkout\` pour vous déplacer vers n'importe quel commit :
+Vous pouvez "voyager dans le temps\" en utilisant la commande \`checkout\` pour vous déplacer vers n'importe quel commit :
 
 \`\`\`bash
 # Checkout d'un commit spécifique par son hash
@@ -2903,7 +2903,7 @@ def456g HEAD@{1}: checkout: moving from main to feature-branch
 
 Chaque entrée inclut :
 - Le hash SHA-1 abrégé du commit
-- Une référence comme `HEAD@{0}` (indiquant la position dans le reflog)
+- Une référence comme \`HEAD@{0}` (indiquant la position dans le reflog)
 - L'action qui a été effectuée
 - Des détails supplémentaires sur l'action
 
@@ -2913,7 +2913,7 @@ Le reflog est particulièrement utile dans ces situations :
 
 ### 1. Récupérer après un reset hard
 
-Si vous avez accidentellement fait un `git reset --hard` et perdu des commits :
+Si vous avez accidentellement fait un \`git reset --hard` et perdu des commits :
 
 \`\`\`bash
 # Voir le reflog pour trouver l'état avant le reset
@@ -3060,7 +3060,7 @@ git rebase -i HEAD~3  # Pour modifier les 3 derniers commits
 \`\`\`
 
 Dans l'éditeur qui s'ouvre, vous pouvez :
-- `pick` : garder le commit tel quel
+- \`pick` : garder le commit tel quel
 - `reword` : modifier le message
 - `edit` : modifier le contenu du commit
 - `squash` / `fixup` : fusionner avec le commit précédent
@@ -3079,7 +3079,7 @@ git reset --hard HEAD~1  # exemple
 git push --force-with-lease  # Plus sûr que --force
 \`\`\`
 
-**ATTENTION** : Ne faites jamais cela sur des branches partagées comme `main` sans en informer votre équipe !
+**ATTENTION** : Ne faites jamais cela sur des branches partagées comme \`main` sans en informer votre équipe !
 
 ## Récupération après un rebase ou merge raté
 
@@ -3302,10 +3302,10 @@ GitHub intègre des éléments sociaux pour faciliter la collaboration :
 GitHub offre de nombreux raccourcis clavier pour gagner en efficacité :
 
 - Appuyez sur `?` pour voir la liste des raccourcis disponibles
-- `t` pour accéder à la recherche de fichiers
-- `l` pour aller à une ligne spécifique dans un fichier
-- `y` pour obtenir un permalien vers la version actuelle d'un fichier
-- `b` pour visualiser l'historique d'un fichier (blame view)
+- \`t` pour accéder à la recherche de fichiers
+- `l\` pour aller à une ligne spécifique dans un fichier
+- `y\` pour obtenir un permalien vers la version actuelle d'un fichier
+- `b\` pour visualiser l'historique d'un fichier (blame view)
 
 En maîtrisant l'interface GitHub, vous pouvez considérablement améliorer votre productivité et la qualité de vos interactions dans les projets collaboratifs.`
       },
@@ -3315,7 +3315,7 @@ En maîtrisant l'interface GitHub, vous pouvez considérablement améliorer votr
         type: 'practice',
         duration: 20,
         component: 'IssueTracker',
-        content: `Les issues GitHub constituent un système puissant de suivi pour les bugs, les fonctionnalités et les tâches. Lorsqu'elles sont utilisées en conjonction avec les outils de gestion de projet de GitHub, elles forment un écosystème complet pour gérer le développement logiciel.
+        content: \`Les issues GitHub constituent un système puissant de suivi pour les bugs, les fonctionnalités et les tâches. Lorsqu'elles sont utilisées en conjonction avec les outils de gestion de projet de GitHub, elles forment un écosystème complet pour gérer le développement logiciel.
 
 ## Issues GitHub : bien plus que des tickets de bug
 
@@ -3354,7 +3354,7 @@ Pour créer des issues utiles :
 
 Les modèles permettent de standardiser les informations demandées lors de la création d'issues. Pour configurer :
 
-1. Créez un dossier `.github/ISSUE_TEMPLATE/` dans votre dépôt
+1. Créez un dossier `.github/ISSUE_TEMPLATE/\` dans votre dépôt
 2. Ajoutez des fichiers markdown ou YAML pour différents types d'issues
 3. Incluez des sections et des cases à cocher pour guider les contributeurs
 
