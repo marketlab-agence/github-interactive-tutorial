@@ -25,7 +25,8 @@ export const branchingChapter: Chapter = {
         'Explore different branching strategies'
       ],
       description: 'Understand the fundamentals of Git branching',
-      component: 'BranchAnimator'
+      component: 'BranchAnimator',
+      image: 'https://wac-cdn.atlassian.com/dam/jcr:746be214-eb99-462c-9319-04a4d2eeebfa/01.svg'
     },
     {
       id: 'creating-branches',
@@ -39,7 +40,8 @@ export const branchingChapter: Chapter = {
         'Use git switch for modern branch switching'
       ],
       description: 'Learn to create and navigate between branches',
-      component: 'BranchCreator'
+      component: 'BranchCreator',
+      image: 'https://wac-cdn.atlassian.com/dam/jcr:a13c18d6-94f3-4fc4-84fb-2b8f1b2fd339/03%20Popular%20Git%20branching%20strategies%20and%20how%20to%20use%20them.png'
     },
     {
       id: 'merging-branches',
@@ -53,7 +55,8 @@ export const branchingChapter: Chapter = {
         'Understand rebase vs merge'
       ],
       description: 'Master different approaches to merging branches',
-      component: 'MergeTypeComparison'
+      component: 'MergeTypeComparison',
+      image: 'https://wac-cdn.atlassian.com/dam/jcr:83323200-3c57-4c29-9b7e-e67e98745427/Branch-1.png'
     },
     {
       id: 'conflict-handling',
@@ -67,7 +70,8 @@ export const branchingChapter: Chapter = {
         'Resolve conflicts when they occur'
       ],
       description: 'Master the art of resolving merge conflicts',
-      component: 'MergeSimulator'
+      component: 'MergeSimulator',
+      image: 'https://www.earthdatascience.org/images/earth-analytics/git-version-control/merge-conflict.png'
     }
   ],
   quiz: [
