@@ -65,7 +65,7 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
         </p>
 
         {/* Historique des commandes */}
-        <div className="bg-gray-900 rounded-lg p-4 mb-4 min-h-[200px] font-mono text-sm">
+        <div className="bg-gray-900 rounded-lg p-4 mb-4 min-h-[200px] max-h-[300px] overflow-y-auto font-mono text-sm">
           <AnimatePresence>
             {history.map((entry, index) => (
               <motion.div
@@ -120,9 +120,9 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
         </div>
 
         {/* Commandes disponibles */}
-        <div className="mb-4">
-          <h4 className="text-sm font-medium text-gray-300 mb-2">Commandes disponibles :</h4>
-          <div className="flex flex-wrap gap-2">
+        <div className="mb-4 overflow-hidden">
+          <h4 className="text-sm font-medium text-gray-300 mb-2">Commandes disponibles</h4>
+          <div className="flex flex-wrap gap-2 overflow-x-auto pb-2">
             {availableCommands.map((cmd, index) => (
               <button
                 key={index}
@@ -136,21 +136,24 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
         </div>
 
         {/* Contrôles */}
-        <div className="flex space-x-3">
+        <div className="flex flex-wrap sm:flex-nowrap gap-3">
           <Button
             onClick={executeCommand}
             disabled={!currentCommand.trim() || isExecuting}
             loading={isExecuting}
+            className="flex-1 min-w-0"
           >
-            <Play className="h-4 w-4 mr-2" />
+            <Play className="h-4 w-4 sm:mr-2" />
             Exécuter
           </Button>
           <Button
             variant="secondary"
             onClick={resetSimulator}
+            className="flex-1 min-w-0"
           >
-            <RotateCcw className="h-4 w-4 mr-2" />
-            Réinitialiser
+            <RotateCcw className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Réinitialiser</span>
+            <span className="inline sm:hidden">Reset</span>
           </Button>
         </div>
       </div>

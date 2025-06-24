@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
   const userLevel = getLevel(userProgress.globalScore);
 
   return (
-    <header className="bg-gray-800/70 border-b border-gray-700 backdrop-blur-sm sticky top-0 z-50">
+    <header className="bg-gray-800/90 border-b border-gray-700 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo et titre */}
@@ -35,8 +35,13 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
-            <div className="flex items-center space-x-2" onClick={() => onNavigate('accueil')} style={{cursor: 'pointer'}}>
-              <div className="bg-blue-600 text-white p-2 rounded-lg">
+            <div 
+              className="flex items-center space-x-2" 
+              onClick={() => onNavigate('accueil')} 
+              style={{cursor: 'pointer'}}
+              aria-label="Retour à l'accueil"
+            >
+              <div className="bg-blue-600 text-white p-1.5 sm:p-2 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
                   <path d="M9 18c-4.51 2-5-2-7-2" />
@@ -169,7 +174,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
         
         {/* Menu mobile */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 py-4 border-t border-gray-700">
+          <div className="md:hidden mt-4 py-4 border-t border-gray-700 animate-fadeIn">
             <nav className="flex flex-col space-y-4">
               <button 
                 onClick={() => {

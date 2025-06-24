@@ -73,15 +73,15 @@ const PullRequestCreator: React.FC<PullRequestCreatorProps> = ({ onSubmit }) => 
   const tabs = [
     {
       id: 'create',
-      label: 'Create PR',
+      label: 'Créer PR',
       icon: GitPullRequest,
       content: (
-        <div className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-6 overflow-hidden">
+          <div className="grid lg:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Pull Request Title
+                  Titre de la Pull Request
                 </label>
                 <input
                   type="text"
@@ -102,13 +102,14 @@ const PullRequestCreator: React.FC<PullRequestCreatorProps> = ({ onSubmit }) => 
                   placeholder="Describe your changes..."
                   rows={6}
                   className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:border-blue-500 focus:outline-none resize-none"
+                  aria-label="Description de la Pull Request"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    From Branch
+                    Branche source
                   </label>
                   <select
                     value={sourceBranch}
@@ -123,7 +124,7 @@ const PullRequestCreator: React.FC<PullRequestCreatorProps> = ({ onSubmit }) => 
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    To Branch
+                    Branche cible
                   </label>
                   <select
                     value={targetBranch}
@@ -140,9 +141,9 @@ const PullRequestCreator: React.FC<PullRequestCreatorProps> = ({ onSubmit }) => 
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Reviewers
+                  Relecteurs
                 </label>
-                <div className="space-y-2">
+                <div className="space-y-2 max-h-[200px] overflow-y-auto pr-1">
                   {availableReviewers.map(reviewer => (
                     <button
                       key={reviewer.id}
@@ -165,7 +166,7 @@ const PullRequestCreator: React.FC<PullRequestCreatorProps> = ({ onSubmit }) => 
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Labels
+                  Étiquettes
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {availableLabels.map(label => (
@@ -187,10 +188,10 @@ const PullRequestCreator: React.FC<PullRequestCreatorProps> = ({ onSubmit }) => 
           </div>
 
           <div className="flex justify-end space-x-3">
-            <Button variant="secondary">Save Draft</Button>
+            <Button variant="secondary">Sauvegarder</Button>
             <Button onClick={handleSubmit} disabled={!title.trim()}>
               <GitPullRequest className="h-4 w-4 mr-2" />
-              Create Pull Request
+              Créer la Pull Request
             </Button>
           </div>
         </div>
@@ -244,10 +245,10 @@ const PullRequestCreator: React.FC<PullRequestCreatorProps> = ({ onSubmit }) => 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center"
+        className="text-center px-4 sm:px-0"
       >
-        <h2 className="text-2xl font-bold text-white mb-2">Create Pull Request</h2>
-        <p className="text-gray-300">Propose changes and collaborate with your team</p>
+        <h2 className="text-2xl font-bold text-white mb-2">Créer une Pull Request</h2>
+        <p className="text-gray-300">Proposez des changements et collaborez avec votre équipe</p>
       </motion.div>
 
       <Card>

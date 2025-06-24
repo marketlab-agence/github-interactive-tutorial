@@ -87,20 +87,20 @@ const GitRepositoryPlayground: React.FC<GitRepositoryPlaygroundProps> = ({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center"
+        className="text-center px-4 sm:px-0"
       >
-        <h2 className="text-2xl font-bold text-white mb-2">Git Repository Playground</h2>
-        <p className="text-gray-300">Practice Git operations in a safe environment</p>
+        <h2 className="text-2xl font-bold text-white mb-2">Terrain de Jeu Git</h2>
+        <p className="text-gray-300">Pratiquez les opérations Git dans un environnement sécurisé</p>
       </motion.div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* File Tree */}
+      <div className="grid md:grid-cols-3 gap-6">
+        {/* Arborescence de fichiers */}
         <Card
           header={
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-white flex items-center">
                 <Folder className="h-5 w-5 mr-2" />
-                Files
+                Fichiers
               </h3>
               <Button size="sm" variant="ghost">
                 <Plus className="h-4 w-4" />
@@ -111,14 +111,19 @@ const GitRepositoryPlayground: React.FC<GitRepositoryPlaygroundProps> = ({
           <div className="space-y-1 max-h-64 overflow-y-auto">
             {renderFileTree(files)}
           </div>
+          {files.length === 0 && (
+            <div className="text-center py-6 text-gray-500">
+              Aucun fichier dans le dépôt
+            </div>
+          )}
         </Card>
 
-        {/* File Editor */}
+        {/* Éditeur de fichiers */}
         <Card
           header={
             <h3 className="font-semibold text-white flex items-center">
               <File className="h-5 w-5 mr-2" />
-              {selectedFile ? selectedFile.name : 'Select a file'}
+              {selectedFile ? selectedFile.name : 'Sélectionnez un fichier'}
             </h3>
           }
         >
@@ -130,41 +135,43 @@ const GitRepositoryPlayground: React.FC<GitRepositoryPlaygroundProps> = ({
                   const updatedFile = { ...selectedFile, content: e.target.value };
                   setSelectedFile(updatedFile);
                 }}
-                className="w-full h-32 bg-gray-900 text-gray-100 p-3 rounded border border-gray-700 font-mono text-sm resize-none"
-                placeholder="File content..."
+                className="w-full h-40 bg-gray-900 text-gray-100 p-3 rounded border border-gray-700 font-mono text-sm resize-none"
+                placeholder="Contenu du fichier..."
               />
-              <div className="flex space-x-2">
+              <div className="flex flex-wrap sm:flex-nowrap gap-2">
                 <Button
                   size="sm"
                   onClick={() => stageFile(selectedFile.name)}
                   disabled={stagedFiles.includes(selectedFile.name)}
+                  className="flex-1"
                 >
-                  Stage File
+                  Ajouter au staging
                 </Button>
                 {stagedFiles.includes(selectedFile.name) && (
                   <Button
                     size="sm"
                     variant="secondary"
                     onClick={() => unstageFile(selectedFile.name)}
+                    className="flex-1"
                   >
-                    Unstage
+                    Enlever du staging
                   </Button>
                 )}
               </div>
             </div>
           ) : (
             <div className="text-center text-gray-400 py-8">
-              Select a file to edit
+              Sélectionnez un fichier pour l'éditer
             </div>
           )}
         </Card>
 
-        {/* Git Operations */}
+        {/* Opérations Git */}
         <Card
           header={
             <h3 className="font-semibold text-white flex items-center">
               <GitCommit className="h-5 w-5 mr-2" />
-              Git Status
+              État Git
             </h3>
           }
         >
@@ -173,7 +180,7 @@ const GitRepositoryPlayground: React.FC<GitRepositoryPlaygroundProps> = ({
               <h4 className="text-sm font-medium text-gray-300 mb-2">Staged Files</h4>
               {stagedFiles.length > 0 ? (
                 <ul className="space-y-1">
-                  {stagedFiles.map((file, index) => (
+                  {stagedFiles.map((file, index) => file && (
                     <li key={index} className="text-sm text-green-400 flex items-center">
                       <div className="w-2 h-2 bg-green-400 rounded-full mr-2" />
                       {file}
@@ -181,7 +188,7 @@ const GitRepositoryPlayground: React.FC<GitRepositoryPlaygroundProps> = ({
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-gray-500">No staged files</p>
+                <p className="text-sm text-gray-500">Aucun fichier en staging</p>
               )}
             </div>
 
@@ -191,12 +198,12 @@ const GitRepositoryPlayground: React.FC<GitRepositoryPlaygroundProps> = ({
               className="w-full"
             >
               <GitCommit className="h-4 w-4 mr-2" />
-              Commit Changes
+              Commiter les changements
             </Button>
 
             <div>
-              <h4 className="text-sm font-medium text-gray-300 mb-2">Recent Commits</h4>
-              <div className="space-y-2 max-h-32 overflow-y-auto">
+              <h4 className="text-sm font-medium text-gray-300 mb-2">Commits récents</h4>
+              <div className="space-y-2 max-h-32 overflow-y-auto pr-1">
                 {commits.slice(-3).reverse().map((commit, index) => (
                   <div key={commit.id} className="text-xs bg-gray-700/30 p-2 rounded">
                     <div className="font-mono text-blue-400">{commit.id}</div>

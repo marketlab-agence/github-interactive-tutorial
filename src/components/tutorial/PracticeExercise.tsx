@@ -92,7 +92,7 @@ const PracticeExercise: React.FC<PracticeExerciseProps> = ({
                 </div>
                 <div>
                   <div className="font-medium text-white mb-1">
-                    Étape {index + 1}
+                    Étape {index + 1} sur {instructions.length}
                   </div>
                   <div className="text-sm text-gray-300">
                     {instruction}
@@ -130,12 +130,10 @@ const PracticeExercise: React.FC<PracticeExerciseProps> = ({
 
         {/* Terminal */}
         <Card
-          header={
-            <h3 className="text-lg font-semibold text-white">Terminal d'Exercice</h3>
-          }
+          header={<h3 className="text-lg font-semibold text-white">Terminal d'Exercice</h3>}
         >
-          <div className="space-y-4">
-            <div className="bg-gray-900 rounded-lg p-4 min-h-[200px] font-mono text-sm">
+          <div className="space-y-4 overflow-hidden">
+            <div className="bg-gray-900 rounded-lg p-4 min-h-[200px] max-h-[300px] font-mono text-sm overflow-y-auto">
               {commandHistory.map((entry, index) => (
                 <div key={index} className="mb-2">
                   <div className="flex items-center text-blue-400">
@@ -163,23 +161,24 @@ const PracticeExercise: React.FC<PracticeExerciseProps> = ({
               <div className="flex items-center text-blue-400">
                 <span className="text-gray-500 mr-2">$</span>
                 <input
-                  type="text"
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && executeCommand()}
-                  placeholder="Tapez votre commande ici..."
-                  className="bg-transparent border-none outline-none flex-1 text-blue-400"
+                    type="text"
+                    value={userInput}
+                    onChange={(e) => setUserInput(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && executeCommand()}
+                    placeholder="Tapez votre commande ici..."
+                    className="bg-transparent border-none outline-none flex-1 text-blue-400"
                 />
               </div>
             </div>
 
             <div className="flex space-x-2">
               <Button onClick={executeCommand} disabled={!userInput.trim()}>
-                <Play className="h-4 w-4 mr-2" />
+                <Play className="h-4 w-4 sm:mr-2" />
                 Exécuter
               </Button>
               <Button variant="secondary" onClick={resetExercise}>
-                Réinitialiser
+                <span className="hidden sm:inline">Réinitialiser</span>
+                <span className="inline sm:hidden">Reset</span>
               </Button>
             </div>
           </div>

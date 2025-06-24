@@ -9,6 +9,7 @@ import StepByStep from './components/tutorial/StepByStep';
 import QuizQuestion from './components/tutorial/QuizQuestion';
 import PracticeExercise from './components/tutorial/PracticeExercise';
 import GitCommandSimulator from './components/interactive/GitCommandSimulator';
+import ExercisesContainer from './components/ExercisesContainer';
 import BranchCreator from './components/interactive/BranchCreator';
 import GitRepositoryPlayground from './components/interactive/GitRepositoryPlayground';
 import ConflictResolver from './components/interactive/ConflictResolver';
@@ -225,12 +226,7 @@ function App() {
       case 'technical':
         return (
           <div className="space-y-8">
-            <div className="text-center">
-              <SettingsIcon className="h-16 w-16 text-orange-400 mx-auto mb-4" />
-              <h2 className="text-3xl font-bold text-white mb-2">Contrôle Technique</h2>
-              <p className="text-gray-300">Validez vos compétences avec des exercices pratiques</p>
-            </div>
-            <GitCommandSimulator />
+            <ExercisesContainer />
           </div>
         );
 

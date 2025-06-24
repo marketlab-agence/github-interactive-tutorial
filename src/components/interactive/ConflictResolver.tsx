@@ -102,32 +102,32 @@ export default Header;`,
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center"
+        className="text-center px-4 sm:px-0"
       >
-        <h2 className="text-2xl font-bold text-white mb-2">Git Conflict Resolver</h2>
-        <p className="text-gray-300">Practice resolving merge conflicts in a safe environment</p>
+        <h2 className="text-2xl font-bold text-white mb-2">Résolution de Conflits Git</h2>
+        <p className="text-gray-300">Pratiquez la résolution de conflits de fusion dans un environnement sécurisé</p>
       </motion.div>
 
       {!allResolved && (
         <Alert type="warning" title="Merge Conflicts Detected">
-          You have {conflicts.filter(f => !f.resolved).length} unresolved conflicts. 
-          Resolve all conflicts before completing the merge.
+          Vous avez {conflicts.filter(f => !f.resolved).length} conflits non résolus.
+          Résolvez tous les conflits avant de terminer la fusion.
         </Alert>
       )}
 
       {allResolved && (
         <Alert type="success" title="All Conflicts Resolved">
-          Great job! All conflicts have been resolved. You can now complete the merge.
+          Excellent ! Tous les conflits sont résolus. Vous pouvez maintenant terminer la fusion.
         </Alert>
       )}
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* File List */}
+      <div className="grid md:grid-cols-3 gap-6">
+        {/* Liste des fichiers */}
         <Card
           header={
             <h3 className="font-semibold text-white flex items-center">
               <AlertTriangle className="h-5 w-5 mr-2 text-orange-400" />
-              Conflicted Files
+              Fichiers en conflit
             </h3>
           }
         >
@@ -144,6 +144,7 @@ export default Header;`,
                     ? 'bg-blue-900/20 border-blue-500/50'
                     : 'border-gray-600 hover:bg-gray-700/30'
                 }`}
+                aria-label={`Sélectionner ${file.path}`}
               >
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-sm text-white">{file.path}</span>
@@ -158,14 +159,14 @@ export default Header;`,
           </div>
         </Card>
 
-        {/* Code Editor */}
+        {/* Éditeur de Code */}
         <div className="lg:col-span-2">
           <Card
             header={
               <div className="flex items-center justify-between">
                 <h3 className="font-semibold text-white flex items-center">
                   <Code className="h-5 w-5 mr-2" />
-                  {selectedFile?.path || 'Select a file'}
+                  {selectedFile?.path || 'Sélectionnez un fichier'}
                 </h3>
                 <div className="flex space-x-2">
                   <Button
@@ -174,7 +175,8 @@ export default Header;`,
                     onClick={resetConflict}
                     disabled={!selectedFile}
                   >
-                    Reset
+                    <span className="hidden sm:inline">Réinitialiser</span>
+                    <span className="inline sm:hidden">Reset</span>
                   </Button>
                   <Button
                     size="sm"
@@ -182,7 +184,7 @@ export default Header;`,
                     disabled={!selectedFile || hasConflictMarkers || selectedFile.resolved}
                   >
                     <Save className="h-4 w-4 mr-2" />
-                    Resolve
+                    Résoudre
                   </Button>
                 </div>
               </div>
@@ -193,30 +195,31 @@ export default Header;`,
                 <textarea
                   value={editedContent}
                   onChange={(e) => setEditedContent(e.target.value)}
-                  className="w-full h-96 bg-gray-900 text-gray-100 p-4 rounded border border-gray-700 font-mono text-sm resize-none"
-                  placeholder="Edit the file content to resolve conflicts..."
+                  className="w-full h-[300px] sm:h-96 bg-gray-900 text-gray-100 p-4 rounded border border-gray-700 font-mono text-sm resize-none"
+                  placeholder="Éditez le contenu du fichier pour résoudre les conflits..."
+                  aria-label="Contenu du fichier"
                 />
                 
                 {hasConflictMarkers && (
                   <Alert type="info" title="Conflict Markers Detected">
-                    Remove all conflict markers (&lt;&lt;&lt;&lt;&lt;&lt;&lt;, =======, &gt;&gt;&gt;&gt;&gt;&gt;&gt;) 
-                    and choose the correct content to resolve the conflict.
+                    Supprimez tous les marqueurs de conflit (<<<<<<<, =======, >>>>>>>) 
+                    et choisissez le contenu correct pour résoudre le conflit.
                   </Alert>
                 )}
 
                 <div className="bg-gray-700/30 p-4 rounded-lg">
-                  <h4 className="font-medium text-white mb-2">Conflict Resolution Tips:</h4>
+                  <h4 className="font-medium text-white mb-2">Conseils pour la résolution :</h4>
                   <ul className="text-sm text-gray-300 space-y-1">
-                    <li>• Remove conflict markers (&lt;&lt;&lt;&lt;&lt;&lt;&lt;, =======, &gt;&gt;&gt;&gt;&gt;&gt;&gt;)</li>
-                    <li>• Choose the best parts from both versions</li>
-                    <li>• Test your resolution to ensure it works</li>
-                    <li>• Consider the context and purpose of each change</li>
+                    <li>• Supprimez les marqueurs de conflit (<<<<<<<, =======, >>>>>>>)</li>
+                    <li>• Choisissez les meilleures parties des deux versions</li>
+                    <li>• Testez votre résolution pour vous assurer qu'elle fonctionne</li>
+                    <li>• Tenez compte du contexte et de l'objectif de chaque modification</li>
                   </ul>
                 </div>
               </div>
             ) : (
               <div className="text-center text-gray-400 py-12">
-                Select a conflicted file to start resolving
+                Sélectionnez un fichier en conflit pour commencer la résolution
               </div>
             )}
           </Card>

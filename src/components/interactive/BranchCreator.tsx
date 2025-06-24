@@ -87,12 +87,12 @@ const BranchCreator: React.FC = () => {
       </motion.div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* Branch Management */}
+        {/* Gestion de branches */}
         <Card
           header={
             <h3 className="font-semibold text-white flex items-center">
               <GitBranch className="h-5 w-5 mr-2" />
-              Branch Management
+              Gestion des Branches
             </h3>
           }
         >
@@ -106,15 +106,16 @@ const BranchCreator: React.FC = () => {
                 placeholder="New branch name..."
                 className="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
                 onKeyPress={(e) => e.key === 'Enter' && createBranch()}
+                aria-label="Nom de la nouvelle branche"
               />
               <Button onClick={createBranch} disabled={!newBranchName.trim()}>
                 <Plus className="h-4 w-4 mr-2" />
-                Create
+                Créer
               </Button>
             </div>
 
-            {/* Branch List */}
-            <div className="space-y-2">
+            {/* Liste des branches */}
+            <div className="space-y-2 overflow-y-auto max-h-[300px] pr-1">
               <AnimatePresence>
                 {branches.map((branch) => (
                   <motion.div
@@ -149,15 +150,16 @@ const BranchCreator: React.FC = () => {
                             variant="ghost"
                             onClick={() => switchBranch(branch.name)}
                           >
-                            Switch
+                            Basculer
                           </Button>
                         )}
                         <Button
                           size="sm"
                           variant="ghost"
                           onClick={() => addCommit(branch.name)}
+                          className="whitespace-nowrap"
                         >
-                          Commit
+                          Commiter
                         </Button>
                         {branch.name !== 'main' && (
                           <Button
@@ -183,10 +185,10 @@ const BranchCreator: React.FC = () => {
         {/* Branch Visualization */}
         <Card
           header={
-            <h3 className="font-semibold text-white">Branch Visualization</h3>
+            <h3 className="font-semibold text-white">Visualisation des Branches</h3>
           }
         >
-          <div className="space-y-4">
+          <div className="space-y-4 overflow-x-auto pb-2">
             {branches.map((branch, index) => (
               <motion.div
                 key={branch.name}
@@ -221,10 +223,11 @@ const BranchCreator: React.FC = () => {
                     <Button
                       size="sm"
                       variant="outline"
+                      className="whitespace-nowrap"
                       onClick={() => mergeBranch(branch.name, 'main')}
                     >
                       <GitMerge className="h-4 w-4 mr-2" />
-                      Merge to main
+                      Fusionner vers main
                     </Button>
                   </div>
                 )}

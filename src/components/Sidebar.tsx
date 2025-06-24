@@ -167,18 +167,18 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
   };
 
   return (
-    <div className="w-80 bg-gray-800/50 border-r border-gray-700 min-h-screen">
+    <div className="w-64 md:w-72 lg:w-80 bg-gray-800/50 border-r border-gray-700 min-h-screen">
       <div className="p-6 border-b border-gray-700">
         <div className="flex items-center space-x-3">
           <GitCommit className="h-8 w-8 text-blue-400" />
           <div>
-            <h1 className="text-xl font-bold">Tutoriel GitHub Interactif</h1>
+            <h1 className="text-lg md:text-xl font-bold">Tutoriel GitHub Interactif</h1>
             <p className="text-sm text-gray-400">Flux UI</p>
           </div>
         </div>
       </div>
 
-      <div className="p-4 space-y-6 overflow-y-auto">
+      <div className="p-3 md:p-4 space-y-4 md:space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
         {sections.map((section) => (
           <div key={section.id} className={`${section.bgColor} rounded-xl p-4 border ${section.borderColor}`}>
             <h2 className={`font-bold mb-4 flex items-center ${section.color}`}>
@@ -191,7 +191,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
                   key={item.id}
                   onClick={() => !item.locked && onSelectItem(item.id)}
                   disabled={item.locked}
-                  className={`w-full text-left p-3 rounded-lg transition-all duration-200 border ${
+                  className={`w-full text-left p-2 md:p-3 rounded-lg transition-all duration-200 border ${
                     selectedItem === item.id
                       ? 'bg-white/10 border-white/30'
                       : item.locked
@@ -203,7 +203,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
                     {getIconComponent(item.icon)}
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
-                        <h3 className="font-medium text-white text-sm">{item.title}</h3>
+                        <h3 className="font-medium text-white text-xs sm:text-sm">{item.title}</h3>
                         {item.completed && (
                           <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
                         )}
@@ -214,7 +214,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
                           <span className="text-gray-500">🔒</span>
                         )}
                       </div>
-                      <p className="text-xs text-gray-400 mt-1 line-clamp-2">{item.subtitle}</p>
+                      <p className="text-xs text-gray-400 mt-1 line-clamp-1 sm:line-clamp-2">{item.subtitle}</p>
                     </div>
                   </div>
                 </button>
