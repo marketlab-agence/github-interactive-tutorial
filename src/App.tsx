@@ -8,6 +8,9 @@ import GitCommandSimulator from './components/interactive/GitCommandSimulator';
 import ConceptDiagram from './components/visualizations/ConceptDiagram';
 import FileTreeViewer from './components/visualizations/FileTreeViewer';
 import PracticeExercise from './components/tutorial/PracticeExercise';
+import EvaluationAutomatique from './components/validation/EvaluationAutomatique';
+import FeedbackPersonnalise from './components/validation/FeedbackPersonnalise';
+import SuiviProgression from './components/validation/SuiviProgression';
 import TutorialProvider from './context/TutorialContext';
 import { Lock, MessageSquare, CheckCircle, TrendingUp, BookOpen, Share } from 'lucide-react';
 
@@ -132,8 +135,14 @@ function App() {
         );
       
       case 'evaluation':
+        return <EvaluationAutomatique />;
+      
       case 'feedback':
+        return <FeedbackPersonnalise />;
+      
       case 'progress':
+        return <SuiviProgression />;
+      
       case 'summary':
       case 'export':
         return (
