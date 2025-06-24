@@ -138,14 +138,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
             )}
           </AnimatePresence>
 
-          <div className="flex justify-between">
-            {showResult ? (
-              <Button onClick={reset} variant="secondary">
-                Réessayer
-              </Button>
-            ) : (
-              <div />
-            )}
+          <div className="flex justify-end">
             {!showResult ? (
               <Button
                 onClick={handleSubmit}
@@ -160,7 +153,6 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
                   if (onAnswer) {
                     onAnswer(isCorrect);
                   }
-                  reset();
                 }}
               >
                 Continuer
