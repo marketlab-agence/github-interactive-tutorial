@@ -57,7 +57,7 @@ const WorkflowDesigner: React.FC = () => {
   };
 
   const removeStep = (stepId: string) => {
-    setSteps(steps.filter(step => step.id !== stepId));
+    setSteps(prev => prev.filter(step => step.id !== stepId));
   };
 
   const editStep = (step: WorkflowStep) => {
