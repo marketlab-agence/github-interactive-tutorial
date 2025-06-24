@@ -14,6 +14,7 @@ export interface Chapter {
   lessons: Lesson[];
   estimatedTime: number;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
+  objectives: string[];
 }
 
 export interface Lesson {

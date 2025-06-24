@@ -9,6 +9,12 @@ export const chapters: Chapter[] = [
     description: 'Learn the fundamental concepts of Git version control',
     estimatedTime: 45,
     difficulty: 'beginner',
+    objectives: [
+      'Understand what version control is and why it\'s important',
+      'Learn about distributed vs centralized systems',
+      'Install and configure Git on your system',
+      'Master essential Git commands for daily use'
+    ],
     lessons: [
       {
         id: 'what-is-git',
@@ -57,6 +63,12 @@ export const chapters: Chapter[] = [
     description: 'Learn how to create and manage Git repositories',
     estimatedTime: 60,
     difficulty: 'beginner',
+    objectives: [
+      'Initialize new Git repositories and clone existing ones',
+      'Understand the internal structure of Git repositories',
+      'Master working with remote repositories',
+      'Learn the relationship between local and remote repositories'
+    ],
     lessons: [
       {
         id: 'creating-repos',
@@ -105,6 +117,12 @@ export const chapters: Chapter[] = [
     description: 'Master Git\'s powerful branching and merging capabilities',
     estimatedTime: 90,
     difficulty: 'intermediate',
+    objectives: [
+      'Understand what Git branches are and when to use them',
+      'Create, switch between, and manage branches effectively',
+      'Master different merge strategies and techniques',
+      'Apply branching knowledge to real-world development scenarios'
+    ],
     lessons: [
       {
         id: 'branch-basics',
