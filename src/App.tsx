@@ -231,13 +231,6 @@ function App() {
               <p className="text-gray-300">Validez vos compétences avec des exercices pratiques</p>
             </div>
             <GitCommandSimulator />
-            <QuizQuestion
-              question="Quelle commande Git permet d'initialiser un nouveau dépôt ?"
-              options={["git start", "git init", "git create", "git new"]}
-              correctAnswer={1}
-              explanation="La commande 'git init' initialise un nouveau dépôt Git dans le répertoire courant."
-              onAnswer={() => {}}
-            />
           </div>
         );
 
@@ -409,6 +402,7 @@ function App() {
         {/* Main content */}
         <main className="flex-1 p-6">
           {renderMainContent()}
+        </main>
         </main>
       </div>
     </div>
