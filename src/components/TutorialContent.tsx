@@ -244,7 +244,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
     if (score >= 80) {
       // Marquer le chapitre comme complété
       const currentChapterId = chapters[currentChapter].id;
-      completeChapter(currentChapterId);
+      completeChapter(currentChapterId); 
       completeQuiz(currentChapterId, score);
       
       setLastPosition({

@@ -7,6 +7,7 @@ interface QuizResultsProps {
   score: number;
   totalQuestions: number;
   correctAnswers: number;
+  questions: Array<{question: string, isCorrect: boolean}>;
   onRetry: () => void;
   onContinue: () => void;
   onReview: () => void;
@@ -16,6 +17,7 @@ const QuizResults: React.FC<QuizResultsProps> = ({
   score,
   totalQuestions,
   correctAnswers,
+  questions,
   onRetry,
   onContinue,
   onReview
@@ -73,6 +75,42 @@ const QuizResults: React.FC<QuizResultsProps> = ({
             )}
           </div>
         </div>
+      </Card>
+
+      {/* Détail des réponses */}
+      <div className="space-y-3">
+        <h3 className="text-xl font-semibold text-white mb-4">Détail des réponses</h3>
+        {questions.map((item, index) => (
+          <div 
+            key={index}
+            className={`p-4 rounded-lg border ${
+              item.isCorrect 
+                ? 'bg-green-900/20 border-green-500/30' 
+                : 'bg-red-900/20 border-red-500/30'
+            }`}
+          >
+            <div className="flex items-start space-x-3">
+              {item.isCorrect 
+                ? <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" />
+                : <XCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
+              }
+              <div>
+                <div className="font-medium text-white mb-1">
+                  Question {index + 1}
+                </div>
+                <div className="text-sm text-gray-300">
+                  {item.question}
+                </div>
+                <div className="mt-1 text-sm">
+                  <span className={item.isCorrect ? "text-green-400" : "text-red-400"}>
+                    {item.isCorrect ? "Correct" : "Incorrect"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
       </Card>
     </div>
   );

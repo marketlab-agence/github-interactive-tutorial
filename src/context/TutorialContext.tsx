@@ -7,6 +7,7 @@ export interface UserProgress {
   completedChapters: string[];
   completedQuizzes: string[];
   quizScores: Record<string, number>; // chapterId -> score
+  quizScores: Record<string, number>; // chapterId -> score
   lastPosition: {
     view: string;
     chapterId?: string;
@@ -31,8 +32,13 @@ const TutorialContext = createContext<TutorialContextType | undefined>(undefined
 
 export const useTutorial = () => {
   const context = useContext(TutorialContext);
-  if (!context) {
-    throw new Error('useTutorial must be used within a TutorialProvider');
+    // Ensure we're working with an object before calling Object.values
+    const quizScoresValues = Object.values(progress.quizScores || {});
+    const totalQuizScore = quizScoresValues.reduce((sum, score) => sum + score, 0);
+    const averageQuizScore = quizScoresValues.length > 0 
+      ? totalQuizScore / quizScoresValues.length 
+      : 0;
+    quizScore = (progress.completedQuizzes.length / totalQuizzes) * averageQuizScore * quizWeight;
   }
   return context;
 };
@@ -43,6 +49,7 @@ const initialProgress: UserProgress = {
   completedLessons: [],
   completedChapters: [],
   completedQuizzes: [],
+  quizScores: {},
   quizScores: {},
   lastPosition: {
     view: 'accueil'
@@ -64,6 +71,7 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           completedChapters: parsed.completedChapters || [],
           completedQuizzes: parsed.completedQuizzes || [],
           quizScores: parsed.quizScores || {}, // Ensure quizScores is always an object
+          quizScores: parsed.quizScores || {}, // Ensure quizScores is always an object
           lastPosition: parsed.lastPosition || { view: 'accueil' },
           globalScore: parsed.globalScore || 0
         };
@@ -84,6 +92,8 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setUserProgress(prev => ({
       ...prev,
       ...updates,
+      // Ensure quizScores is always an object when updating
+      quizScores: updates.quizScores || prev.quizScores || {}
       // Ensure quizScores is always an object when updating
       quizScores: updates.quizScores || prev.quizScores || {}
     }));
@@ -146,10 +156,17 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         quizScores[chapterId] = score;
       }
       
+      // Ensure quizScores is always an object before spreading
+      const quizScores = { ...(prev.quizScores || {}) };
+      if (score !== undefined) {
+        quizScores[chapterId] = score;
+      }
+      
       // Recalculer le score global
       const updatedProgress = {
         ...prev,
         completedQuizzes,
+        quizScores
         quizScores
       };
       
