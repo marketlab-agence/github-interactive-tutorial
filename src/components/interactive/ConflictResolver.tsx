@@ -161,8 +161,6 @@ export default Header;`,
             </div>
           </Card>
         </div>
-          </Card>
-        </div>
 
         {/* Éditeur de Code - occupe toute la largeur sur mobile */}
         <div className="lg:col-span-2">
