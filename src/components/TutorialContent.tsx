@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle, XCircle } from 'lucide-react';
 import ChapterIntro from './tutorial/ChapterIntro';
 import LessonContent from './tutorial/LessonContent';
 import QuizQuestion from './tutorial/QuizQuestion';
