@@ -1,7 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
-import { CardProps } from '../../types/ui.types';
+
+interface CardProps {
+  children: React.ReactNode;
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+  className?: string;
+  variant?: 'default' | 'elevated' | 'outlined';
+}
 
 const Card: React.FC<CardProps> = ({
   children,

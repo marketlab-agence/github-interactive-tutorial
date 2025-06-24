@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TooltipProps } from '../../types/ui.types';
+
+interface TooltipProps {
+  content: string;
+  children: React.ReactNode;
+  position?: 'top' | 'bottom' | 'left' | 'right';
+}
 
 const Tooltip: React.FC<TooltipProps> = ({
   content,

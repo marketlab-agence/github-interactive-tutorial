@@ -30,7 +30,7 @@ const ChapterIntro: React.FC<ChapterIntroProps> = ({
       >
         <div className="inline-flex items-center space-x-3 bg-blue-900/20 px-6 py-3 rounded-full border border-blue-500/30">
           <BookOpen className="h-6 w-6 text-blue-400" />
-          <span className="text-blue-300 font-medium">Chapter {chapterNumber}</span>
+          <span className="text-blue-300 font-medium">Chapitre {chapterNumber}</span>
         </div>
         <h1 className="text-4xl font-bold text-white">{title}</h1>
         <p className="text-xl text-gray-300 max-w-2xl mx-auto">{description}</p>
@@ -41,7 +41,7 @@ const ChapterIntro: React.FC<ChapterIntroProps> = ({
           header={
             <div className="flex items-center space-x-2">
               <Target className="h-5 w-5 text-green-400" />
-              <h3 className="text-lg font-semibold text-white">Learning Objectives</h3>
+              <h3 className="text-lg font-semibold text-white">Objectifs d'Apprentissage</h3>
             </div>
           }
         >
@@ -67,22 +67,22 @@ const ChapterIntro: React.FC<ChapterIntroProps> = ({
           header={
             <div className="flex items-center space-x-2">
               <Clock className="h-5 w-5 text-blue-400" />
-              <h3 className="text-lg font-semibold text-white">Chapter Overview</h3>
+              <h3 className="text-lg font-semibold text-white">Aperçu du Chapitre</h3>
             </div>
           }
         >
           <div className="space-y-4">
             <div className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg">
-              <span className="text-gray-300">Estimated Time</span>
+              <span className="text-gray-300">Temps Estimé</span>
               <span className="text-white font-medium">{estimatedTime} minutes</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg">
-              <span className="text-gray-300">Lessons</span>
+              <span className="text-gray-300">Leçons</span>
               <span className="text-white font-medium">{objectives.length}</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg">
-              <span className="text-gray-300">Difficulty</span>
-              <span className="text-green-400 font-medium">Beginner</span>
+              <span className="text-gray-300">Difficulté</span>
+              <span className="text-green-400 font-medium">Débutant</span>
             </div>
           </div>
         </Card>
@@ -99,7 +99,7 @@ const ChapterIntro: React.FC<ChapterIntroProps> = ({
           onClick={onStart}
           className="px-8 py-4"
         >
-          <span>Start Chapter {chapterNumber}</span>
+          <span>Commencer le Chapitre {chapterNumber}</span>
           <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
       </motion.div>

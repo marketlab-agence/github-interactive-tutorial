@@ -1,11 +1,18 @@
 import React from 'react';
 import { clsx } from 'clsx';
-import { BadgeProps } from '../../types/ui.types';
+
+interface BadgeProps {
+  children: React.ReactNode;
+  variant?: 'default' | 'success' | 'warning' | 'error' | 'info';
+  size?: 'sm' | 'md';
+  className?: string;
+}
 
 const Badge: React.FC<BadgeProps> = ({
   children,
   variant = 'default',
-  size = 'md'
+  size = 'md',
+  className
 }) => {
   const variantClasses = {
     default: 'bg-gray-600 text-gray-100',
@@ -24,7 +31,8 @@ const Badge: React.FC<BadgeProps> = ({
     <span className={clsx(
       'inline-flex items-center font-medium rounded-full',
       variantClasses[variant],
-      sizeClasses[size]
+      sizeClasses[size],
+      className
     )}>
       {children}
     </span>

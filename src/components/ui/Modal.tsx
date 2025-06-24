@@ -2,7 +2,14 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { clsx } from 'clsx';
-import { ModalProps } from '../../types/ui.types';
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+}
 
 const Modal: React.FC<ModalProps> = ({
   isOpen,

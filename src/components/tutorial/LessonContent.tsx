@@ -38,7 +38,8 @@ const LessonContent: React.FC<LessonContentProps> = ({
         </div>
         <div className="flex items-center space-x-3">
           <Badge variant={difficultyColors[difficulty]}>
-            {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+            {difficulty === 'beginner' ? 'Débutant' : 
+             difficulty === 'intermediate' ? 'Intermédiaire' : 'Avancé'}
           </Badge>
           <div className="flex items-center space-x-1 text-gray-400">
             <Clock className="h-4 w-4" />
@@ -63,7 +64,7 @@ const LessonContent: React.FC<LessonContentProps> = ({
             header={
               <div className="flex items-center space-x-2">
                 <Target className="h-5 w-5 text-green-400" />
-                <h3 className="font-semibold text-white">Learning Objectives</h3>
+                <h3 className="font-semibold text-white">Objectifs d'Apprentissage</h3>
               </div>
             }
           >

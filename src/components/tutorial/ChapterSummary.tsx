@@ -34,10 +34,10 @@ const ChapterSummary: React.FC<ChapterSummaryProps> = ({
         <div className="flex items-center justify-center space-x-3">
           <Award className="h-12 w-12 text-yellow-400" />
         </div>
-        <h1 className="text-3xl font-bold text-white">Chapter {chapterNumber} Complete!</h1>
+        <h1 className="text-3xl font-bold text-white">Chapitre {chapterNumber} Terminé !</h1>
         <p className="text-xl text-gray-300">{title}</p>
         <Badge variant="success" size="md">
-          All objectives completed
+          Tous les objectifs atteints
         </Badge>
       </motion.div>
 
@@ -47,7 +47,7 @@ const ChapterSummary: React.FC<ChapterSummaryProps> = ({
           header={
             <div className="flex items-center space-x-2">
               <Target className="h-5 w-5 text-green-400" />
-              <h3 className="text-lg font-semibold text-white">Objectives Completed</h3>
+              <h3 className="text-lg font-semibold text-white">Objectifs Atteints</h3>
             </div>
           }
         >
@@ -72,7 +72,7 @@ const ChapterSummary: React.FC<ChapterSummaryProps> = ({
           header={
             <div className="flex items-center space-x-2">
               <BookOpen className="h-5 w-5 text-blue-400" />
-              <h3 className="text-lg font-semibold text-white">Key Takeaways</h3>
+              <h3 className="text-lg font-semibold text-white">Points Clés à Retenir</h3>
             </div>
           }
         >
@@ -96,21 +96,21 @@ const ChapterSummary: React.FC<ChapterSummaryProps> = ({
       {/* Progress Visualization */}
       <Card>
         <div className="text-center space-y-4">
-          <h3 className="text-lg font-semibold text-white">Your Progress</h3>
+          <h3 className="text-lg font-semibold text-white">Votre Progression</h3>
           <div className="flex items-center justify-center space-x-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-green-400">{completedObjectives.length}</div>
-              <div className="text-sm text-gray-400">Objectives</div>
+              <div className="text-sm text-gray-400">Objectifs</div>
             </div>
             <div className="w-px h-8 bg-gray-600" />
             <div className="text-center">
               <div className="text-2xl font-bold text-blue-400">{chapterNumber}</div>
-              <div className="text-sm text-gray-400">Chapters</div>
+              <div className="text-sm text-gray-400">Chapitres</div>
             </div>
             <div className="w-px h-8 bg-gray-600" />
             <div className="text-center">
               <div className="text-2xl font-bold text-purple-400">100%</div>
-              <div className="text-sm text-gray-400">Complete</div>
+              <div className="text-sm text-gray-400">Complété</div>
             </div>
           </div>
         </div>
@@ -124,11 +124,11 @@ const ChapterSummary: React.FC<ChapterSummaryProps> = ({
         className="flex flex-col sm:flex-row gap-4 justify-center"
       >
         <Button variant="secondary" onClick={onReview}>
-          Review Chapter
+          Revoir le Chapitre
         </Button>
         {nextChapterTitle && (
           <Button onClick={onContinue}>
-            <span>Continue to: {nextChapterTitle}</span>
+            <span>Continuer vers : {nextChapterTitle}</span>
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         )}
