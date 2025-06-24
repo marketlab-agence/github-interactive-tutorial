@@ -24,7 +24,17 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       ? userProgress.lastPosition.view as any 
       : 'chapter-intro'
   );
-  const [currentChapter, setCurrentChapter] = useState<number>(userProgress.currentChapter || 0);
+  
+  // Trouver l'index du chapitre actuel
+  const findChapterIndex = () => {
+    if (userProgress.lastPosition.chapterId) {
+      const index = chapters.findIndex(c => c.id === userProgress.lastPosition.chapterId);
+      return index !== -1 ? index : 0;
+    }
+    return 0;
+  };
+  
+  const [currentChapter, setCurrentChapter] = useState<number>(findChapterIndex());
   const [currentLesson, setCurrentLesson] = useState<number>(userProgress.currentLesson || 0);
   const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(userProgress.lastPosition.quizIndex || 0);
   const [quizAnswers, setQuizAnswers] = useState<boolean[]>([]);

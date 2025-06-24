@@ -2,6 +2,7 @@ import React from 'react';
 import { GitCommit, BookOpen, Play, Award, ChevronRight } from 'lucide-react';
 import { useTutorial } from '../context/TutorialContext';
 import { chapters } from '../data/tutorialData';
+import Button from './ui/Button';
 
 interface HomePageProps {
   onStartTutorial: () => void;
@@ -69,13 +70,14 @@ const HomePage: React.FC<HomePageProps> = ({ onStartTutorial }) => {
         <p className="text-gray-300 mb-6">
           Démarrez votre apprentissage avec le Chapitre 1: Introduction aux concepts de base de Git et GitHub.
         </p>
-        <button 
+        <Button 
           onClick={handleStartTutorial}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2"
+          size="lg"
+          className="px-6 py-3"
         >
           <span>Commencer le tutoriel</span>
-          <ChevronRight className="h-5 w-5" />
-        </button>
+          <ChevronRight className="h-5 w-5 ml-2" />
+        </Button>
       </div>
     </div>
   );
