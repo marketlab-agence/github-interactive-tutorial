@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, CheckCircle } from 'lucide-react';
+import { LayoutDashboard, CheckCircle, Award } from 'lucide-react';
 import { useTutorial } from '../context/TutorialContext';
 import { chapters } from '../data/tutorialData';
 import Button from './ui/Button';
@@ -14,6 +14,22 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
 
   const totalLessons = chapters.reduce((acc, chapter) => acc + chapter.lessons.length, 0);
   const completedLessonsPercentage = Math.round((userProgress.completedLessons.length / totalLessons) * 100);
+  
+  // Calculer le score moyen des quiz
+  const quizScores = Object.values(userProgress.quizScores);
+  const averageQuizScore = quizScores.length > 0 
+    ? Math.round(quizScores.reduce((sum, score) => sum + score, 0) / quizScores.length) 
+    : 0;
+
+  // Obtenir le niveau en fonction du score global
+  const getLevel = (score: number) => {
+    if (score >= 90) return { name: 'Expert', color: 'text-purple-400' };
+    if (score >= 75) return { name: 'Avancé', color: 'text-blue-400' };
+    if (score >= 50) return { name: 'Intermédiaire', color: 'text-green-400' };
+    return { name: 'Débutant', color: 'text-yellow-400' };
+  };
+  
+  const userLevel = getLevel(userProgress.globalScore);
 
   return (
     <div className="space-y-8">
@@ -51,6 +67,36 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
           </div>
         </div>
       </div>
+      
+      {/* Score global et niveau */}
+      <div className="bg-gray-800/50 rounded-xl p-6 border border-purple-500/30">
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          <div className="text-center md:text-left mb-4 md:mb-0">
+            <h3 className="text-xl font-bold text-white mb-2">Score Global</h3>
+            <div className="flex items-center space-x-3">
+              <div className="text-4xl font-bold text-purple-400">{userProgress.globalScore}%</div>
+              <div className="bg-gray-700/50 px-3 py-1 rounded-full">
+                <span className={`font-medium ${userLevel.color}`}>{userLevel.name}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <Award className="h-12 w-12 text-yellow-400 mx-auto mb-2" />
+            <div className="text-sm text-gray-300">
+              {userProgress.completedChapters.length === chapters.length 
+                ? "Formation complétée !" 
+                : `${chapters.length - userProgress.completedChapters.length} chapitres restants`}
+            </div>
+          </div>
+          
+          <div className="text-center md:text-right mt-4 md:mt-0">
+            <h3 className="text-xl font-bold text-white mb-2">Score Quiz</h3>
+            <div className="text-4xl font-bold text-green-400">{averageQuizScore}%</div>
+            <div className="text-sm text-gray-300">Moyenne des quiz</div>
+          </div>
+        </div>
+      </div>
 
       <StatisticsChart />
       
@@ -79,6 +125,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                     return `Quiz du chapitre ${chapterIndex + 1}: ${chapters[chapterIndex].title}`;
                   }
                   
+                  if (userProgress.lastPosition.view === 'quiz-results') {
+                    return `Résultats du quiz - Chapitre ${chapterIndex + 1}: ${chapters[chapterIndex].title}`;
+                  }
+                  
                   if (userProgress.lastPosition.view === 'chapter-summary') {
                     return `Résumé du chapitre ${chapterIndex + 1}: ${chapters[chapterIndex].title}`;
                   }
@@ -91,6 +141,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                   if (userProgress.lastPosition.view === 'chapter-intro' || 
                       userProgress.lastPosition.view === 'lesson' || 
                       userProgress.lastPosition.view === 'quiz' || 
+                      userProgress.lastPosition.view === 'quiz-results' ||
                       userProgress.lastPosition.view === 'chapter-summary') {
                     onNavigate(
                       userProgress.lastPosition.view,
@@ -113,6 +164,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                 chapter.lessons.some(lesson => lesson.id === lessonId)
               );
               
+              // Obtenir le score du quiz pour ce chapitre
+              const quizScore = userProgress.quizScores[chapter.id] || 0;
+              
               return (
                 <div 
                   key={chapter.id}
@@ -131,7 +185,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                   <div className="flex justify-between items-center">
                     <div className="text-sm text-gray-400">
                       {isCompleted 
-                        ? 'Complété' 
+                        ? `Complété - Score: ${quizScore}%` 
                         : isStarted
                           ? 'En cours'
                           : 'Non commencé'}

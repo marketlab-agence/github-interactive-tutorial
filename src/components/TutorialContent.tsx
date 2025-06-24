@@ -15,10 +15,11 @@ interface TutorialContentProps {
 
 const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => {
   const { userProgress, updateProgress, completeLesson, completeChapter, completeQuiz, setLastPosition } = useTutorial();
-  const [currentView, setCurrentView] = useState<'chapter-intro' | 'lesson' | 'quiz' | 'chapter-summary'>(
+  const [currentView, setCurrentView] = useState<'chapter-intro' | 'lesson' | 'quiz' | 'quiz-results' | 'chapter-summary'>(
     userProgress.lastPosition.view === 'chapter-intro' || 
     userProgress.lastPosition.view === 'lesson' || 
     userProgress.lastPosition.view === 'quiz' || 
+    userProgress.lastPosition.view === 'quiz-results' ||
     userProgress.lastPosition.view === 'chapter-summary' 
       ? userProgress.lastPosition.view as any 
       : 'chapter-intro'
@@ -26,8 +27,8 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
   const [currentChapter, setCurrentChapter] = useState<number>(userProgress.currentChapter || 0);
   const [currentLesson, setCurrentLesson] = useState<number>(userProgress.currentLesson || 0);
   const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(userProgress.lastPosition.quizIndex || 0);
+  const [quizAnswers, setQuizAnswers] = useState<boolean[]>([]);
   const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   // Initialiser l'état en fonction de la dernière position sauvegardée
   useEffect(() => {
@@ -57,6 +58,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       setCurrentLesson(0);
       setCurrentView('lesson');
       setCurrentQuizIndex(0);
+      setQuizAnswers([]);
       setQuizCompleted(false);
       
       // Mettre à jour la progression
@@ -99,7 +101,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       // Toutes les leçons sont terminées, passer au quiz
       setCurrentView('quiz');
       setCurrentQuizIndex(0);
-      setSelectedAnswer(null);
+      setQuizAnswers([]);
       
       setLastPosition({
         view: 'quiz',
@@ -110,35 +112,63 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
   };
 
   const handleQuizAnswer = (correct: boolean) => {
-    // Si la réponse est correcte, on peut passer à la question suivante
-    if (correct) {
-      if (currentQuizIndex < chapters[currentChapter].quiz.length - 1) {
-        // Passer à la question suivante
-        setCurrentQuizIndex(currentQuizIndex + 1);
-        setSelectedAnswer(null);
-        
-        setLastPosition({
-          view: 'quiz',
-          chapterId: chapters[currentChapter].id,
-          quizIndex: currentQuizIndex + 1
-        });
-      } else {
-        // Toutes les questions sont terminées
-        setQuizCompleted(true);
-        
-        // Marquer le chapitre comme complété
-        const currentChapterId = chapters[currentChapter].id;
-        completeChapter(currentChapterId);
-        completeQuiz(currentChapterId);
-        
-        setLastPosition({
-          view: 'chapter-summary',
-          chapterId: currentChapterId
-        });
-        
-        // Afficher le résumé du chapitre
-        setCurrentView('chapter-summary');
-      }
+    // Enregistrer la réponse
+    const newQuizAnswers = [...quizAnswers];
+    newQuizAnswers[currentQuizIndex] = correct;
+    setQuizAnswers(newQuizAnswers);
+    
+    // Passer à la question suivante
+    if (currentQuizIndex < chapters[currentChapter].quiz.length - 1) {
+      // Passer à la question suivante
+      setCurrentQuizIndex(currentQuizIndex + 1);
+      
+      setLastPosition({
+        view: 'quiz',
+        chapterId: chapters[currentChapter].id,
+        quizIndex: currentQuizIndex + 1
+      });
+    } else {
+      // Toutes les questions sont terminées, afficher les résultats
+      setCurrentView('quiz-results');
+      
+      setLastPosition({
+        view: 'quiz-results',
+        chapterId: chapters[currentChapter].id
+      });
+    }
+  };
+
+  const calculateQuizScore = () => {
+    const correctAnswers = quizAnswers.filter(answer => answer).length;
+    return Math.round((correctAnswers / chapters[currentChapter].quiz.length) * 100);
+  };
+
+  const handleQuizComplete = () => {
+    const score = calculateQuizScore();
+    
+    if (score >= 80) {
+      // Marquer le chapitre comme complété
+      const currentChapterId = chapters[currentChapter].id;
+      completeChapter(currentChapterId);
+      completeQuiz(currentChapterId);
+      
+      setLastPosition({
+        view: 'chapter-summary',
+        chapterId: currentChapterId
+      });
+      
+      // Afficher le résumé du chapitre
+      setCurrentView('chapter-summary');
+    } else {
+      // Retourner aux leçons pour réviser
+      setCurrentView('lesson');
+      setCurrentLesson(0);
+      
+      setLastPosition({
+        view: 'lesson',
+        chapterId: chapters[currentChapter].id,
+        lessonId: chapters[currentChapter].lessons[0].id
+      });
     }
   };
 
@@ -149,8 +179,8 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       setCurrentLesson(0);
       setCurrentView('chapter-intro');
       setCurrentQuizIndex(0);
+      setQuizAnswers([]);
       setQuizCompleted(false);
-      setSelectedAnswer(null);
       
       // Mettre à jour la progression
       updateProgress({
@@ -273,6 +303,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
           correctAnswer={quiz.correctAnswer}
           explanation={quiz.explanation}
           onAnswer={handleQuizAnswer}
+          questionIndex={currentQuizIndex}
         />
         
         <div className="flex justify-between">
@@ -294,6 +325,105 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
             <span className="text-gray-400">
               Question {currentQuizIndex + 1} sur {chapters[currentChapter].quiz.length}
             </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  if (currentView === 'quiz-results') {
+    const score = calculateQuizScore();
+    const isPassed = score >= 80;
+    
+    return (
+      <div className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-white mb-2">
+            Résultats du Quiz - {chapters[currentChapter].title}
+          </h2>
+          <p className="text-gray-300">Votre score final</p>
+        </div>
+        
+        <div className="max-w-2xl mx-auto bg-gray-800/50 rounded-xl p-8 border border-gray-700">
+          <div className="text-center space-y-6">
+            <div className={`text-6xl font-bold ${isPassed ? 'text-green-400' : 'text-red-400'}`}>
+              {score}%
+            </div>
+            
+            <div className="text-xl font-semibold text-white">
+              {isPassed 
+                ? 'Félicitations ! Vous avez réussi le quiz.' 
+                : 'Vous devez réviser ce chapitre.'}
+            </div>
+            
+            <div className="text-gray-300">
+              {isPassed 
+                ? 'Vous pouvez maintenant passer au chapitre suivant.' 
+                : 'Un score minimum de 80% est requis pour valider le chapitre. Révisez les leçons et réessayez.'}
+            </div>
+            
+            <div className="flex justify-center space-x-4">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setCurrentView('lesson');
+                  setCurrentLesson(0);
+                  setLastPosition({
+                    view: 'lesson',
+                    chapterId: chapters[currentChapter].id,
+                    lessonId: chapters[currentChapter].lessons[0].id
+                  });
+                }}
+              >
+                Réviser les leçons
+              </Button>
+              
+              {isPassed ? (
+                <Button onClick={handleQuizComplete}>
+                  Terminer le chapitre
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    setCurrentView('quiz');
+                    setCurrentQuizIndex(0);
+                    setQuizAnswers([]);
+                    setLastPosition({
+                      view: 'quiz',
+                      chapterId: chapters[currentChapter].id,
+                      quizIndex: 0
+                    });
+                  }}
+                >
+                  Réessayer le quiz
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+        
+        <div className="max-w-2xl mx-auto">
+          <h3 className="text-xl font-semibold text-white mb-4">Détail des réponses</h3>
+          <div className="space-y-3">
+            {quizAnswers.map((isCorrect, index) => (
+              <div 
+                key={index}
+                className={`p-3 rounded-lg border ${
+                  isCorrect 
+                    ? 'bg-green-900/20 border-green-500/30' 
+                    : 'bg-red-900/20 border-red-500/30'
+                }`}
+              >
+                <div className="flex items-center space-x-2">
+                  {isCorrect 
+                    ? <CheckCircle className="h-5 w-5 text-green-400" />
+                    : <XCircle className="h-5 w-5 text-red-400" />
+                  }
+                  <span className="text-white">Question {index + 1}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

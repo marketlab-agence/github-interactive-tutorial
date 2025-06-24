@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, XCircle, HelpCircle, ArrowRight } from 'lucide-react';
 import Button from '../ui/Button';
@@ -10,6 +10,7 @@ interface QuizQuestionProps {
   correctAnswer: number;
   explanation: string;
   onAnswer?: (correct: boolean) => void;
+  questionIndex?: number;
 }
 
 const QuizQuestion: React.FC<QuizQuestionProps> = ({
@@ -17,18 +18,22 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
   options,
   correctAnswer,
   explanation,
-  onAnswer
+  onAnswer,
+  questionIndex
 }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
 
+  // Réinitialiser l'état quand la question change
+  useEffect(() => {
+    setSelectedAnswer(null);
+    setShowResult(false);
+  }, [question, questionIndex]);
+
   const handleSubmit = () => {
     if (selectedAnswer !== null) {
       setShowResult(true);
-      const isCorrect = selectedAnswer === correctAnswer;
-      if (onAnswer) {
-        onAnswer(isCorrect);
-      }
+      // Ne pas appeler onAnswer ici, on attend que l'utilisateur clique sur "Continuer"
     }
   };
 
@@ -152,12 +157,11 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
             ) : (
               <Button
                 onClick={() => {
-                  if (onAnswer && isCorrect) {
-                    reset();
-                    onAnswer(true);
+                  if (onAnswer) {
+                    onAnswer(isCorrect);
                   }
+                  reset();
                 }}
-                disabled={!isCorrect}
               >
                 Continuer
                 <ArrowRight className="h-4 w-4 ml-2" />
