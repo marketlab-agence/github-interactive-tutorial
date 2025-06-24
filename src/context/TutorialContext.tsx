@@ -40,7 +40,18 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [userProgress, setUserProgress] = useState<UserProgress>(() => {
     const savedProgress = localStorage.getItem('tutorial-progress');
     if (savedProgress) {
-      return JSON.parse(savedProgress);
+      const parsed = JSON.parse(savedProgress);
+      // Ensure all required properties exist with proper defaults
+      return {
+        currentChapter: parsed.currentChapter || 0,
+        currentLesson: parsed.currentLesson || 0,
+        completedLessons: parsed.completedLessons || [],
+        completedChapters: parsed.completedChapters || [],
+        completedQuizzes: parsed.completedQuizzes || [],
+        quizScores: parsed.quizScores || {}, // Ensure quizScores is always an object
+        lastPosition: parsed.lastPosition || { view: 'accueil' },
+        globalScore: parsed.globalScore || 0
+      };
     }
     return {
       currentChapter: 0,
@@ -63,7 +74,9 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const updateProgress = (updates: Partial<UserProgress>) => {
     setUserProgress(prev => ({
       ...prev,
-      ...updates
+      ...updates,
+      // Ensure quizScores is always an object when updating
+      quizScores: updates.quizScores || prev.quizScores || {}
     }));
   };
 
@@ -118,7 +131,7 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         completedQuizzes.push(chapterId);
       }
       
-      const quizScores = { ...prev.quizScores };
+      const quizScores = { ...(prev.quizScores || {}) }; // Ensure quizScores is an object
       if (score !== undefined) {
         quizScores[chapterId] = score;
       }
@@ -162,10 +175,10 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const lessonScore = (progress.completedLessons.length / totalLessons) * lessonWeight * 100;
     const chapterScore = (progress.completedChapters.length / totalChapters) * chapterWeight * 100;
     
-    // Calcul du score moyen des quiz
+    // Calcul du score moyen des quiz - ensure quizScores is an object
     let quizScore = 0;
-    if (progress.completedQuizzes.length > 0) {
-      const totalQuizScore = Object.values(progress.quizScores).reduce((sum, score) => sum + score, 0);
+    if (progress.completedQuizzes.length > 0 && progress.quizScores) {
+      const totalQuizScore = Object.values(progress.quizScores || {}).reduce((sum, score) => sum + score, 0);
       const averageQuizScore = totalQuizScore / progress.completedQuizzes.length;
       quizScore = (progress.completedQuizzes.length / totalQuizzes) * averageQuizScore * quizWeight;
     }
