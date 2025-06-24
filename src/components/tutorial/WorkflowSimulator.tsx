@@ -18,6 +18,7 @@ interface WorkflowStep {
 interface WorkflowSimulatorProps {
   workflowType?: 'github-flow' | 'git-flow' | 'gitlab-flow';
   onStepComplete?: (stepId: string) => void;
+  onComplete?: () => void;
   onWorkflowComplete?: () => void;
   autoPlay?: boolean;
   speed?: 'slow' | 'normal' | 'fast';
@@ -295,6 +296,7 @@ const workflows = {
 export const WorkflowSimulator: React.FC<WorkflowSimulatorProps> = ({
   workflowType = 'github-flow',
   onStepComplete,
+  onComplete,
   onWorkflowComplete,
   autoPlay = false,
   speed = 'normal'
@@ -557,6 +559,16 @@ export const WorkflowSimulator: React.FC<WorkflowSimulatorProps> = ({
           </div>
         </Card>
       )}
+
+      {/* Complete Tutorial Button */}
+      <Button 
+        variant="primary" 
+        onClick={onComplete} 
+        className="w-full mt-6"
+        size="lg"
+      >
+        J'ai compris ce workflow, continuer
+      </Button>
     </div>
   );
 };

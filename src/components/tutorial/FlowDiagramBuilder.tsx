@@ -15,6 +15,7 @@ interface FlowNode {
 interface FlowDiagramBuilderProps {
   initialNodes?: FlowNode[];
   onSave?: (nodes: FlowNode[]) => void;
+  onComplete?: () => void;
   onExport?: (format: 'png' | 'svg' | 'json') => void;
   readOnly?: boolean;
 }
@@ -113,6 +114,7 @@ const defaultNodes: FlowNode[] = [
 export const FlowDiagramBuilder: React.FC<FlowDiagramBuilderProps> = ({
   initialNodes = defaultNodes,
   onSave,
+  onComplete,
   onExport,
   readOnly = false
 }) => {
@@ -500,6 +502,24 @@ export const FlowDiagramBuilder: React.FC<FlowDiagramBuilderProps> = ({
           </Card>
         </div>
       )}
+      {/* Completion */}
+      <Card className="mt-6 p-6 bg-green-50 border-green-200">
+        <div className="text-center">
+          <div className="text-4xl mb-4">🎉</div>
+          <h3 className="text-lg font-semibold text-green-900 mb-2">
+            Exercice terminé !
+          </h3>
+          <p className="text-green-700 mb-4">
+            Vous avez exploré les différents workflows Git et appris à créer votre propre diagramme de flux.
+          </p>
+          <Button
+            variant="primary"
+            onClick={onComplete}
+          >
+            Continuer le tutoriel
+          </Button>
+        </div>
+      </Card>
     </div>
   );
 };

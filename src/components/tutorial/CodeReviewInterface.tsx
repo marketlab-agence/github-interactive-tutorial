@@ -4,6 +4,10 @@ import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 import CodeBlock from '../ui/CodeBlock';
 
+interface CodeReviewInterfaceProps {
+  onComplete?: () => void;
+}
+
 interface CodeChange {
   id: string;
   file: string;
@@ -29,6 +33,7 @@ interface CodeReviewInterfaceProps {
   onApprove?: () => void;
   onRequestChanges?: () => void;
   onAddComment?: (comment: string, lineNumber: number) => void;
+  onComplete?: () => void;
 }
 
 export const CodeReviewInterface: React.FC<CodeReviewInterfaceProps> = ({
@@ -71,7 +76,8 @@ export const CodeReviewInterface: React.FC<CodeReviewInterfaceProps> = ({
   ],
   onApprove,
   onRequestChanges,
-  onAddComment
+  onAddComment,
+  onComplete
 }) => {
   const [newComment, setNewComment] = useState('');
   const [selectedLine, setSelectedLine] = useState<number | null>(null);
@@ -106,6 +112,7 @@ export const CodeReviewInterface: React.FC<CodeReviewInterfaceProps> = ({
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
       {/* En-tête de la Pull Request */}
+      {activeTab === 'files' && (
       <Card className="p-6">
         <div className="flex items-start justify-between">
           <div>
@@ -122,7 +129,10 @@ export const CodeReviewInterface: React.FC<CodeReviewInterfaceProps> = ({
           <div className="flex space-x-2">
             <Button 
               variant="success" 
-              onClick={onApprove}
+              onClick={() => {
+                if (onApprove) onApprove();
+                setActiveTab('conversation');
+              }}
               className="flex items-center space-x-2"
             >
               <span>✓</span>
@@ -130,7 +140,11 @@ export const CodeReviewInterface: React.FC<CodeReviewInterfaceProps> = ({
             </Button>
             <Button 
               variant="secondary" 
-              onClick={onRequestChanges}
+              onClick={() => {
+                if (onRequestChanges) onRequestChanges();
+                setNewComment("Je suggère quelques améliorations à ce code.");
+                setSelectedLine(16);
+              }}
               className="flex items-center space-x-2"
             >
               <span>⚠</span>
@@ -139,6 +153,22 @@ export const CodeReviewInterface: React.FC<CodeReviewInterfaceProps> = ({
           </div>
         </div>
       </Card>
+      )}
+      
+      {activeTab === 'conversation' && (
+        <Card className="p-6">
+          <div className="text-center space-y-4">
+            <CheckCircle className="h-16 w-16 text-green-400 mx-auto" />
+            <h2 className="text-2xl font-bold text-white">Revue terminée</h2>
+            <p className="text-gray-300">
+              Vous avez approuvé cette Pull Request. L'auteur sera notifié de votre approbation et pourra procéder à la fusion.
+            </p>
+            <Button onClick={onComplete} size="lg" className="mt-4">
+              Terminer l'exercice
+            </Button>
+          </div>
+        </Card>
+      )}
 
       {/* Onglets */}
       <div className="border-b border-gray-200">

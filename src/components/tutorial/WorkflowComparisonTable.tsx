@@ -25,6 +25,7 @@ interface WorkflowFeature {
 interface WorkflowComparisonTableProps {
   features?: WorkflowFeature[];
   onSelectWorkflow?: (workflow: string) => void;
+  onComplete?: () => void;
   selectedWorkflow?: string;
 }
 
@@ -142,6 +143,7 @@ const defaultFeatures: WorkflowFeature[] = [
 export const WorkflowComparisonTable: React.FC<WorkflowComparisonTableProps> = ({
   features = defaultFeatures,
   onSelectWorkflow,
+  onComplete,
   selectedWorkflow
 }) => {
   const [activeWorkflow, setActiveWorkflow] = useState<string | null>(selectedWorkflow || null);
@@ -391,6 +393,26 @@ export const WorkflowComparisonTable: React.FC<WorkflowComparisonTableProps> = (
           </div>
         </Card>
       )}
+
+      {/* Completion */}
+      <Card className="bg-blue-900/20 border-blue-500/30 mt-6">
+        <div className="p-6 text-center">
+          <h3 className="text-xl font-bold text-blue-400 mb-4">
+            Prêt à continuer ?
+          </h3>
+          <p className="text-white mb-6">
+            Maintenant que vous avez exploré les différents workflows Git et compris leurs cas d'usage,
+            vous pouvez continuer avec le tutoriel pour approfondir ces concepts.
+          </p>
+          <Button
+            variant="primary"
+            onClick={onComplete}
+            size="lg"
+          >
+            Continuer le tutoriel
+          </Button>
+        </div>
+      </Card>
 
       {/* Recommandations */}
       <Card className="bg-blue-50 border-blue-200">
