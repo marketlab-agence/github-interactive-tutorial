@@ -40,18 +40,33 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [userProgress, setUserProgress] = useState<UserProgress>(() => {
     const savedProgress = localStorage.getItem('tutorial-progress');
     if (savedProgress) {
-      const parsed = JSON.parse(savedProgress);
-      // Ensure all required properties exist with proper defaults
-      return {
-        currentChapter: parsed.currentChapter || 0,
-        currentLesson: parsed.currentLesson || 0,
-        completedLessons: parsed.completedLessons || [],
-        completedChapters: parsed.completedChapters || [],
-        completedQuizzes: parsed.completedQuizzes || [],
-        quizScores: parsed.quizScores || {}, // Ensure quizScores is always an object
-        lastPosition: parsed.lastPosition || { view: 'accueil' },
-        globalScore: parsed.globalScore || 0
-      };
+      try {
+        const parsed = JSON.parse(savedProgress);
+        // Ensure all required properties exist with proper defaults
+        return {
+          currentChapter: parsed.currentChapter || 0,
+          currentLesson: parsed.currentLesson || 0,
+          completedLessons: parsed.completedLessons || [],
+          completedChapters: parsed.completedChapters || [],
+          completedQuizzes: parsed.completedQuizzes || [],
+          quizScores: parsed.quizScores || {}, // Ensure quizScores is always an object
+          lastPosition: parsed.lastPosition || { view: 'accueil' },
+          globalScore: parsed.globalScore || 0
+        };
+      } catch (error) {
+        console.error("Error parsing saved progress:", error);
+        // Return default state if parsing fails
+        return {
+          currentChapter: 0,
+          currentLesson: 0,
+          completedLessons: [],
+          completedChapters: [],
+          completedQuizzes: [],
+          quizScores: {},
+          lastPosition: { view: 'accueil' },
+          globalScore: 0
+        };
+      }
     }
     return {
       currentChapter: 0,
@@ -131,7 +146,8 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         completedQuizzes.push(chapterId);
       }
       
-      const quizScores = { ...(prev.quizScores || {}) }; // Ensure quizScores is an object
+      // Ensure quizScores is always an object before spreading
+      const quizScores = { ...(prev.quizScores || {}) };
       if (score !== undefined) {
         quizScores[chapterId] = score;
       }
@@ -177,9 +193,13 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     
     // Calcul du score moyen des quiz - ensure quizScores is an object
     let quizScore = 0;
-    if (progress.completedQuizzes.length > 0 && progress.quizScores) {
-      const totalQuizScore = Object.values(progress.quizScores || {}).reduce((sum, score) => sum + score, 0);
-      const averageQuizScore = totalQuizScore / progress.completedQuizzes.length;
+    if (progress.completedQuizzes.length > 0) {
+      // Ensure we're working with an object before calling Object.values
+      const quizScoresValues = Object.values(progress.quizScores || {});
+      const totalQuizScore = quizScoresValues.reduce((sum, score) => sum + score, 0);
+      const averageQuizScore = quizScoresValues.length > 0 
+        ? totalQuizScore / quizScoresValues.length 
+        : 0;
       quizScore = (progress.completedQuizzes.length / totalQuizzes) * averageQuizScore * quizWeight;
     }
     

@@ -15,8 +15,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const totalLessons = chapters.reduce((acc, chapter) => acc + chapter.lessons.length, 0);
   const completedLessonsPercentage = Math.round((userProgress.completedLessons.length / totalLessons) * 100);
   
-  // Calculer le score moyen des quiz
-  const quizScores = Object.values(userProgress.quizScores);
+  // Calculer le score moyen des quiz - avec vérification de sécurité
+  const quizScores = userProgress.quizScores ? Object.values(userProgress.quizScores) : [];
   const averageQuizScore = quizScores.length > 0 
     ? Math.round(quizScores.reduce((sum, score) => sum + score, 0) / quizScores.length) 
     : 0;
@@ -164,8 +164,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                 chapter.lessons.some(lesson => lesson.id === lessonId)
               );
               
-              // Obtenir le score du quiz pour ce chapitre
-              const quizScore = userProgress.quizScores[chapter.id] || 0;
+              // Obtenir le score du quiz pour ce chapitre - avec vérification de sécurité
+              const quizScore = userProgress.quizScores && userProgress.quizScores[chapter.id] 
+                ? userProgress.quizScores[chapter.id] 
+                : 0;
               
               return (
                 <div 
