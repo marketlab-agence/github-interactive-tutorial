@@ -304,10 +304,31 @@ const OpenSourceSimulator: React.FC = () => {
         <p className="text-gray-300">Apprenez le processus complet de contribution à un projet open source sur GitHub</p>
       </motion.div>
 
+      {/* Contrôles */}
+      <Card>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button onClick={nextStep} disabled={activeStep >= workflowSteps.length - 1}>
+              {activeStep >= workflowSteps.length - 1 ? 'Simulation Terminée' : 'Étape Suivante'}
+            </Button>
+            <Button onClick={resetSimulation} variant="secondary">
+              Recommencer
+            </Button>
+          </div>
+          <div className="text-sm text-gray-400">
+            Étape {Math.min(activeStep + 1, workflowSteps.length)} sur {workflowSteps.length}
+          </div>
+        </div>
+      </Card>
+
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Left sidebar - Steps */}
+        {/* Liste des étapes */}
         <div>
-          <Card header={<h3 className="font-semibold text-white">Étapes du processus</h3>}>
+          <Card
+            header={
+              <h3 className="font-semibold text-white">Étapes du processus</h3>
+            }
+          >
             <div className="space-y-2 pr-1">
               {workflowSteps.map((step, index) => {
                 const Icon = step.icon;
@@ -315,6 +336,7 @@ const OpenSourceSimulator: React.FC = () => {
                   <button
                     key={step.id}
                     onClick={() => setActiveStep(index)}
+                    className="flex items-center space-x-2 w-full text-left p-3 rounded-lg border transition-colors"
                     className={`w-full text-left flex items-center space-x-3 p-3 rounded-lg border ${
                       step.status === 'current'
                         ? 'bg-blue-900/20 border-blue-500/50'
@@ -348,7 +370,7 @@ const OpenSourceSimulator: React.FC = () => {
           </Card>
         </div>
 
-        {/* Main content */}
+        {/* Contenu principal */}
         <div className="lg:col-span-2">
           <Card>
             <div className="space-y-6">
@@ -370,7 +392,7 @@ const OpenSourceSimulator: React.FC = () => {
               </motion.div>
 
               <div className="flex justify-between">
-                <Button 
+                <Button
                   variant="secondary"
                   onClick={prevStep}
                   disabled={activeStep === 0}
@@ -403,41 +425,38 @@ const OpenSourceSimulator: React.FC = () => {
         </div>
       </div>
 
-      {/* Additional information */}
+      {/* Informations sur les types de remotes */}
       <Card>
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">Bonnes pratiques pour contribuer à l'open source</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">Bonnes pratiques pour contribuer à l'open source</h3>
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+            <h4 className="font-medium text-blue-400 mb-2">Avant de contribuer</h4>
+            <ul className="text-sm text-gray-300 space-y-1 list-disc pl-5">
+              <li>Lisez le guide de contribution du projet</li>
+              <li>Vérifiez si l'issue existe déjà</li>
+              <li>Discutez de votre approche avec la communauté</li>
+              <li>Familiarisez-vous avec le code de conduite</li>
+            </ul>
+          </div>
           
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
-              <h4 className="text-blue-400 font-medium mb-2">Avant de contribuer</h4>
-              <ul className="text-sm text-gray-300 space-y-1 list-disc pl-5">
-                <li>Lisez le guide de contribution du projet</li>
-                <li>Vérifiez si l'issue existe déjà</li>
-                <li>Discutez de votre approche avec la communauté</li>
-                <li>Familiarisez-vous avec le code de conduite</li>
-              </ul>
-            </div>
-            
-            <div className="bg-green-900/20 border border-green-500/30 rounded-lg p-4">
-              <h4 className="text-green-400 font-medium mb-2">Pendant le développement</h4>
-              <ul className="text-sm text-gray-300 space-y-1 list-disc pl-5">
-                <li>Suivez les conventions de code du projet</li>
-                <li>Écrivez des tests pour vos fonctionnalités</li>
-                <li>Faites des commits atomiques avec des messages clairs</li>
-                <li>Mettez à jour la documentation si nécessaire</li>
-              </ul>
-            </div>
-            
-            <div className="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4">
-              <h4 className="text-purple-400 font-medium mb-2">Communication</h4>
-              <ul className="text-sm text-gray-300 space-y-1 list-disc pl-5">
-                <li>Soyez respectueux et constructif</li>
-                <li>Expliquez clairement vos intentions</li>
-                <li>Soyez patient - les mainteneurs sont souvent bénévoles</li>
-                <li>Acceptez gracieusement les retours et critiques</li>
-              </ul>
-            </div>
+          <div className="p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
+            <h4 className="font-medium text-green-400 mb-2">Pendant le développement</h4>
+            <ul className="text-sm text-gray-300 space-y-1 list-disc pl-5">
+              <li>Suivez les conventions de code du projet</li>
+              <li>Écrivez des tests pour vos fonctionnalités</li>
+              <li>Faites des commits atomiques avec des messages clairs</li>
+              <li>Mettez à jour la documentation si nécessaire</li>
+            </ul>
+          </div>
+          
+          <div className="p-4 bg-purple-900/20 border border-purple-500/30 rounded-lg">
+            <h4 className="font-medium text-purple-400 mb-2">Communication</h4>
+            <ul className="text-sm text-gray-300 space-y-1 list-disc pl-5">
+              <li>Soyez respectueux et constructif</li>
+              <li>Expliquez clairement vos intentions</li>
+              <li>Soyez patient - les mainteneurs sont souvent bénévoles</li>
+              <li>Acceptez gracieusement les retours et critiques</li>
+            </ul>
           </div>
         </div>
       </Card>
@@ -481,5 +500,58 @@ const OpenSourceSimulator: React.FC = () => {
     </div>
   );
 };
+
+// Adding missing components
+const ChevronLeft: React.FC<{ className?: string }> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+);
+
+const ChevronRight: React.FC<{ className?: string }> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
+
+const RotateCcw: React.FC<{ className?: string }> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <polyline points="1 4 1 10 7 10" />
+    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+  </svg>
+);
 
 export default OpenSourceSimulator;

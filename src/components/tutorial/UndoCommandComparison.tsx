@@ -363,8 +363,8 @@ const UndoCommandComparison: React.FC = () => {
                   <div className="flex items-center space-x-2 text-sm">
                     <ArrowRight className="h-4 w-4 text-green-400" />
                     <span className="text-green-400 font-medium">Utilisez:</span>
-                    <span className="font-mono text-gray-300">git restore &lt;fichier&gt;</span>
-                    <span className="text-gray-500">(ou git checkout -- &lt;fichier&gt;)</span>
+                    <span className="font-mono text-gray-300">git restore <fichier></span>
+                    <span className="text-gray-500">(ou git checkout -- <fichier>)</span>
                   </div>
                 </div>
 
@@ -376,8 +376,8 @@ const UndoCommandComparison: React.FC = () => {
                   <div className="flex items-center space-x-2 text-sm">
                     <ArrowRight className="h-4 w-4 text-yellow-400" />
                     <span className="text-yellow-400 font-medium">Utilisez:</span>
-                    <span className="font-mono text-gray-300">git restore --staged &lt;fichier&gt;</span>
-                    <span className="text-gray-500">(ou git reset &lt;fichier&gt;)</span>
+                    <span className="font-mono text-gray-300">git restore --staged <fichier></span>
+                    <span className="text-gray-500">(ou git reset <fichier>)</span>
                   </div>
                 </div>
 
@@ -401,7 +401,7 @@ const UndoCommandComparison: React.FC = () => {
                   <div className="flex items-center space-x-2 text-sm">
                     <ArrowRight className="h-4 w-4 text-blue-400" />
                     <span className="text-blue-400 font-medium">Utilisez:</span>
-                    <span className="font-mono text-gray-300">git revert &lt;commit-hash&gt;</span>
+                    <span className="font-mono text-gray-300">git revert <commit-hash></span>
                   </div>
                 </div>
               </div>

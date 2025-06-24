@@ -71,7 +71,9 @@ const ActionsWorkflowBuilder: React.FC = () => {
   });
 
   const [selectedStep, setSelectedStep] = useState<string | null>(null);
-  const [previewMode, setPreviewMode] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newNodeLabel, setNewNodeLabel] = useState('');
+  const [showTemplates, setShowTemplates] = useState(false);
 
   const availableStepTypes = [
     { type: 'test', label: 'Test', icon: CheckCircle, color: 'blue' },
@@ -252,9 +254,9 @@ const ActionsWorkflowBuilder: React.FC = () => {
           <div className="flex space-x-3">
             <Button 
               variant="secondary"
-              onClick={() => setPreviewMode(!previewMode)}
+              onClick={() => setShowTemplates(true)}
             >
-              {previewMode ? 'Éditeur' : 'Aperçu YAML'}
+              📋 Templates
             </Button>
             <Button>
               <Play className="h-4 w-4 mr-2" />
@@ -264,217 +266,216 @@ const ActionsWorkflowBuilder: React.FC = () => {
         </div>
       </Card>
 
-      {previewMode ? (
-        <Card header={<h3 className="font-semibold text-white">Aperçu du fichier YAML</h3>}>
-          <div className="bg-gray-900 rounded-lg p-4 font-mono text-sm text-white whitespace-pre overflow-x-auto">
-            {generateYaml()}
-          </div>
-          
-          <div className="mt-4 bg-blue-900/20 border border-blue-500/30 p-4 rounded-lg">
-            <div className="flex items-start space-x-3">
-              <AlertTriangle className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
-              <div>
-                <h4 className="font-medium text-white mb-1">À propos des GitHub Actions</h4>
-                <p className="text-sm text-gray-300">
-                  Ce YAML définit un workflow GitHub Actions qui s'exécutera automatiquement 
-                  selon les déclencheurs configurés. Placez ce fichier dans le répertoire 
-                  <code className="text-blue-300 mx-1">.github/workflows/</code> 
-                  de votre dépôt pour l'activer.
-                </p>
-              </div>
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Left panel: Available steps + Triggers */}
+        <div className="space-y-6">
+          <Card header={<h3 className="font-semibold text-white">Types d'étapes</h3>}>
+            <div className="space-y-2">
+              {availableStepTypes.map(stepType => {
+                const Icon = stepType.icon;
+                return (
+                  <button
+                    key={stepType.type}
+                    onClick={() => addStep(stepType.type)}
+                    className={`w-full flex items-center space-x-3 p-3 rounded-lg border border-gray-600 hover:bg-gray-700/30 transition-colors`}
+                  >
+                    <Icon className={`h-5 w-5 text-${stepType.color}-400`} />
+                    <span className="text-white text-sm">{stepType.label}</span>
+                    <Plus className="h-4 w-4 text-gray-400 ml-auto" />
+                  </button>
+                );
+              })}
             </div>
-          </div>
-        </Card>
-      ) : (
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Left panel: Available steps + Triggers */}
-          <div className="space-y-6">
-            <Card header={<h3 className="font-semibold text-white">Types d'étapes</h3>}>
-              <div className="space-y-2">
-                {availableStepTypes.map(stepType => {
-                  const Icon = stepType.icon;
-                  return (
-                    <button
-                      key={stepType.type}
-                      onClick={() => addStep(stepType.type)}
-                      className={`w-full flex items-center space-x-3 p-3 rounded-lg border border-gray-600 hover:bg-gray-700/30 transition-colors`}
-                    >
-                      <Icon className={`h-5 w-5 text-${stepType.color}-400`} />
-                      <span className="text-white">{stepType.label}</span>
-                      <Plus className="h-4 w-4 text-gray-400 ml-auto" />
-                    </button>
-                  );
-                })}
-              </div>
-            </Card>
+          </Card>
 
-            <Card header={<h3 className="font-semibold text-white">Déclencheurs (Triggers)</h3>}>
-              <div className="space-y-2">
-                {['push', 'pull_request', 'workflow_dispatch', 'schedule', 'release'].map(trigger => (
-                  <div key={trigger} className="flex items-center space-x-3 p-2">
-                    <input
-                      type="checkbox"
-                      id={`trigger-${trigger}`}
-                      checked={workflow.triggers.includes(trigger)}
-                      onChange={() => toggleTrigger(trigger)}
-                      className="bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
-                    />
-                    <label htmlFor={`trigger-${trigger}`} className="text-gray-300">
-                      {trigger}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </div>
+          <Card header={<h3 className="font-semibold text-white">Déclencheurs (Triggers)</h3>}>
+            <div className="space-y-2">
+              {['push', 'pull_request', 'workflow_dispatch', 'schedule', 'release'].map(trigger => (
+                <div key={trigger} className="flex items-center space-x-3 p-2">
+                  <input
+                    type="checkbox"
+                    id={`trigger-${trigger}`}
+                    checked={workflow.triggers.includes(trigger)}
+                    onChange={() => toggleTrigger(trigger)}
+                    className="bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
+                  />
+                  <label htmlFor={`trigger-${trigger}`} className="text-gray-300">
+                    {trigger}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
 
-          {/* Middle panel: Workflow diagram */}
-          <div className="lg:col-span-2">
-            <Card header={<h3 className="font-semibold text-white">Workflow</h3>}>
-              <div className="min-h-[400px] relative">
-                {workflow.steps.length === 0 ? (
-                  <div className="flex items-center justify-center h-full">
-                    <div className="text-center text-gray-400">
-                      <Workflow className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                      <p>Ajoutez des étapes à votre workflow</p>
-                    </div>
+        {/* Middle panel: Workflow diagram */}
+        <div className="lg:col-span-2">
+          <Card header={<h3 className="font-semibold text-white">Workflow</h3>}>
+            <div className="min-h-[400px] relative">
+              {workflow.steps.length === 0 ? (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center text-gray-400">
+                    <Workflow className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                    <p>Ajoutez des étapes à votre workflow</p>
                   </div>
-                ) : (
-                  <div className="space-y-12 relative py-4">
-                    {/* Vertical connector line */}
-                    <div className="absolute left-6 top-8 bottom-0 w-0.5 bg-gray-600"></div>
+                </div>
+              ) : (
+                <div className="space-y-12 relative py-4">
+                  {/* Vertical connector line */}
+                  <div className="absolute left-6 top-8 bottom-0 w-0.5 bg-gray-600"></div>
+                  
+                  {workflow.steps.map((step, index) => {
+                    const Icon = getStepIcon(step.type);
+                    const color = getStepTypeColor(step.type);
+                    const isSelected = selectedStep === step.id;
                     
-                    {workflow.steps.map((step, index) => {
-                      const Icon = getStepIcon(step.type);
-                      const color = getStepTypeColor(step.type);
-                      const isSelected = selectedStep === step.id;
-                      
-                      return (
-                        <div key={step.id} className="relative">
-                          {/* Step block with connector */}
-                          <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className={`flex items-start space-x-4 ${
-                              isSelected ? `bg-${color}-900/20 border border-${color}-500/30 rounded-lg p-4` : ''
-                            }`}
+                    return (
+                      <div key={step.id} className="relative">
+                        {/* Step block with connector */}
+                        <motion.div
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className={`flex items-start space-x-4 ${
+                            isSelected ? `bg-${color}-900/20 border border-${color}-500/30 rounded-lg p-4` : ''
+                          }`}
+                        >
+                          {/* Step circle */}
+                          <div 
+                            className={`relative z-10 w-12 h-12 bg-${color}-600 rounded-full flex items-center justify-center border-4 border-gray-900`}
                           >
-                            {/* Step circle */}
-                            <div 
-                              className={`relative z-10 w-12 h-12 bg-${color}-600 rounded-full flex items-center justify-center border-4 border-gray-900`}
-                            >
-                              <Icon className="h-5 w-5 text-white" />
-                            </div>
+                            <Icon className="h-5 w-5 text-white" />
+                          </div>
 
-                            {/* Step details */}
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-start justify-between">
-                                <div>
-                                  <h4 className="font-medium text-white">{step.name}</h4>
-                                  <div className="flex items-center space-x-2 mt-1">
-                                    <Badge variant="default" size="sm">
-                                      {step.type}
+                          {/* Step details */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between mb-1">
+                              <div>
+                                <h4 className="font-medium text-white">{step.name}</h4>
+                                <div className="flex items-center space-x-2 mt-1">
+                                  <Badge variant="default" size="sm">
+                                    {step.type}
+                                  </Badge>
+                                  {step.condition && (
+                                    <Badge variant="warning" size="sm">
+                                      Conditionnel
                                     </Badge>
-                                    {step.condition && (
-                                      <Badge variant="warning" size="sm">
-                                        Conditionnel
-                                      </Badge>
-                                    )}
-                                  </div>
-                                </div>
-                                
-                                <div className="flex space-x-2">
-                                  <Button 
-                                    size="sm" 
-                                    variant="ghost"
-                                    onClick={() => setSelectedStep(isSelected ? null : step.id)}
-                                  >
-                                    {isSelected ? 'Fermer' : 'Éditer'}
-                                  </Button>
-                                  <Button 
-                                    size="sm" 
-                                    variant="ghost"
-                                    onClick={() => removeStep(step.id)}
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                  </Button>
+                                  )}
                                 </div>
                               </div>
                               
-                              {/* Commands preview */}
-                              {!isSelected && step.commands.length > 0 && (
-                                <div className="mt-2 bg-gray-800/50 rounded p-2 max-w-full overflow-hidden">
-                                  <div className="text-xs font-mono text-gray-300 truncate">
-                                    $ {step.commands[0]}{step.commands.length > 1 ? ' ...' : ''}
-                                  </div>
-                                </div>
-                              )}
-                              
-                              {/* Edit form when selected */}
-                              {isSelected && (
-                                <motion.div
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{ opacity: 1, height: 'auto' }}
-                                  className="mt-4 space-y-4"
+                              <div className="flex space-x-2">
+                                <Button 
+                                  size="sm" 
+                                  variant="ghost"
+                                  onClick={() => setSelectedStep(isSelected ? null : step.id)}
                                 >
-                                  <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                                      Nom de l'étape
-                                    </label>
-                                    <input
-                                      type="text"
-                                      value={step.name}
-                                      onChange={(e) => updateStepName(step.id, e.target.value)}
-                                      className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
-                                    />
-                                  </div>
-                                  
-                                  <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                                      Commandes (une par ligne)
-                                    </label>
-                                    <textarea
-                                      value={step.commands.join('\n')}
-                                      onChange={(e) => updateStepCommands(step.id, e.target.value)}
-                                      rows={3}
-                                      className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm resize-none"
-                                    />
-                                  </div>
-                                  
-                                  <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                                      Condition (optionnelle)
-                                    </label>
-                                    <input
-                                      type="text"
-                                      value={step.condition || ''}
-                                      onChange={(e) => updateStepCondition(step.id, e.target.value)}
-                                      placeholder="ex: github.ref == 'refs/heads/main'"
-                                      className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm"
-                                    />
-                                  </div>
-                                </motion.div>
-                              )}
+                                  {isSelected ? 'Fermer' : 'Éditer'}
+                                </Button>
+                                <Button 
+                                  size="sm" 
+                                  variant="ghost"
+                                  onClick={() => removeStep(step.id)}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </div>
-                          </motion.div>
-                          
-                          {/* Connector to next step */}
-                          {index < workflow.steps.length - 1 && (
-                            <div className="absolute left-6 -bottom-6 flex justify-center">
-                              <ArrowDown className="h-5 w-5 text-gray-500" />
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </Card>
+                            
+                            {/* Commands preview */}
+                            {!isSelected && step.commands.length > 0 && (
+                              <div className="mt-2 bg-gray-800/50 rounded p-2 max-w-full overflow-hidden">
+                                <div className="text-xs font-mono text-gray-300 truncate">
+                                  $ {step.commands[0]}{step.commands.length > 1 ? ' ...' : ''}
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Edit form when selected */}
+                            {isSelected && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                className="mt-4 space-y-4"
+                              >
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                                    Nom de l'étape
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={step.name}
+                                    onChange={(e) => updateStepName(step.id, e.target.value)}
+                                    className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
+                                  />
+                                </div>
+                                
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                                    Commandes (une par ligne)
+                                  </label>
+                                  <textarea
+                                    value={step.commands.join('\n')}
+                                    onChange={(e) => updateStepCommands(step.id, e.target.value)}
+                                    rows={3}
+                                    className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm resize-none"
+                                  />
+                                </div>
+                                
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                                    Condition (optionnelle)
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={step.condition || ''}
+                                    onChange={(e) => updateStepCondition(step.id, e.target.value)}
+                                    placeholder="ex: github.ref == 'refs/heads/main'"
+                                    className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm"
+                                  />
+                                </div>
+                              </motion.div>
+                            )}
+                          </div>
+                        </motion.div>
+                        
+                        {/* Connector to next step */}
+                        {index < workflow.steps.length - 1 && (
+                          <div className="absolute left-6 -bottom-6 flex justify-center">
+                            <ArrowDown className="h-5 w-5 text-gray-500" />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </Card>
+        </div>
+      </div>
+
+      {/* YAML preview */}
+      <Card header={<h3 className="font-semibold text-white">Aperçu du fichier YAML</h3>}>
+        <div className="bg-gray-900 rounded-lg p-4 font-mono text-sm text-white whitespace-pre overflow-x-auto">
+          {generateYaml()}
+        </div>
+        
+        <div className="mt-4 bg-blue-900/20 border border-blue-500/30 p-4 rounded-lg">
+          <div className="flex items-start space-x-3">
+            <AlertTriangle className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
+            <div>
+              <h4 className="font-medium text-white mb-1">À propos des GitHub Actions</h4>
+              <p className="text-sm text-gray-300">
+                Ce YAML définit un workflow GitHub Actions qui s'exécutera automatiquement 
+                selon les déclencheurs configurés. Placez ce fichier dans le répertoire 
+                <code className="text-blue-300 mx-1">.github/workflows/</code> 
+                de votre dépôt pour l'activer.
+              </p>
+            </div>
           </div>
         </div>
-      )}
+      </Card>
 
       {/* Documentation */}
       <Card>

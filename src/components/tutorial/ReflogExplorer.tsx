@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   RotateCcw, 
+  User, 
+  Calendar, 
   GitCommit, 
-  GitBranch, 
-  GitMerge, 
   Clock,
   ArrowRight,
   AlertTriangle,
@@ -397,7 +397,7 @@ const ReflogExplorer: React.FC = () => {
                 <li><code className="text-green-400">git reflog</code> - Afficher le journal de référence</li>
                 <li><code className="text-green-400">git checkout HEAD@{"{n}"}</code> - Revenir à un état spécifique</li>
                 <li><code className="text-green-400">git branch recover-branch HEAD@{"{n}"}</code> - Créer une branche à partir d'un état précédent</li>
-                <li><code className="text-green-400">git reflog show &lt;branche&gt;</code> - Voir le reflog d'une branche spécifique</li>
+                <li><code className="text-green-400">git reflog show <branche></code> - Voir le reflog d'une branche spécifique</li>
               </ul>
             </div>
           </div>
@@ -459,5 +459,45 @@ const ReflogExplorer: React.FC = () => {
     </div>
   );
 };
+
+// Ajout des composants manquants
+const GitBranch: React.FC<{ className?: string }> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <line x1="6" y1="3" x2="6" y2="15"></line>
+    <circle cx="18" cy="6" r="3"></circle>
+    <circle cx="6" cy="18" r="3"></circle>
+    <path d="M18 9a9 9 0 0 1-9 9"></path>
+  </svg>
+);
+
+const GitMerge: React.FC<{ className?: string }> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <circle cx="18" cy="18" r="3"></circle>
+    <circle cx="6" cy="6" r="3"></circle>
+    <path d="M6 21V9a9 9 0 0 0 9 9"></path>
+  </svg>
+);
 
 export default ReflogExplorer;

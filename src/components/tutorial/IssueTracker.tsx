@@ -30,70 +30,12 @@ interface Issue {
   comments: number;
 }
 
-const mockIssues: Issue[] = [
-  {
-    id: 1,
-    title: "Navigation barre ne fonctionne pas sur mobile",
-    description: "La barre de navigation se superpose avec le contenu sur les appareils mobiles de petite taille. Cela rend certains liens inaccessibles.",
-    status: 'open',
-    priority: 'high',
-    assignee: 'Alice',
-    labels: ['bug', 'mobile', 'ui'],
-    createdAt: '2 days ago',
-    comments: 3
-  },
-  {
-    id: 2,
-    title: "Ajouter support du mode sombre",
-    description: "Implémenter un thème sombre pour l'application qui respecte les préférences système des utilisateurs.",
-    status: 'in-progress',
-    priority: 'medium',
-    assignee: 'Bob',
-    labels: ['enhancement', 'ui'],
-    createdAt: '4 days ago',
-    comments: 2
-  },
-  {
-    id: 3,
-    title: "Optimiser le chargement des images",
-    description: "Les images prennent trop de temps à charger. Nous devrions implémenter le lazy loading et la compression d'images.",
-    status: 'review',
-    priority: 'medium',
-    assignee: 'Charlie',
-    labels: ['performance', 'enhancement'],
-    createdAt: '1 week ago',
-    comments: 5
-  },
-  {
-    id: 4,
-    title: "Corriger le bug d'authentification",
-    description: "Les utilisateurs sont parfois déconnectés de manière aléatoire. Le problème semble lié à l'expiration du token.",
-    status: 'closed',
-    priority: 'high',
-    assignee: 'Alice',
-    labels: ['bug', 'security'],
-    createdAt: '2 weeks ago',
-    comments: 8
-  },
-  {
-    id: 5,
-    title: "Améliorer l'accessibilité du formulaire",
-    description: "Le formulaire de contact n'est pas accessible aux lecteurs d'écran. Nous devons ajouter les attributs ARIA appropriés.",
-    status: 'open',
-    priority: 'low',
-    labels: ['accessibility', 'ui'],
-    createdAt: '3 days ago',
-    comments: 1
-  }
-];
-
 const IssueTracker: React.FC = () => {
-  const [issues, setIssues] = useState<Issue[]>(mockIssues);
-  const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [priorityFilter, setPriorityFilter] = useState<string | null>(null);
   const [labelFilter, setLabelFilter] = useState<string | null>(null);
+  const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
   const [showNewIssueForm, setShowNewIssueForm] = useState(false);
   const [newIssue, setNewIssue] = useState<Partial<Issue>>({
     title: '',
@@ -103,6 +45,64 @@ const IssueTracker: React.FC = () => {
     labels: []
   });
 
+  const mockIssues: Issue[] = [
+    {
+      id: 1,
+      title: "Navigation barre ne fonctionne pas sur mobile",
+      description: "La barre de navigation se superpose avec le contenu sur les appareils mobiles de petite taille. Cela rend certains liens inaccessibles.",
+      status: 'open',
+      priority: 'high',
+      assignee: 'Alice',
+      labels: ['bug', 'mobile', 'ui'],
+      createdAt: '2 days ago',
+      comments: 3
+    },
+    {
+      id: 2,
+      title: "Ajouter support du mode sombre",
+      description: "Implémenter un thème sombre pour l'application qui respecte les préférences système des utilisateurs.",
+      status: 'in-progress',
+      priority: 'medium',
+      assignee: 'Bob',
+      labels: ['enhancement', 'ui'],
+      createdAt: '4 days ago',
+      comments: 2
+    },
+    {
+      id: 3,
+      title: "Optimiser le chargement des images",
+      description: "Les images prennent trop de temps à charger. Nous devrions implémenter le lazy loading et la compression d'images.",
+      status: 'review',
+      priority: 'medium',
+      assignee: 'Charlie',
+      labels: ['performance', 'enhancement'],
+      createdAt: '1 week ago',
+      comments: 5
+    },
+    {
+      id: 4,
+      title: "Corriger le bug d'authentification",
+      description: "Les utilisateurs sont parfois déconnectés de manière aléatoire. Le problème semble lié à l'expiration du token.",
+      status: 'closed',
+      priority: 'high',
+      assignee: 'Alice',
+      labels: ['bug', 'security'],
+      createdAt: '2 weeks ago',
+      comments: 8
+    },
+    {
+      id: 5,
+      title: "Améliorer l'accessibilité du formulaire",
+      description: "Le formulaire de contact n'est pas accessible aux lecteurs d'écran. Nous devons ajouter les attributs ARIA appropriés.",
+      status: 'open',
+      priority: 'low',
+      labels: ['accessibility', 'ui'],
+      createdAt: '3 days ago',
+      comments: 1
+    }
+  ];
+
+  const [issues, setIssues] = useState<Issue[]>(mockIssues);
   const availableLabels = ['bug', 'enhancement', 'ui', 'mobile', 'performance', 'security', 'accessibility', 'documentation'];
 
   const filteredIssues = issues.filter(issue => {
@@ -330,10 +330,11 @@ const IssueTracker: React.FC = () => {
                     <input
                       id="title"
                       type="text"
-                      className="bg-gray-700 text-white px-3 py-2 w-full rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
-                      placeholder="Issue title"
                       value={newIssue.title}
                       onChange={(e) => setNewIssue({...newIssue, title: e.target.value})}
+                      className="bg-gray-700 text-white px-3 py-2 w-full rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+                      placeholder="Issue title"
+                      required
                     />
                   </div>
                   <div>
@@ -347,6 +348,7 @@ const IssueTracker: React.FC = () => {
                       rows={4}
                       value={newIssue.description}
                       onChange={(e) => setNewIssue({...newIssue, description: e.target.value})}
+                      required
                     />
                   </div>
                   <div>
@@ -369,9 +371,9 @@ const IssueTracker: React.FC = () => {
                       Labels
                     </label>
                     <div className="flex flex-wrap gap-2">
-                      {availableLabels.map(label => (
+                      {availableLabels.map((label, idx) => (
                         <button
-                          key={label}
+                          key={idx}
                           onClick={() => toggleLabel(label)}
                           className={`px-2 py-1 rounded-full text-xs ${
                             newIssue.labels?.includes(label)
@@ -405,7 +407,7 @@ const IssueTracker: React.FC = () => {
             {/* Issue List */}
             <div className={`space-y-3 ${selectedIssue ? 'max-h-[500px] overflow-y-auto pr-2' : ''}`}>
               {filteredIssues.length > 0 ? (
-                filteredIssues.map(issue => (
+                filteredIssues.map((issue) => (
                   <motion.div
                     key={issue.id}
                     initial={{ opacity: 0, y: 10 }}
