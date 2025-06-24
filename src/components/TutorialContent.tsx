@@ -30,7 +30,7 @@ import CollaborationSimulator from './interactive/CollaborationSimulator';
 
 // Import interactive components for Chapter 6: Git Workflows
 import WorkflowComparisonTable from './tutorial/WorkflowComparisonTable';
-import WorkflowSimulator from './interactive/WorkflowSimulator';
+import WorkflowSimulator from './tutorial/WorkflowSimulator';
 import FlowDiagramBuilder from './tutorial/FlowDiagramBuilder';
 
 interface TutorialContentProps {
