@@ -52,7 +52,8 @@ const Button: React.FC<ButtonProps> = ({
         baseClasses, 
         variantClasses[variant],
         sizeClasses[size],
-        isDisabled && 'opacity-50 cursor-not-allowed', 
+        isDisabled && 'opacity-50 cursor-not-allowed',
+        'touch-manipulation', // Améliore le toucher sur mobile
         'touch-manipulation', // Améliore le toucher sur mobile
         className
       )}

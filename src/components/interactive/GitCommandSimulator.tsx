@@ -142,13 +142,15 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
             disabled={!currentCommand.trim() || isExecuting}
             loading={isExecuting}
             className="w-full sm:flex-1 min-w-0"
+            className="w-full sm:flex-1 min-w-0"
           >
             <Play className="h-4 w-4 sm:mr-2" />
-            Exécuter
+            <span className="hidden sm:inline">Exécuter</span>
           </Button>
           <Button
             variant="secondary"
             onClick={resetSimulator}
+            className="w-full sm:flex-1 min-w-0"
             className="w-full sm:flex-1 min-w-0"
           >
             <RotateCcw className="h-4 w-4 sm:mr-2" />

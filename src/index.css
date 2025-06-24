@@ -5,6 +5,86 @@
 /* Base responsive styles */
 html, body {
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .card-content {
+    padding: 0.75rem;
+  }
+  
+  .space-y-8 > * + * {
+    margin-top: 1.25rem;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 1rem;
+  }
+}
+
+/* Mobile sidebar */
+.mobile-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 85%;
+  max-width: 280px;
+  z-index: 50;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+}
+
+.mobile-sidebar.open {
+  transform: translateX(0);
+}
+
+.mobile-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-sidebar-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Responsive tables */
+.responsive-table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 640px) {
+  button, 
+  [role="button"],
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+  }
+  
+  .sm\:text-sm {
+    font-size: 0.875rem;
+  }
+}
+/* Base responsive styles */
+html, body {
+  overflow-x: hidden;
 }
 
 /* Custom animations */
