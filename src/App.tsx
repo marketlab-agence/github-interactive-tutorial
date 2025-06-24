@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Lock, LayoutDashboard, BookOpen, GitBranch, Cloud, Users, Settings, Play, PenTool, CheckCircle, MessageSquare, TrendingUp, Award, Share, Download, ChevronRight, GitCommit, Factory as Repository } from 'lucide-react';
+import { Home, Lock, LayoutDashboard, BookOpen, GitBranch, Cloud, Users, Settings as SettingsIcon, Play, PenTool, CheckCircle, MessageSquare, TrendingUp, Award, Share, Download, ChevronRight, GitCommit, Factory as Repository } from 'lucide-react';
 
 // Import des composants
 import TutorialLayout from './components/layout/TutorialLayout';
@@ -226,7 +226,7 @@ function App() {
         return (
           <div className="space-y-8">
             <div className="text-center">
-              <Settings className="h-16 w-16 text-orange-400 mx-auto mb-4" />
+              <SettingsIcon className="h-16 w-16 text-orange-400 mx-auto mb-4" />
               <h2 className="text-3xl font-bold text-white mb-2">Contrôle Technique</h2>
               <p className="text-gray-300">Validez vos compétences avec des exercices pratiques</p>
             </div>
