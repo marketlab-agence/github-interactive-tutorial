@@ -24,7 +24,8 @@ export const gitBasicsChapter: Chapter = {
         'Learn about distributed vs centralized systems',
         'Identify the benefits of using Git'
       ],
-      description: 'Introduction to version control and Git'
+      description: 'Introduction to version control and Git',
+      component: 'GitVsGitHubComparison'
     },
     {
       id: 'git-setup',
@@ -50,7 +51,8 @@ export const gitBasicsChapter: Chapter = {
         'Understand the Git workflow',
         'Practice basic repository operations'
       ],
-      description: 'Learn essential Git commands for daily use'
+      description: 'Learn essential Git commands for daily use',
+      component: 'VersioningDemo'
     }
   ],
   quiz: [

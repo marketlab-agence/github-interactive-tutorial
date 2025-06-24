@@ -24,7 +24,8 @@ export const branchingChapter: Chapter = {
         'Learn when and why to use branches',
         'Explore different branching strategies'
       ],
-      description: 'Understand the fundamentals of Git branching'
+      description: 'Understand the fundamentals of Git branching',
+      component: 'BranchAnimator'
     },
     {
       id: 'creating-branches',
@@ -37,7 +38,8 @@ export const branchingChapter: Chapter = {
         'Switch between branches with git checkout',
         'Use git switch for modern branch switching'
       ],
-      description: 'Learn to create and navigate between branches'
+      description: 'Learn to create and navigate between branches',
+      component: 'BranchCreator'
     },
     {
       id: 'merging-branches',
@@ -50,19 +52,22 @@ export const branchingChapter: Chapter = {
         'Create merge commits',
         'Understand rebase vs merge'
       ],
-      description: 'Master different approaches to merging branches'
+      description: 'Master different approaches to merging branches',
+      component: 'MergeTypeComparison'
     },
     {
-      id: 'branch-quiz',
-      title: 'Branching Knowledge Check',
-      content: 'Test your understanding of Git branching concepts.',
-      type: 'quiz',
-      duration: 15,
+      id: 'conflict-handling',
+      title: 'Handling Merge Conflicts',
+      content: 'Learn to identify, prevent, and resolve merge conflicts effectively.',
+      type: 'practice',
+      duration: 30,
       objectives: [
-        'Demonstrate understanding of branch concepts',
-        'Apply knowledge to real-world scenarios'
+        'Understand what causes merge conflicts',
+        'Learn strategies to prevent conflicts',
+        'Resolve conflicts when they occur'
       ],
-      description: 'Quiz on branching fundamentals'
+      description: 'Master the art of resolving merge conflicts',
+      component: 'MergeSimulator'
     }
   ],
   quiz: [

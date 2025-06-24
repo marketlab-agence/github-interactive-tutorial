@@ -1,527 +1,342 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 
-interface FlowNode {
+interface WorkflowNode {
   id: string;
-  type: 'start' | 'action' | 'decision' | 'end';
-  label: string;
-  x: number;
-  y: number;
+  type: 'branch' | 'commit' | 'merge' | 'deploy';
+  title: string;
+  description: string;
+  position: { x: number; y: number };
   connections: string[];
+  icon: React.ComponentType<any>;
+  color: string;
 }
 
 interface FlowDiagramBuilderProps {
-  initialNodes?: FlowNode[];
-  onSave?: (nodes: FlowNode[]) => void;
+  nodes?: WorkflowNode[];
+  onSave?: (nodes: WorkflowNode[]) => void;
   onComplete?: () => void;
   onExport?: (format: 'png' | 'svg' | 'json') => void;
   readOnly?: boolean;
 }
 
-const defaultNodes: FlowNode[] = [
-  {
-    id: 'start',
-    type: 'start',
-    label: 'Début du workflow',
-    x: 100,
-    y: 50,
-    connections: ['feature-branch']
-  },
-  {
-    id: 'feature-branch',
-    type: 'action',
-    label: 'Créer branche feature',
-    x: 100,
-    y: 150,
-    connections: ['develop']
-  },
-  {
-    id: 'develop',
-    type: 'action',
-    label: 'Développer fonctionnalité',
-    x: 100,
-    y: 250,
-    connections: ['test']
-  },
-  {
-    id: 'test',
-    type: 'decision',
-    label: 'Tests passent ?',
-    x: 100,
-    y: 350,
-    connections: ['pr', 'fix']
-  },
-  {
-    id: 'fix',
-    type: 'action',
-    label: 'Corriger bugs',
-    x: 300,
-    y: 350,
-    connections: ['test']
-  },
-  {
-    id: 'pr',
-    type: 'action',
-    label: 'Créer Pull Request',
-    x: 100,
-    y: 450,
-    connections: ['review']
-  },
-  {
-    id: 'review',
-    type: 'decision',
-    label: 'Code review OK ?',
-    x: 100,
-    y: 550,
-    connections: ['merge', 'changes']
-  },
-  {
-    id: 'changes',
-    type: 'action',
-    label: 'Apporter modifications',
-    x: 300,
-    y: 550,
-    connections: ['review']
-  },
-  {
-    id: 'merge',
-    type: 'action',
-    label: 'Merger dans main',
-    x: 100,
-    y: 650,
-    connections: ['deploy']
-  },
-  {
-    id: 'deploy',
-    type: 'action',
-    label: 'Déployer',
-    x: 100,
-    y: 750,
-    connections: ['end']
-  },
-  {
-    id: 'end',
-    type: 'end',
-    label: 'Fin du workflow',
-    x: 100,
-    y: 850,
-    connections: []
-  }
-];
-
 export const FlowDiagramBuilder: React.FC<FlowDiagramBuilderProps> = ({
-  initialNodes = defaultNodes,
-  onSave,
   onComplete,
-  onExport,
   readOnly = false
 }) => {
-  const [nodes, setNodes] = useState<FlowNode[]>(initialNodes);
-  const [selectedNode, setSelectedNode] = useState<string | null>(null);
-  const [draggedNode, setDraggedNode] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [newNodeLabel, setNewNodeLabel] = useState('');
-  const [showTemplates, setShowTemplates] = useState(false);
-
-  const nodeTypes = [
-    { type: 'start', label: 'Début', color: 'bg-green-500', icon: '▶️' },
-    { type: 'action', label: 'Action', color: 'bg-blue-500', icon: '⚡' },
-    { type: 'decision', label: 'Décision', color: 'bg-yellow-500', icon: '❓' },
-    { type: 'end', label: 'Fin', color: 'bg-red-500', icon: '⏹️' }
-  ];
-
-  const templates = [
+  const [nodes, setNodes] = useState<WorkflowNode[]>([
     {
-      name: 'GitHub Flow',
-      description: 'Workflow simple avec une branche principale',
-      nodes: [
-        { id: 'start', type: 'start', label: 'Début', x: 100, y: 50, connections: ['feature'] },
-        { id: 'feature', type: 'action', label: 'Créer branche feature', x: 100, y: 150, connections: ['develop'] },
-        { id: 'develop', type: 'action', label: 'Développer', x: 100, y: 250, connections: ['pr'] },
-        { id: 'pr', type: 'action', label: 'Pull Request', x: 100, y: 350, connections: ['merge'] },
-        { id: 'merge', type: 'action', label: 'Merger dans main', x: 100, y: 450, connections: ['deploy'] },
-        { id: 'deploy', type: 'action', label: 'Déployer', x: 100, y: 550, connections: ['end'] },
-        { id: 'end', type: 'end', label: 'Fin', x: 100, y: 650, connections: [] }
-      ]
+      id: 'n1',
+      type: 'branch',
+      title: 'Create Feature Branch',
+      description: 'Create a new branch from main',
+      position: { x: 150, y: 100 },
+      connections: ['n2'],
+      icon: GitBranch,
+      color: 'blue'
     },
     {
-      name: 'Git Flow',
-      description: 'Workflow complexe avec branches multiples',
-      nodes: [
-        { id: 'start', type: 'start', label: 'Début', x: 100, y: 50, connections: ['feature'] },
-        { id: 'feature', type: 'action', label: 'Branche feature', x: 100, y: 150, connections: ['develop-merge'] },
-        { id: 'develop-merge', type: 'action', label: 'Merger dans develop', x: 100, y: 250, connections: ['release'] },
-        { id: 'release', type: 'action', label: 'Branche release', x: 100, y: 350, connections: ['test-release'] },
-        { id: 'test-release', type: 'decision', label: 'Tests OK ?', x: 100, y: 450, connections: ['main-merge', 'hotfix'] },
-        { id: 'hotfix', type: 'action', label: 'Hotfix', x: 300, y: 450, connections: ['test-release'] },
-        { id: 'main-merge', type: 'action', label: 'Merger dans main', x: 100, y: 550, connections: ['tag'] },
-        { id: 'tag', type: 'action', label: 'Créer tag', x: 100, y: 650, connections: ['end'] },
-        { id: 'end', type: 'end', label: 'Fin', x: 100, y: 750, connections: [] }
-      ]
+      id: 'n2',
+      type: 'commit',
+      title: 'Make Changes',
+      description: 'Implement feature and commit changes',
+      position: { x: 150, y: 200 },
+      connections: ['n3'],
+      icon: GitCommit,
+      color: 'green'
+    },
+    {
+      id: 'n3',
+      type: 'merge',
+      title: 'Merge to Main',
+      description: 'Create PR and merge to main branch',
+      position: { x: 150, y: 300 },
+      connections: ['n4'],
+      icon: GitMerge,
+      color: 'purple'
+    },
+    {
+      id: 'n4',
+      type: 'deploy',
+      title: 'Deploy',
+      description: 'Deploy to production environment',
+      position: { x: 150, y: 400 },
+      connections: [],
+      icon: Deploy,
+      color: 'orange'
     }
+  ]);
+
+  const [selectedNode, setSelectedNode] = useState<string | null>(null);
+
+  const nodeTypes = [
+    { type: 'branch', label: 'Branch', icon: GitBranch, color: 'blue' },
+    { type: 'commit', label: 'Commit', icon: GitCommit, color: 'green' },
+    { type: 'merge', label: 'Merge', icon: GitMerge, color: 'purple' },
+    { type: 'deploy', label: 'Deploy', icon: Deploy, color: 'orange' }
   ];
 
-  const getNodeStyle = (node: FlowNode) => {
-    const nodeType = nodeTypes.find(t => t.type === node.type);
-    const isSelected = selectedNode === node.id;
-    
-    return {
-      position: 'absolute' as const,
-      left: node.x,
-      top: node.y,
-      transform: 'translate(-50%, -50%)',
-      cursor: readOnly ? 'default' : 'move'
-    };
-  };
-
-  const getNodeClass = (node: FlowNode) => {
-    const nodeType = nodeTypes.find(t => t.type === node.type);
-    const isSelected = selectedNode === node.id;
-    
-    let baseClass = 'px-4 py-2 rounded-lg border-2 text-white font-medium text-sm min-w-32 text-center transition-all duration-200';
-    
-    if (node.type === 'decision') {
-      baseClass += ' transform rotate-45';
+  const getNodeColor = (type: string) => {
+    switch (type) {
+      case 'branch': return 'text-blue-400 border-blue-400';
+      case 'commit': return 'text-green-400 border-green-400';
+      case 'merge': return 'text-purple-400 border-purple-400';
+      case 'deploy': return 'text-orange-400 border-orange-400';
+      default: return 'text-gray-400 border-gray-400';
     }
-    
-    if (isSelected) {
-      baseClass += ' ring-4 ring-blue-300 scale-110';
-    }
-    
-    return `${baseClass} ${nodeType?.color || 'bg-gray-500'}`;
   };
 
-  const handleNodeClick = (nodeId: string) => {
-    if (readOnly) return;
-    setSelectedNode(selectedNode === nodeId ? null : nodeId);
-  };
-
-  const handleAddNode = (type: FlowNode['type']) => {
-    if (readOnly) return;
-    
-    const newNode: FlowNode = {
-      id: `node-${Date.now()}`,
-      type,
-      label: newNodeLabel || `Nouveau ${type}`,
-      x: 200 + Math.random() * 200,
-      y: 200 + Math.random() * 200,
-      connections: []
-    };
-    
-    setNodes([...nodes, newNode]);
-    setNewNodeLabel('');
-    setIsEditing(false);
-  };
-
-  const handleDeleteNode = (nodeId: string) => {
-    if (readOnly) return;
-    
-    setNodes(nodes.filter(n => n.id !== nodeId));
-    // Supprimer les connexions vers ce nœud
-    setNodes(prev => prev.map(node => ({
-      ...node,
-      connections: node.connections.filter(conn => conn !== nodeId)
-    })));
-    setSelectedNode(null);
-  };
-
-  const handleLoadTemplate = (template: typeof templates[0]) => {
-    if (readOnly) return;
-    setNodes(template.nodes as FlowNode[]);
-    setShowTemplates(false);
-  };
-
-  const handleSave = () => {
-    onSave?.(nodes);
-  };
-
-  const handleExport = (format: 'png' | 'svg' | 'json') => {
-    onExport?.(format);
+  const handleComplete = () => {
+    if (onComplete) onComplete();
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 space-y-6">
-      {/* En-tête */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Constructeur de Diagramme de Workflow
-          </h1>
-          <p className="text-gray-600">
-            Créez et personnalisez vos workflows Git visuellement
-          </p>
-        </div>
-        
-        <div className="flex space-x-2">
-          {!readOnly && (
-            <>
-              <Button
-                variant="secondary"
-                onClick={() => setShowTemplates(true)}
-              >
-                📋 Templates
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => setIsEditing(true)}
-              >
-                ➕ Ajouter nœud
-              </Button>
-              <Button
-                variant="primary"
-                onClick={handleSave}
-              >
-                💾 Sauvegarder
-              </Button>
-            </>
-          )}
-          <Button
-            variant="secondary"
-            onClick={() => handleExport('json')}
-          >
-            📤 Exporter
-          </Button>
-        </div>
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold text-white mb-2">
+          Git Workflow Designer
+        </h1>
+        <p className="text-gray-300 mb-4">
+          Create and visualize custom Git workflows for your team
+        </p>
       </div>
 
-      {/* Barre d'outils */}
-      {!readOnly && (
-        <Card className="p-4">
-          <div className="flex items-center space-x-4">
-            <span className="text-sm font-medium text-gray-700">Types de nœuds:</span>
-            {nodeTypes.map((type) => (
-              <Badge
-                key={type.type}
-                variant="secondary"
-                className={`cursor-pointer hover:scale-105 transition-transform ${type.color} text-white`}
-                onClick={() => {
-                  setNewNodeLabel(`Nouveau ${type.label}`);
-                  setIsEditing(true);
-                }}
-              >
-                {type.icon} {type.label}
-              </Badge>
-            ))}
-          </div>
-        </Card>
-      )}
-
-      {/* Zone de construction du diagramme */}
-      <Card className="relative overflow-hidden" style={{ minHeight: '600px' }}>
-        <div className="absolute inset-0 bg-gray-50">
-          {/* Grille de fond */}
-          <div 
-            className="absolute inset-0 opacity-20"
-            style={{
-              backgroundImage: 'radial-gradient(circle, #666 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
-            }}
-          />
-          
-          {/* Connexions entre nœuds */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none">
+      {/* Main diagram */}
+      <Card className="overflow-hidden">
+        <div className="relative h-96 bg-gray-900/50 rounded-lg">
+          <svg width="100%" height="100%" viewBox="0 0 800 600">
+            {/* Connections */}
             {nodes.map(node => 
-              node.connections.map(connId => {
-                const targetNode = nodes.find(n => n.id === connId);
-                if (!targetNode) return null;
+              node.connections.map(targetId => {
+                const target = nodes.find(n => n.id === targetId);
+                if (!target) return null;
                 
                 return (
                   <line
-                    key={`${node.id}-${connId}`}
-                    x1={node.x}
-                    y1={node.y}
-                    x2={targetNode.x}
-                    y2={targetNode.y}
-                    stroke="#3B82F6"
+                    key={`${node.id}-${targetId}`}
+                    x1={node.position.x}
+                    y1={node.position.y}
+                    x2={target.position.x}
+                    y2={target.position.y}
+                    stroke="#4b5563"
                     strokeWidth="2"
-                    markerEnd="url(#arrowhead)"
+                    strokeDasharray="5,5"
                   />
                 );
               })
             )}
             
-            {/* Définition de la flèche */}
-            <defs>
-              <marker
-                id="arrowhead"
-                markerWidth="10"
-                markerHeight="7"
-                refX="9"
-                refY="3.5"
-                orient="auto"
-              >
-                <polygon
-                  points="0 0, 10 3.5, 0 7"
-                  fill="#3B82F6"
-                />
-              </marker>
-            </defs>
-          </svg>
-          
-          {/* Nœuds */}
-          {nodes.map(node => {
-            const nodeType = nodeTypes.find(t => t.type === node.type);
-            return (
-              <div
-                key={node.id}
-                style={getNodeStyle(node)}
-                className={getNodeClass(node)}
-                onClick={() => handleNodeClick(node.id)}
-              >
-                <div className={node.type === 'decision' ? 'transform -rotate-45' : ''}>
-                  <div className="flex items-center justify-center space-x-1">
-                    <span>{nodeType?.icon}</span>
-                    <span className="text-xs">{node.label}</span>
-                  </div>
-                </div>
-                
-                {selectedNode === node.id && !readOnly && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteNode(node.id);
-                    }}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
+            {/* Nodes */}
+            {nodes.map(node => {
+              const isSelected = selectedNode === node.id;
+              return (
+                <g
+                  key={node.id}
+                  onClick={() => setSelectedNode(isSelected ? null : node.id)}
+                  className="cursor-pointer"
+                >
+                  <circle
+                    cx={node.position.x}
+                    cy={node.position.y}
+                    r="30"
+                    className={`fill-gray-800 stroke-2 ${getNodeColor(node.type)} ${
+                      isSelected ? 'stroke-[3px]' : 'stroke-[1px]'
+                    }`}
+                  />
+                  <foreignObject
+                    x={node.position.x - 12}
+                    y={node.position.y - 12}
+                    width="24"
+                    height="24"
                   >
-                    ×
-                  </button>
-                )}
-              </div>
-            );
-          })}
+                    <node.icon className={`h-6 w-6 ${getNodeColor(node.type).split(' ')[0]}`} />
+                  </foreignObject>
+                  
+                  <text
+                    x={node.position.x}
+                    y={node.position.y + 50}
+                    textAnchor="middle"
+                    className="fill-white text-xs"
+                  >
+                    {node.title}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
         </div>
       </Card>
 
-      {/* Panneau d'informations */}
-      {selectedNode && (
+      {/* Node details */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Selected node details */}
         <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-semibold text-gray-900">
-                Nœud sélectionné: {nodes.find(n => n.id === selectedNode)?.label}
-              </h3>
-              <p className="text-sm text-gray-600">
-                Type: {nodes.find(n => n.id === selectedNode)?.type}
-              </p>
-            </div>
-            <div className="flex space-x-2">
-              <Badge variant="secondary">
-                Connexions: {nodes.find(n => n.id === selectedNode)?.connections.length || 0}
-              </Badge>
-            </div>
-          </div>
-        </Card>
-      )}
-
-      {/* Modal d'ajout de nœud */}
-      {isEditing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold mb-4">Ajouter un nouveau nœud</h3>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Libellé du nœud
-                </label>
-                <input
-                  type="text"
-                  value={newNodeLabel}
-                  onChange={(e) => setNewNodeLabel(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                  placeholder="Entrez le libellé..."
-                />
-              </div>
+          <h3 className="font-semibold text-white mb-4">Node Details</h3>
+          {selectedNode ? (
+            (() => {
+              const node = nodes.find(n => n.id === selectedNode);
+              if (!node) return <div className="text-gray-400">Node not found</div>;
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Type de nœud
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {nodeTypes.map((type) => (
-                    <Button
-                      key={type.type}
-                      variant="secondary"
-                      onClick={() => handleAddNode(type.type as FlowNode['type'])}
-                      className="flex items-center space-x-2"
-                    >
-                      <span>{type.icon}</span>
-                      <span>{type.label}</span>
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex justify-end space-x-2 mt-6">
-              <Button
-                variant="secondary"
-                onClick={() => setIsEditing(false)}
-              >
-                Annuler
-              </Button>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Modal des templates */}
-      {showTemplates && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="p-6 max-w-2xl w-full mx-4 max-h-96 overflow-y-auto">
-            <h3 className="text-lg font-semibold mb-4">Choisir un template</h3>
-            
-            <div className="space-y-4">
-              {templates.map((template, index) => (
-                <div
-                  key={index}
-                  className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-                  onClick={() => handleLoadTemplate(template)}
-                >
-                  <h4 className="font-medium text-gray-900">{template.name}</h4>
-                  <p className="text-sm text-gray-600 mt-1">{template.description}</p>
-                  <div className="flex items-center space-x-2 mt-2">
-                    <Badge variant="secondary" size="sm">
-                      {template.nodes.length} nœuds
+              return (
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="text-white font-medium">{node.title}</h4>
+                    <p className="text-gray-300 text-sm">{node.description}</p>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <Badge variant="secondary" className={getNodeColor(node.type)}>
+                      {node.type}
                     </Badge>
+                    <span className="text-gray-400 text-sm">
+                      {node.connections.length} connections
+                    </span>
                   </div>
                 </div>
-              ))}
+              );
+            })()
+          ) : (
+            <div className="text-gray-400 text-center py-4">
+              Select a node to view details
             </div>
-            
-            <div className="flex justify-end space-x-2 mt-6">
-              <Button
-                variant="secondary"
-                onClick={() => setShowTemplates(false)}
-              >
-                Fermer
-              </Button>
+          )}
+        </Card>
+
+        {/* Workflow info */}
+        <Card className="p-4">
+          <h3 className="font-semibold text-white mb-4">Workflow Information</h3>
+          <div className="space-y-4">
+            <p className="text-gray-300">
+              This diagram represents a basic GitHub Flow workflow:
+            </p>
+            <ol className="list-decimal pl-5 space-y-2 text-gray-300">
+              <li>Create a feature branch from main</li>
+              <li>Make commits to implement your feature</li>
+              <li>Open a pull request and merge to main after review</li>
+              <li>Deploy the changes to production</li>
+            </ol>
+          </div>
+        </Card>
+      </div>
+
+      {/* Legend */}
+      <Card className="p-4">
+        <h3 className="font-semibold text-white mb-4">Workflow Elements</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {nodeTypes.map(type => (
+            <div key={type.type} className="flex items-center space-x-3">
+              <type.icon className={type.color === 'blue' ? 'text-blue-400' : 
+                             type.color === 'green' ? 'text-green-400' : 
+                             type.color === 'purple' ? 'text-purple-400' : 
+                             'text-orange-400'} />
+              <div>
+                <div className="font-medium text-white">{type.label}</div>
+                <div className="text-xs text-gray-400">
+                  {type.type === 'branch' ? 'Create or manage branches' :
+                   type.type === 'commit' ? 'Record changes to files' :
+                   type.type === 'merge' ? 'Combine branch changes' :
+                   'Deploy to an environment'}
+                </div>
+              </div>
             </div>
-          </Card>
+          ))}
         </div>
-      )}
-      {/* Completion */}
-      <Card className="mt-6 p-6 bg-green-50 border-green-200">
+      </Card>
+
+      {/* Completion button */}
+      <Card className="p-4 bg-green-900/20 border-green-500/30">
         <div className="text-center">
-          <div className="text-4xl mb-4">🎉</div>
-          <h3 className="text-lg font-semibold text-green-900 mb-2">
-            Exercice terminé !
+          <h3 className="font-semibold text-green-300 mb-2">
+            Ready to continue?
           </h3>
-          <p className="text-green-700 mb-4">
-            Vous avez exploré les différents workflows Git et appris à créer votre propre diagramme de flux.
+          <p className="text-gray-300 mb-4">
+            Now that you understand Git workflow visualization, continue with the tutorial to learn more.
           </p>
-          <Button
-            variant="primary"
-            onClick={onComplete}
-          >
-            Continuer le tutoriel
+          <Button onClick={handleComplete}>
+            Continue
           </Button>
         </div>
       </Card>
     </div>
   );
 };
+
+// Helper icon components
+const GitBranch: React.FC<{ className?: string }> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <line x1="6" y1="3" x2="6" y2="15"></line>
+    <circle cx="18" cy="6" r="3"></circle>
+    <circle cx="6" cy="18" r="3"></circle>
+    <path d="M18 9a9 9 0 0 1-9 9"></path>
+  </svg>
+);
+
+const GitCommit: React.FC<{ className?: string }> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <circle cx="12" cy="12" r="3"></circle>
+    <line x1="3" y1="12" x2="9" y2="12"></line>
+    <line x1="15" y1="12" x2="21" y2="12"></line>
+  </svg>
+);
+
+const GitMerge: React.FC<{ className?: string }> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <circle cx="18" cy="18" r="3"></circle>
+    <circle cx="6" cy="6" r="3"></circle>
+    <path d="M6 21V9a9 9 0 0 0 9 9"></path>
+  </svg>
+);
+
+const Deploy: React.FC<{ className?: string }> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+  </svg>
+);
 
 export default FlowDiagramBuilder;

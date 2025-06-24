@@ -24,7 +24,8 @@ export const repositoriesChapter: Chapter = {
         'Clone repositories from GitHub',
         'Understand local vs remote repositories'
       ],
-      description: 'Learn to initialize and clone repositories'
+      description: 'Learn to initialize and clone repositories',
+      component: 'RepoCreationWizard'
     },
     {
       id: 'repo-structure',
@@ -37,7 +38,8 @@ export const repositoriesChapter: Chapter = {
         'Understand Git objects and references',
         'Learn about the working directory, staging area, and repository'
       ],
-      description: 'Explore how Git repositories are structured internally'
+      description: 'Explore how Git repositories are structured internally',
+      component: 'StagingAreaVisualizer'
     },
     {
       id: 'remote-repos',
@@ -50,7 +52,8 @@ export const repositoriesChapter: Chapter = {
         'Understand origin and upstream',
         'Practice fetching and pulling changes'
       ],
-      description: 'Master working with remote repositories'
+      description: 'Master working with remote repositories',
+      component: 'CommitHistoryExplorer'
     }
   ],
   quiz: [

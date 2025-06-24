@@ -234,20 +234,20 @@ export const ConflictVisualizer: React.FC<ConflictVisualizerProps> = ({
     <div className="max-w-6xl mx-auto p-6 space-y-6">
       {/* En-tête */}
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl font-bold text-white mb-2">
           Visualiseur de Conflits Git
         </h1>
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-300 mb-4">
           Résolvez les conflits de merge de manière interactive
         </p>
         
         {/* Barre de progression */}
         <div className="max-w-md mx-auto">
-          <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
+          <div className="flex items-center justify-between text-sm text-gray-300 mb-1">
             <span>Progression</span>
             <span>{resolvedConflicts}/{totalConflicts} fichiers résolus</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-700 rounded-full h-2">
             <div
               className="bg-green-500 h-2 rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
@@ -259,7 +259,7 @@ export const ConflictVisualizer: React.FC<ConflictVisualizerProps> = ({
       {/* Sélecteur de fichiers */}
       <Card className="p-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gray-900">Fichiers en conflit</h3>
+          <h3 className="font-semibold text-white">Fichiers en conflit</h3>
           <Button
             variant="primary"
             onClick={resolveAllConflicts}
@@ -276,8 +276,8 @@ export const ConflictVisualizer: React.FC<ConflictVisualizerProps> = ({
               onClick={() => setActiveFile(file.filename)}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 activeFile === file.filename
-                  ? 'bg-blue-100 text-blue-800 border border-blue-300'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-blue-900/20 text-blue-300 border border-blue-500/30'
+                  : 'bg-gray-700/30 text-gray-300 hover:bg-gray-700/50'
               }`}
             >
               <div className="flex items-center space-x-2">
@@ -296,7 +296,7 @@ export const ConflictVisualizer: React.FC<ConflictVisualizerProps> = ({
       {/* Contrôles de résolution */}
       {getCurrentFile() && !getCurrentFile()?.resolved && (
         <Card className="p-4">
-          <h3 className="font-semibold text-gray-900 mb-3">Options de résolution</h3>
+          <h3 className="font-semibold text-white mb-3">Options de résolution</h3>
           <div className="flex flex-wrap gap-2">
             <Button
               variant="secondary"
@@ -329,8 +329,8 @@ export const ConflictVisualizer: React.FC<ConflictVisualizerProps> = ({
       {/* Visualisation du fichier */}
       {getCurrentFile() && (
         <Card className="overflow-hidden">
-          <div className="bg-gray-50 px-4 py-2 border-b flex items-center justify-between">
-            <h3 className="font-medium text-gray-900">{getCurrentFile()?.filename}</h3>
+          <div className="bg-gray-800 px-4 py-2 border-b border-gray-700 flex items-center justify-between">
+            <h3 className="font-medium text-white">{getCurrentFile()?.filename}</h3>
             <div className="flex items-center space-x-2">
               {getCurrentFile()?.resolved ? (
                 <Badge variant="success">Résolu</Badge>
@@ -345,10 +345,15 @@ export const ConflictVisualizer: React.FC<ConflictVisualizerProps> = ({
               {getCurrentFile()?.lines.map((line, index) => (
                 <div
                   key={index}
-                  className={`flex items-start hover:bg-gray-50 ${getLineColor(line)}`}
+                  className={`flex items-start hover:bg-gray-800/50 ${
+                    line.type === 'current' ? 'bg-green-900/30 border-l-4 border-green-500' :
+                    line.type === 'incoming' ? 'bg-blue-900/30 border-l-4 border-blue-500' :
+                    line.type === 'separator' ? 'bg-red-900/30 border-l-4 border-red-500' :
+                    ''
+                  }`}
                   onClick={() => toggleLineSelection(line.lineNumber)}
                 >
-                  <div className="w-12 text-right text-gray-400 px-2 py-1 bg-gray-100 border-r">
+                  <div className="w-12 text-right text-gray-500 px-2 py-1 bg-gray-900/50 border-r border-gray-700">
                     {line.lineNumber}
                   </div>
                   <div className="w-8 text-center py-1">
@@ -356,7 +361,7 @@ export const ConflictVisualizer: React.FC<ConflictVisualizerProps> = ({
                   </div>
                   <div className="flex-1 py-1 px-2">
                     <code className={`${
-                      selectedLines.has(line.lineNumber) ? 'bg-yellow-200' : ''
+                      selectedLines.has(line.lineNumber) ? 'bg-yellow-900/30 px-1 rounded' : ''
                     }`}>
                       {line.content || ' '}
                     </code>
@@ -376,37 +381,37 @@ export const ConflictVisualizer: React.FC<ConflictVisualizerProps> = ({
       )}
 
       {/* Légende */}
-      <Card className="p-4 bg-gray-50">
-        <h3 className="font-semibold text-gray-900 mb-3">Légende</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <Card className="p-4 bg-gray-800/50">
+        <h3 className="font-semibold text-white mb-3">Légende des Statuts</h3>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-green-100 border-l-4 border-green-400"></div>
-            <span className="text-sm">🟢 Version actuelle (HEAD)</span>
+            <div className="w-4 h-4 bg-green-900/50 border-l-4 border-green-400"></div>
+            <span className="text-sm text-gray-300">🟢 Version actuelle (HEAD)</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-blue-100 border-l-4 border-blue-400"></div>
-            <span className="text-sm">🔵 Version entrante</span>
+            <div className="w-4 h-4 bg-blue-900/50 border-l-4 border-blue-400"></div>
+            <span className="text-sm text-gray-300">🔵 Version entrante</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-red-100 border-l-4 border-red-400"></div>
-            <span className="text-sm">⚠️ Marqueurs de conflit</span>
+            <div className="w-4 h-4 bg-red-900/50 border-l-4 border-red-400"></div>
+            <span className="text-sm text-gray-300">⚠️ Marqueurs de conflit</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-white border"></div>
-            <span className="text-sm">Code sans conflit</span>
+            <div className="w-4 h-4 bg-gray-800/50 border"></div>
+            <span className="text-sm text-gray-300">Code sans conflit</span>
           </div>
         </div>
       </Card>
 
       {/* Résumé final */}
       {resolvedConflicts === totalConflicts && (
-        <Card className="p-6 bg-green-50 border-green-200">
+        <Card className="p-6 bg-green-900/20 border-green-500/30">
           <div className="text-center">
             <div className="text-4xl mb-4">🎉</div>
-            <h3 className="text-lg font-semibold text-green-900 mb-2">
+            <h3 className="text-lg font-semibold text-green-300 mb-2">
               Tous les conflits sont résolus !
             </h3>
-            <p className="text-green-700 mb-4">
+            <p className="text-green-200 mb-4">
               Vous pouvez maintenant continuer avec votre merge.
             </p>
             <div className="bg-gray-900 text-green-400 p-3 rounded-md font-mono text-sm max-w-md mx-auto">

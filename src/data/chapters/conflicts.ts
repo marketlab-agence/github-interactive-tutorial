@@ -46,6 +46,7 @@ export const conflictsChapter: Chapter = {
       content: 'Explore advanced tools and techniques for handling complex merge conflicts.',
       type: 'practice',
       duration: 20,
+      component: 'ConflictVisualizer',
       objectives: [
         'Use visual merge tools for conflict resolution',
         'Implement advanced techniques for complex conflicts',
