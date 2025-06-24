@@ -7,7 +7,6 @@ export interface UserProgress {
   completedChapters: string[];
   completedQuizzes: string[];
   quizScores: Record<string, number>; // chapterId -> score
-  quizScores: Record<string, number>; // chapterId -> score
   lastPosition: {
     view: string;
     chapterId?: string;
@@ -45,7 +44,6 @@ const initialProgress: UserProgress = {
   completedChapters: [],
   completedQuizzes: [],
   quizScores: {},
-  quizScores: {},
   lastPosition: {
     view: 'accueil'
   },
@@ -65,7 +63,6 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           completedLessons: parsed.completedLessons || [],
           completedChapters: parsed.completedChapters || [],
           completedQuizzes: parsed.completedQuizzes || [],
-          quizScores: parsed.quizScores || {}, // Ensure quizScores is always an object
           quizScores: parsed.quizScores || {}, // Ensure quizScores is always an object
           lastPosition: parsed.lastPosition || { view: 'accueil' },
           globalScore: parsed.globalScore || 0
@@ -89,8 +86,6 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       ...updates,
       // Ensure quizScores is always an object when updating
       quizScores: updates.quizScores || prev.quizScores || {},
-      // Ensure quizScores is always an object when updating
-      quizScores: updates.quizScores || prev.quizScores || {}
     }));
   };
 
@@ -151,17 +146,10 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         quizScores[chapterId] = score;
       }
       
-      // Ensure quizScores is always an object before spreading
-      const quizScores = { ...(prev.quizScores || {}) };
-      if (score !== undefined) {
-        quizScores[chapterId] = score;
-      }
-      
       // Recalculer le score global
       const updatedProgress = {
         ...prev,
         completedQuizzes,
-        quizScores,
         quizScores
       };
       
