@@ -210,7 +210,7 @@ export default Header;`,
                 <div className="bg-gray-700/30 p-4 rounded-lg">
                   <h4 className="font-medium text-white mb-2">Conseils pour la résolution :</h4>
                   <ul className="text-sm text-gray-300 space-y-1">
-                    <li>• Supprimez les marqueurs de conflit (<<<<<<<, =======, >>>>>>>)</li>
+                    <li>• Supprimez les marqueurs de conflit (&lt;&lt;&lt;&lt;&lt;&lt;&lt;, =======, &gt;&gt;&gt;&gt;&gt;&gt;&gt;)</li>
                     <li>• Choisissez les meilleures parties des deux versions</li>
                     <li>• Testez votre résolution pour vous assurer qu'elle fonctionne</li>
                     <li>• Tenez compte du contexte et de l'objectif de chaque modification</li>
