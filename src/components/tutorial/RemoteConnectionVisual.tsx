@@ -14,7 +14,11 @@ interface RemoteRepository {
   status: 'synced' | 'ahead' | 'behind' | 'diverged' | 'unknown';
 }
 
-const RemoteConnectionVisual: React.FC = () => {
+interface RemoteConnectionVisualProps {
+  onComplete?: () => void;
+}
+
+const RemoteConnectionVisual: React.FC<RemoteConnectionVisualProps> = ({ onComplete }) => {
   const [isConnected, setIsConnected] = useState(true);
   const [remotes, setRemotes] = useState<RemoteRepository[]>([
     {
@@ -83,6 +87,19 @@ const RemoteConnectionVisual: React.FC = () => {
       timestamp: new Date()
     };
     setConnectionLogs(prev => [newLog, ...prev.slice(0, 9)]);
+  };
+
+  // Function to track completion of the exercise
+  const handleComplete = () => {
+    // Add a success message
+    addLog('Exercice complété avec succès !', 'success');
+    
+    // Call the onComplete callback if provided
+    if (onComplete) {
+      setTimeout(() => {
+        onComplete();
+      }, 1500);
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -419,6 +436,19 @@ const RemoteConnectionVisual: React.FC = () => {
               Votre copie personnelle d'un projet. Permet de contribuer sans affecter l'original.
             </p>
           </div>
+        </div>
+      </Card>
+      
+      {/* Complete Button */}
+      <Card>
+        <div className="text-center">
+          <Button 
+            onClick={handleComplete}
+            size="lg"
+            className="px-8"
+          >
+            J'ai compris les connexions distantes
+          </Button>
         </div>
       </Card>
     </div>

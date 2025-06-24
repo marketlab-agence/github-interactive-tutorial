@@ -23,7 +23,11 @@ interface AnimationStep {
   commits: Commit[];
 }
 
-const PushPullAnimator: React.FC = () => {
+interface PushPullAnimatorProps {
+  onComplete?: () => void;
+}
+
+const PushPullAnimator: React.FC<PushPullAnimatorProps> = ({ onComplete }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [animatingCommits, setAnimatingCommits] = useState<Commit[]>([]);
@@ -364,6 +368,21 @@ const PushPullAnimator: React.FC = () => {
           </div>
         </div>
       </Card>
+      
+      {/* Completion button */}
+      {currentStep >= animationSteps.length && (
+        <Card>
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-green-400 mb-4">Animation complétée !</h3>
+            <p className="text-gray-300 mb-6">
+              Vous avez maintenant une meilleure compréhension des mécanismes de push et pull dans Git.
+            </p>
+            <Button onClick={onComplete} size="lg">
+              Continuer le tutoriel
+            </Button>
+          </div>
+        </Card>
+      )}
     </div>
   );
 };

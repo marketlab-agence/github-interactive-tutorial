@@ -16,7 +16,11 @@ interface Repository {
   currentBranch: string;
 }
 
-const LocalVsRemoteVisual: React.FC = () => {
+interface LocalVsRemoteVisualProps {
+  onComplete?: () => void;
+}
+
+const LocalVsRemoteVisual: React.FC<LocalVsRemoteVisualProps> = ({ onComplete }) => {
   const [isConnected, setIsConnected] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'synced' | 'ahead' | 'behind' | 'diverged'>('synced');
   const [animatingSync, setAnimatingSync] = useState(false);
@@ -329,6 +333,20 @@ const LocalVsRemoteVisual: React.FC = () => {
               <li>• Point de collaboration</li>
             </ul>
           </div>
+        </div>
+      </Card>
+      
+      {/* Completion section */}
+      <Card>
+        <div className="text-center space-y-4">
+          <h3 className="text-xl font-semibold text-white">Exercice</h3>
+          <p className="text-gray-300">
+            Essayez de simuler différentes situations de synchronisation en utilisant les boutons ci-dessus.
+            Une fois que vous avez bien compris la relation entre dépôts locaux et distants, continuez le tutoriel.
+          </p>
+          <Button onClick={onComplete} size="lg">
+            J'ai compris les différences
+          </Button>
         </div>
       </Card>
     </div>

@@ -6,9 +6,32 @@ import QuizQuestion from './tutorial/QuizQuestion';
 import ChapterSummary from './tutorial/ChapterSummary';
 import NavigationControls from './tutorial/NavigationControls';
 import Button from './ui/Button';
+import Badge from './ui/Badge';
 import Card from './ui/Card';
 import { useTutorial } from '../context/TutorialContext';
 import { chapters } from '../data/tutorialData';
+
+// Import interactive components for Chapter 3: Branches and Fusion
+import BranchCreator from './interactive/BranchCreator';
+import MergeSimulator from './interactive/MergeSimulator';
+import ConflictResolver from './interactive/ConflictResolver';
+
+// Import interactive components for Chapter 4: Remote Repositories
+import RemoteConnectionVisual from './tutorial/RemoteConnectionVisual';
+import PushPullAnimator from './tutorial/PushPullAnimator';
+import LocalVsRemoteVisual from './tutorial/LocalVsRemoteVisual';
+import SyncStatusIndicator from './interactive/SyncStatusIndicator';
+
+// Import interactive components for Chapter 5: Collaboration and Pull Requests
+import ForkVsCloneDemo from './tutorial/ForkVsCloneDemo';
+import PullRequestCreator from './interactive/PullRequestCreator';
+import CodeReviewInterface from './tutorial/CodeReviewInterface';
+import CollaborationSimulator from './interactive/CollaborationSimulator';
+
+// Import interactive components for Chapter 6: Git Workflows
+import WorkflowComparisonTable from './tutorial/WorkflowComparisonTable';
+import WorkflowSimulator from './interactive/WorkflowSimulator';
+import FlowDiagramBuilder from './tutorial/FlowDiagramBuilder';
 
 interface TutorialContentProps {
   onReturnToHome: () => void;
@@ -331,6 +354,57 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
           objectives={chapters[currentChapter].objectives}
           difficulty="beginner"
         />
+        
+        {/* Dynamic Component Rendering */}
+        {lesson.component && (
+          <div className="max-w-4xl mx-auto">
+            {lesson.component === 'BranchCreator' && (
+              <BranchCreator onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'MergeSimulator' && (
+              <MergeSimulator onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'ConflictResolver' && (
+              <ConflictResolver onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'RemoteConnectionVisual' && (
+              <RemoteConnectionVisual onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'PushPullAnimator' && (
+              <PushPullAnimator onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'LocalVsRemoteVisual' && (
+              <LocalVsRemoteVisual onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'SyncStatusIndicator' && (
+              <SyncStatusIndicator onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'ForkVsCloneDemo' && (
+              <ForkVsCloneDemo onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'PullRequestCreator' && (
+              <PullRequestCreator onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'CodeReviewInterface' && (
+              <CodeReviewInterface onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'CollaborationSimulator' && (
+              <CollaborationSimulator onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'WorkflowComparisonTable' && (
+              <WorkflowComparisonTable onComplete={handleCompleteLesson} />
+            )}
+            {lesson.component === 'WorkflowSimulator' && (
+              <WorkflowSimulator 
+                workflowType={lesson.workflowType || 'github-flow'} 
+                onComplete={handleCompleteLesson} 
+              />
+            )}
+            {lesson.component === 'FlowDiagramBuilder' && (
+              <FlowDiagramBuilder onComplete={handleCompleteLesson} />
+            )}
+          </div>
+        )}
         
         {lesson.image && (
           <div className="max-w-3xl mx-auto">

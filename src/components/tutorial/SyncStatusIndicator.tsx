@@ -29,7 +29,11 @@ interface BranchStatus {
   isActive: boolean;
 }
 
-const SyncStatusIndicator: React.FC = () => {
+interface SyncStatusIndicatorProps {
+  onComplete?: () => void;
+}
+
+const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({ onComplete }) => {
   const [isOnline, setIsOnline] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
   const [branches, setBranches] = useState<BranchStatus[]>([
@@ -410,6 +414,20 @@ const SyncStatusIndicator: React.FC = () => {
               </div>
             );
           })}
+        </div>
+      </Card>
+      
+      {/* Completion button */}
+      <Card>
+        <div className="text-center space-y-4">
+          <h3 className="text-xl font-semibold text-green-400">Exercice</h3>
+          <p className="text-gray-300">
+            Simulez différentes situations de synchronisation pour toutes les branches en utilisant les boutons
+            ci-dessus. Essayez de comprendre comment chaque action affecte le statut des branches.
+          </p>
+          <Button onClick={onComplete} size="lg">
+            Continuer
+          </Button>
         </div>
       </Card>
     </div>

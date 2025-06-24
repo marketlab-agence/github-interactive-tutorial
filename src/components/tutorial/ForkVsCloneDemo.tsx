@@ -18,7 +18,11 @@ interface Repository {
   lastUpdate: Date;
 }
 
-const ForkVsCloneDemo: React.FC = () => {
+interface ForkVsCloneDemoProps {
+  onComplete?: () => void;
+}
+
+const ForkVsCloneDemo: React.FC<ForkVsCloneDemoProps> = ({ onComplete }) => {
   const [selectedAction, setSelectedAction] = useState<'fork' | 'clone' | null>(null);
   const [animationStep, setAnimationStep] = useState(0);
 
@@ -195,7 +199,27 @@ const ForkVsCloneDemo: React.FC = () => {
           </Card>
         </div>
 
-        {/* Visualisation */}
+    },
+    {
+      id: 'complete',
+      label: 'Compléter',
+      content: (
+        <div className="space-y-6">
+          <Card className="p-6 bg-green-900/20 border-green-500/30">
+            <div className="text-center space-y-4">
+              <h3 className="text-xl font-bold text-green-400">Prêt à continuer ?</h3>
+              <p className="text-gray-300">
+                Maintenant que vous comprenez la différence entre fork et clone, 
+                vous êtes prêt à passer à la suite du tutoriel.
+              </p>
+              <Button onClick={onComplete} size="lg" className="px-8">
+                Continuer le tutoriel
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )
+    }
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-white">Visualisation</h3>

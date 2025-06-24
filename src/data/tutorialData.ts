@@ -389,6 +389,7 @@ git diff abc1234..def5678`,
       {
         id: 'branch-basics',
         title: 'Les bases des branches',
+       component: 'BranchCreator',
         content: `Les branches sont l'une des fonctionnalités les plus puissantes de Git. Elles permettent de développer des fonctionnalités, corriger des bugs ou expérimenter de nouvelles idées en parallèle, sans affecter la branche principale (généralement appelée "main" ou "master").
 
 Une branche dans Git est simplement un pointeur léger et mobile vers un commit. La branche par défaut s'appelle "main" (ou "master" dans les anciens dépôts).
@@ -426,6 +427,7 @@ git branch -d feature-login`,
       {
         id: 'merging-branches',
         title: 'Fusionner des branches',
+       component: 'MergeSimulator',
         content: `La fusion (merge) est le processus qui consiste à intégrer les modifications d'une branche dans une autre. C'est ainsi que vous combinez le travail de différentes branches.
 
 Pour fusionner une branche dans votre branche actuelle :
@@ -460,6 +462,7 @@ git commit -m "Ajouter fonctionnalité de connexion"`,
       {
         id: 'conflict-resolution',
         title: 'Résolution des conflits',
+       component: 'ConflictResolver',
         content: `Les conflits de fusion se produisent lorsque Git ne peut pas automatiquement fusionner des modifications parce que les mêmes lignes ont été modifiées différemment dans les deux branches.
 
 Quand un conflit survient, Git marque les fichiers problématiques et interrompt le processus de fusion. Vous devez alors résoudre manuellement ces conflits.
@@ -507,6 +510,8 @@ git commit`,
       {
         id: 'branch-workflows',
         title: 'Workflows de branches',
+       component: 'WorkflowSimulator',
+       workflowType: 'github-flow',
         content: `Il existe plusieurs stratégies de gestion des branches, appelées "workflows". Les plus populaires sont :
 
 1. **GitHub Flow** : Simple et adapté au déploiement continu
@@ -599,6 +604,7 @@ git push origin main`,
       {
         id: 'remote-basics',
         title: 'Les bases des dépôts distants',
+       component: 'RemoteConnectionVisual',
         content: `Un dépôt distant est une version de votre projet hébergée sur Internet ou un réseau. Il permet de collaborer avec d'autres développeurs et de sauvegarder votre travail en dehors de votre machine locale.
 
 GitHub, GitLab et Bitbucket sont des plateformes populaires pour héberger des dépôts distants.
@@ -632,6 +638,7 @@ git remote remove upstream`,
       {
         id: 'push-pull',
         title: 'Push et Pull : synchroniser avec le dépôt distant',
+       component: 'PushPullAnimator',
         content: `Pour synchroniser votre dépôt local avec un dépôt distant, vous utilisez principalement deux commandes : push et pull.
 
 **Push** : Envoie vos commits locaux vers le dépôt distant
@@ -669,6 +676,7 @@ git push --all origin`,
       {
         id: 'fetch-vs-pull',
         title: 'Fetch vs Pull : comprendre la différence',
+       component: 'LocalVsRemoteVisual',
         content: `\`git fetch\` et \`git pull\` sont deux commandes pour récupérer des données depuis un dépôt distant, mais elles fonctionnent différemment.
 
 **git fetch** :
@@ -706,6 +714,7 @@ git pull origin main`,
       {
         id: 'remote-branches',
         title: 'Travailler avec des branches distantes',
+       component: 'SyncStatusIndicator',
         content: `Les branches distantes sont des références à l'état des branches sur votre dépôt distant. Elles sont nommées sous la forme <remote>/<branch>, par exemple origin/main.
 
 Pour voir toutes les branches (locales et distantes) :
@@ -793,6 +802,7 @@ git push origin --delete feature-login`,
       {
         id: 'fork-clone',
         title: 'Fork et Clone : contribuer à des projets',
+       component: 'ForkVsCloneDemo',
         content: `Pour contribuer à un projet open source ou à un projet auquel vous n'avez pas accès en écriture, vous utiliserez généralement le workflow Fork & Pull Request.
 
 **Fork** : Créer une copie personnelle d'un dépôt sur votre compte GitHub
@@ -830,6 +840,7 @@ git merge upstream/main`,
       {
         id: 'pull-requests',
         title: 'Créer et gérer des Pull Requests',
+       component: 'PullRequestCreator',
         content: `Une Pull Request (PR) est une demande d'intégration de vos modifications dans le dépôt principal. C'est le mécanisme central de collaboration sur GitHub.
 
 Pour créer une Pull Request :
@@ -861,6 +872,7 @@ git push origin feature-awesome`,
       {
         id: 'code-reviews',
         title: 'Revues de code et feedback',
+       component: 'CodeReviewInterface',
         content: `La revue de code est une pratique essentielle pour maintenir la qualité du code et partager les connaissances au sein d'une équipe.
 
 Sur GitHub, les revues de code se font principalement via les Pull Requests. En tant que réviseur, vous pouvez :
@@ -888,6 +900,7 @@ car nous créons un nouveau tableau. Qu'en penses-tu ?"
       {
         id: 'github-features',
         title: 'Fonctionnalités de collaboration GitHub',
+       component: 'CollaborationSimulator',
         content: `GitHub offre de nombreuses fonctionnalités pour faciliter la collaboration au-delà du simple hébergement de code :
 
 **Issues** : Pour suivre les bugs, améliorations et tâches
@@ -985,6 +998,7 @@ git commit -m "Corriger le bug d'authentification, closes #123"
       {
         id: 'workflow-comparison',
         title: 'Comparaison des workflows Git',
+       component: 'WorkflowComparisonTable',
         content: `Un workflow Git est une recommandation sur la façon d'utiliser Git pour accomplir un travail cohérent et productif. Plusieurs modèles existent, chacun avec ses avantages et inconvénients.
 
 Les trois workflows les plus populaires sont :
@@ -1016,6 +1030,8 @@ Le choix du workflow dépend de la taille de votre équipe, de la nature du proj
       {
         id: 'github-flow',
         title: 'GitHub Flow : simplicité et efficacité',
+       component: 'WorkflowSimulator',
+       workflowType: 'github-flow',
         content: `GitHub Flow est un workflow léger, basé sur les branches, qui prend en charge les équipes et projets où les déploiements sont réguliers.
 
 Étapes du GitHub Flow :
@@ -1064,6 +1080,8 @@ git push origin main`,
       {
         id: 'git-flow',
         title: 'Git Flow : pour les projets complexes',
+       component: 'WorkflowSimulator',
+       workflowType: 'git-flow',
         content: `Git Flow est un modèle de branches plus rigoureux, conçu pour les projets avec des cycles de release planifiés.
 
 Branches principales :
@@ -1111,6 +1129,7 @@ git flow hotfix finish bug-critical`,
       {
         id: 'choosing-workflow',
         title: 'Choisir le bon workflow pour votre projet',
+       component: 'FlowDiagramBuilder',
         content: `Le choix du workflow Git dépend de plusieurs facteurs :
 
 **Taille de l'équipe** :

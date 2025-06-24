@@ -20,10 +20,14 @@ export interface Lesson {
   id: string;
   title: string;
   content: string;
+  component?: string;
+  workflowType?: 'github-flow' | 'git-flow' | 'gitlab-flow';
   type: 'theory' | 'practice' | 'quiz' | 'simulation';
   duration: number;
   objectives: string[];
   prerequisites?: string[];
+  image?: string;
+  codeExample?: string;
 }
 
 export interface QuizQuestion {
