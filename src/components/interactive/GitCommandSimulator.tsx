@@ -54,13 +54,13 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
-        <div className="flex items-center space-x-3 mb-4">
+      <div className="bg-gray-800/50 rounded-xl p-3 sm:p-6 border border-gray-700">
+        <div className="flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-start sm:space-x-3 mb-4 gap-2">
           <Terminal className="h-6 w-6 text-green-400" />
-          <h3 className="text-xl font-semibold text-white">Simulateur de Commandes Git</h3>
+          <h3 className="text-lg sm:text-xl font-semibold text-white">Simulateur de Commandes Git</h3>
         </div>
         
-        <p className="text-gray-300 mb-6">
+        <p className="text-gray-300 text-sm sm:text-base mb-4 sm:mb-6">
           Pratiquez les commandes Git dans un environnement sécurisé. Essayez d'exécuter : <code className="bg-gray-700 px-2 py-1 rounded text-green-400">{expectedCommand}</code>
         </p>
 
@@ -120,14 +120,14 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
         </div>
 
         {/* Commandes disponibles */}
-        <div className="mb-4 overflow-hidden">
+        <div className="mb-4 overflow-x-auto">
           <h4 className="text-sm font-medium text-gray-300 mb-2">Commandes disponibles</h4>
-          <div className="flex flex-wrap gap-2 overflow-x-auto pb-2">
+          <div className="flex flex-wrap gap-2 pb-2">
             {availableCommands.map((cmd, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentCommand(cmd)}
-                className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm rounded transition-colors"
+                className="px-2 sm:px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 text-xs sm:text-sm rounded transition-colors whitespace-nowrap"
               >
                 {cmd}
               </button>
@@ -136,12 +136,12 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
         </div>
 
         {/* Contrôles */}
-        <div className="flex flex-wrap sm:flex-nowrap gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <Button
             onClick={executeCommand}
             disabled={!currentCommand.trim() || isExecuting}
             loading={isExecuting}
-            className="flex-1 min-w-0"
+            className="w-full sm:flex-1 min-w-0"
           >
             <Play className="h-4 w-4 sm:mr-2" />
             Exécuter
@@ -149,7 +149,7 @@ const GitCommandSimulator: React.FC<GitCommandSimulatorProps> = ({
           <Button
             variant="secondary"
             onClick={resetSimulator}
-            className="flex-1 min-w-0"
+            className="w-full sm:flex-1 min-w-0"
           >
             <RotateCcw className="h-4 w-4 sm:mr-2" />
             <span className="hidden sm:inline">Réinitialiser</span>
