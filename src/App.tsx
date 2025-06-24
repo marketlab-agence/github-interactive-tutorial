@@ -53,12 +53,15 @@ interface Lesson {
   id: number;
   title: string;
   content: string;
+  image?: string;
+  codeExample?: string;
 }
 
 function App() {
   const [selectedItem, setSelectedItem] = useState<string>('accueil');
   const [currentChapter, setCurrentChapter] = useState<number | null>(null);
   const [currentLesson, setCurrentLesson] = useState<number | null>(null);
+  const [showQuiz, setShowQuiz] = useState<boolean>(false);
 
   const sections: Section[] = [
     {
@@ -221,17 +224,23 @@ function App() {
         {
           id: 1,
           title: "Qu'est-ce que Git?",
-          content: "Git est un système de contrôle de version distribué qui permet de suivre les modifications de code source pendant le développement logiciel."
+          content: "Git est un système de contrôle de version distribué qui permet de suivre les modifications de code source pendant le développement logiciel. Contrairement aux anciens systèmes de contrôle de version, Git stocke les informations sous forme d'instantanés du contenu complet des fichiers, et non comme une série de modifications apportées aux fichiers au fil du temps.\n\nGit a été créé par Linus Torvalds en 2005 pour le développement du noyau Linux. Il est conçu pour être rapide, efficace avec de grands projets, et offre un support robuste pour le développement non linéaire grâce à son modèle de branches.",
+          image: "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Vérifier la version de Git installée\ngit --version\n\n# Obtenir de l'aide sur les commandes Git\ngit help"
         },
         {
           id: 2,
           title: "Différence entre Git et GitHub",
-          content: "Git est un outil de contrôle de version, tandis que GitHub est une plateforme d'hébergement de code qui utilise Git."
+          content: "Git et GitHub sont souvent confondus, mais ils servent des objectifs différents et complémentaires.\n\nGit est un outil de contrôle de version qui fonctionne localement sur votre machine. Il vous permet de suivre les modifications de vos fichiers, de revenir à des versions précédentes, et de travailler sur différentes branches.\n\nGitHub, en revanche, est une plateforme d'hébergement de code basée sur le web qui utilise Git comme système de contrôle de version sous-jacent. GitHub ajoute ses propres fonctionnalités comme les Pull Requests, les Issues, les Wikis, et d'autres outils de collaboration qui ne font pas partie de Git lui-même.",
+          image: "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Cloner un dépôt GitHub\ngit clone https://github.com/utilisateur/depot.git\n\n# Ajouter un dépôt distant\ngit remote add origin https://github.com/utilisateur/depot.git"
         },
         {
           id: 3,
           title: "Installation et configuration de Git",
-          content: "Apprenez à installer Git sur votre système et à configurer les paramètres de base."
+          content: "Pour commencer à utiliser Git, vous devez d'abord l'installer sur votre système. Git est disponible pour Windows, macOS et Linux.\n\nAprès l'installation, il est important de configurer votre identité Git, car chaque commit que vous faites utilise ces informations. Vous pouvez configurer votre nom d'utilisateur et votre email avec les commandes git config.\n\nVous pouvez également configurer d'autres paramètres comme votre éditeur de texte préféré, l'outil de fusion, et les alias pour les commandes fréquemment utilisées.",
+          image: "https://images.pexels.com/photos/4164418/pexels-photo-4164418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Configurer votre identité Git\ngit config --global user.name \"Votre Nom\"\ngit config --global user.email \"votre.email@exemple.com\"\n\n# Vérifier vos paramètres\ngit config --list"
         }
       ]
     },
@@ -243,17 +252,23 @@ function App() {
         {
           id: 1,
           title: "Création d'un dépôt",
-          content: "Apprenez à initialiser un nouveau dépôt Git avec la commande git init."
+          content: "Un dépôt Git (ou repo) est un espace de stockage où votre projet vit. Il contient tous les fichiers de votre projet ainsi que l'historique complet des modifications.\n\nVous pouvez créer un nouveau dépôt localement en utilisant la commande git init dans le répertoire de votre projet. Cela crée un sous-répertoire .git qui contient toute la structure nécessaire pour le contrôle de version.\n\nAlternativement, vous pouvez cloner un dépôt existant depuis GitHub ou un autre service d'hébergement Git en utilisant la commande git clone.",
+          image: "https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Initialiser un nouveau dépôt\ngit init\n\n# Cloner un dépôt existant\ngit clone https://github.com/utilisateur/depot.git"
         },
         {
           id: 2,
           title: "Comprendre la zone de staging",
-          content: "La zone de staging est une étape intermédiaire avant le commit où vous préparez vos modifications."
+          content: "La zone de staging (ou index) est une caractéristique unique de Git. C'est une zone intermédiaire où vous pouvez préparer et réviser vos modifications avant de les commiter.\n\nLorsque vous modifiez des fichiers dans votre répertoire de travail, Git les voit comme modifiés mais non stagés. Pour inclure ces modifications dans votre prochain commit, vous devez les ajouter à la zone de staging avec la commande git add.\n\nCette étape intermédiaire vous donne un contrôle précis sur ce qui sera inclus dans chaque commit, vous permettant de regrouper des modifications connexes.",
+          image: "https://images.pexels.com/photos/7014337/pexels-photo-7014337.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Ajouter un fichier spécifique à la zone de staging\ngit add fichier.txt\n\n# Ajouter tous les fichiers modifiés\ngit add .\n\n# Vérifier l'état de la zone de staging\ngit status"
         },
         {
           id: 3,
           title: "Effectuer des commits",
-          content: "Les commits sont des instantanés de votre code à un moment donné."
+          content: "Un commit dans Git est comme un instantané de votre projet à un moment donné. Il capture l'état de tous les fichiers qui ont été ajoutés à la zone de staging.\n\nChaque commit a un message associé qui décrit les modifications apportées. Un bon message de commit est concis mais descriptif, expliquant pourquoi les modifications ont été faites plutôt que ce qui a été modifié (car Git peut déjà montrer ce qui a changé).\n\nLes commits sont identifiés par un hash SHA-1 unique, ce qui permet de référencer spécifiquement n'importe quelle version de votre projet.",
+          image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Créer un commit avec un message\ngit commit -m \"Ajouter une nouvelle fonctionnalité\"\n\n# Voir l'historique des commits\ngit log\n\n# Voir un commit spécifique\ngit show 1a2b3c4d"
         }
       ]
     },
@@ -265,17 +280,23 @@ function App() {
         {
           id: 1,
           title: "Création de branches",
-          content: "Les branches permettent de travailler sur différentes fonctionnalités en parallèle."
+          content: "Les branches dans Git sont des pointeurs légers et mobiles vers un commit. Elles permettent de développer des fonctionnalités, de corriger des bugs ou d'expérimenter sans affecter la branche principale (généralement appelée 'main' ou 'master').\n\nCréer une nouvelle branche est rapide et simple avec Git, ce qui encourage le développement parallèle et l'isolation des fonctionnalités. Vous pouvez créer une branche avec la commande git branch, puis basculer dessus avec git checkout, ou utiliser la commande combinée git checkout -b.",
+          image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Créer une nouvelle branche\ngit branch nouvelle-fonctionnalite\n\n# Basculer sur la nouvelle branche\ngit checkout nouvelle-fonctionnalite\n\n# Ou en une seule commande\ngit checkout -b nouvelle-fonctionnalite"
         },
         {
           id: 2,
           title: "Fusion de branches",
-          content: "La fusion permet de combiner les modifications de différentes branches."
+          content: "La fusion (merge) est le processus qui consiste à intégrer les modifications d'une branche dans une autre. C'est ainsi que vous incorporez le travail effectué dans des branches de fonctionnalités dans votre branche principale.\n\nGit utilise différentes stratégies de fusion selon la situation. La plus simple est la fusion 'fast-forward', qui se produit lorsque la branche cible n'a pas de nouveaux commits depuis la création de la branche source. Dans ce cas, Git déplace simplement le pointeur de la branche cible vers le dernier commit de la branche source.\n\nDans les cas plus complexes, Git crée un 'commit de fusion' qui a deux parents, préservant ainsi l'historique des deux branches.",
+          image: "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Fusionner une branche dans la branche actuelle\ngit merge nouvelle-fonctionnalite\n\n# Fusion avec commit (même si fast-forward est possible)\ngit merge --no-ff nouvelle-fonctionnalite\n\n# Annuler une fusion en cours\ngit merge --abort"
         },
         {
           id: 3,
           title: "Résolution de conflits",
-          content: "Apprenez à résoudre les conflits qui peuvent survenir lors de la fusion."
+          content: "Les conflits de fusion se produisent lorsque Git ne peut pas automatiquement fusionner des modifications parce que les mêmes lignes d'un fichier ont été modifiées différemment dans les deux branches.\n\nLorsqu'un conflit survient, Git marque les fichiers problématiques et s'arrête avant de créer le commit de fusion. Vous devez alors résoudre manuellement les conflits en éditant les fichiers, puis les ajouter à la zone de staging et finaliser la fusion avec un commit.\n\nGit fournit des outils pour vous aider à identifier et résoudre les conflits, comme git status pour voir quels fichiers sont en conflit, et git diff pour voir les différences spécifiques.",
+          image: "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Identifier les fichiers en conflit\ngit status\n\n# Après résolution manuelle des conflits\ngit add fichier-resolu.txt\n\n# Finaliser la fusion\ngit commit"
         }
       ]
     },
@@ -287,17 +308,23 @@ function App() {
         {
           id: 1,
           title: "Configuration des dépôts distants",
-          content: "Apprenez à configurer des dépôts distants pour collaborer avec d'autres développeurs."
+          content: "Les dépôts distants sont des versions de votre projet hébergées sur Internet ou un réseau. Ils facilitent la collaboration en permettant à plusieurs personnes de pousser et tirer des modifications.\n\nGit peut avoir plusieurs dépôts distants, chacun avec un nom unique. Par convention, le dépôt distant principal est souvent appelé 'origin'. Vous pouvez ajouter, renommer ou supprimer des dépôts distants selon vos besoins.\n\nLa commande git remote vous permet de gérer ces connexions distantes, tandis que git remote -v affiche les URLs associées à chaque dépôt distant.",
+          image: "https://images.pexels.com/photos/7014337/pexels-photo-7014337.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Voir les dépôts distants configurés\ngit remote -v\n\n# Ajouter un dépôt distant\ngit remote add origin https://github.com/utilisateur/depot.git\n\n# Renommer un dépôt distant\ngit remote rename origin upstream"
         },
         {
           id: 2,
           title: "Push et Pull",
-          content: "Les commandes push et pull permettent d'envoyer et de récupérer des modifications."
+          content: "Les commandes push et pull sont essentielles pour synchroniser votre travail entre votre dépôt local et les dépôts distants.\n\nLa commande git push envoie vos commits locaux vers un dépôt distant. Par défaut, elle pousse uniquement la branche actuelle vers la branche distante correspondante.\n\nLa commande git pull fait deux choses : elle récupère (fetch) les modifications du dépôt distant, puis les fusionne (merge) automatiquement dans votre branche locale. C'est essentiellement un git fetch suivi d'un git merge.",
+          image: "https://images.pexels.com/photos/7108/notebook-computer-chill-relax.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Pousser des commits vers le dépôt distant\ngit push origin main\n\n# Récupérer et fusionner les modifications distantes\ngit pull origin main\n\n# Récupérer sans fusionner\ngit fetch origin"
         },
         {
           id: 3,
           title: "Gestion des branches distantes",
-          content: "Apprenez à gérer les branches distantes et à les synchroniser avec vos branches locales."
+          content: "Les branches distantes sont des références à l'état des branches dans vos dépôts distants. Elles sont nommées sous la forme <remote>/<branch>, par exemple origin/main.\n\nVous ne pouvez pas modifier directement les branches distantes localement. Elles se mettent à jour automatiquement lorsque vous communiquez avec le dépôt distant via fetch, pull ou push.\n\nPour travailler sur une branche distante, vous devez d'abord créer une branche locale qui la suit (tracking branch). Git configure automatiquement les branches locales pour suivre leurs homologues distantes lors d'un git clone.",
+          image: "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Voir toutes les branches (locales et distantes)\ngit branch -a\n\n# Créer une branche locale qui suit une branche distante\ngit checkout -b feature origin/feature\n\n# Configurer une branche existante pour suivre une branche distante\ngit branch -u origin/feature feature"
         }
       ]
     },
@@ -309,19 +336,51 @@ function App() {
         {
           id: 1,
           title: "Création de Pull Requests",
-          content: "Les Pull Requests permettent de proposer des modifications à un projet."
+          content: "Les Pull Requests (PR) sont une fonctionnalité centrale de GitHub qui permet de proposer des modifications à un projet. Elles servent de mécanisme de discussion et de revue avant que les modifications ne soient intégrées dans la branche principale.\n\nPour créer une PR, vous devez d'abord pousser une branche vers votre fork ou directement vers le dépôt si vous avez les droits. Ensuite, GitHub vous permet de comparer cette branche avec la branche cible (généralement main) et de créer une PR.\n\nUne PR bien conçue inclut un titre descriptif, une description détaillée des modifications, et éventuellement des références à des issues connexes.",
+          image: "https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Créer une branche pour votre fonctionnalité\ngit checkout -b nouvelle-fonctionnalite\n\n# Faire des modifications et les commiter\ngit add .\ngit commit -m \"Ajouter nouvelle fonctionnalité\"\n\n# Pousser la branche vers GitHub\ngit push origin nouvelle-fonctionnalite"
         },
         {
           id: 2,
           title: "Revue de code",
-          content: "La revue de code est une pratique essentielle pour maintenir la qualité du code."
+          content: "La revue de code est une pratique essentielle dans le développement collaboratif. Elle permet d'améliorer la qualité du code, de partager les connaissances et de détecter les bugs avant qu'ils n'atteignent la production.\n\nSur GitHub, les revues de code se font principalement via les Pull Requests. Les relecteurs peuvent commenter des lignes spécifiques, suggérer des modifications, et approuver ou demander des changements.\n\nUne bonne revue de code se concentre sur la lisibilité, la maintenabilité, la performance et la sécurité du code, tout en restant constructive et respectueuse.",
+          image: "https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# Après avoir reçu des commentaires, faites des modifications\ngit add .\ngit commit -m \"Répondre aux commentaires de la revue\"\n\n# Pousser les modifications vers la même branche\ngit push origin nouvelle-fonctionnalite\n\n# La PR sera automatiquement mise à jour"
         },
         {
           id: 3,
           title: "Gestion des workflows d'équipe",
-          content: "Apprenez à gérer les workflows d'équipe avec GitHub."
+          content: "Il existe plusieurs modèles de workflow Git pour les équipes, chacun avec ses avantages et ses inconvénients.\n\nLe GitHub Flow est un workflow simple centré sur les branches de fonctionnalités et les Pull Requests. Il est idéal pour le déploiement continu et les équipes plus petites.\n\nLe Git Flow est un modèle plus structuré avec des branches dédiées pour les fonctionnalités, les releases et les hotfixes. Il convient aux projets avec des cycles de release planifiés.\n\nLe GitLab Flow ajoute des branches d'environnement au modèle de base, facilitant le déploiement progressif à travers différents environnements.",
+          image: "https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          codeExample: "# GitHub Flow - Exemple simplifié\ngit checkout -b feature\n# Travailler sur la fonctionnalité\ngit add .\ngit commit -m \"Ajouter fonctionnalité\"\ngit push origin feature\n# Créer une PR sur GitHub\n# Après approbation, merger sur GitHub ou localement\ngit checkout main\ngit pull origin main"
         }
       ]
+    }
+  ];
+
+  const quizQuestions = [
+    {
+      question: "Quelle commande Git permet d'initialiser un nouveau dépôt ?",
+      options: ["git start", "git init", "git create", "git new"],
+      correctAnswer: 1,
+      explanation: "La commande 'git init' initialise un nouveau dépôt Git dans le répertoire courant en créant un sous-répertoire .git qui contient tous les fichiers nécessaires."
+    },
+    {
+      question: "Quelle est la différence principale entre Git et GitHub ?",
+      options: [
+        "Git est payant, GitHub est gratuit", 
+        "Git est un système de contrôle de version, GitHub est une plateforme d'hébergement", 
+        "Git est pour Windows, GitHub pour Mac", 
+        "Git est pour le code, GitHub pour les images"
+      ],
+      correctAnswer: 1,
+      explanation: "Git est un système de contrôle de version distribué qui fonctionne localement sur votre machine, tandis que GitHub est une plateforme d'hébergement basée sur le web qui utilise Git."
+    },
+    {
+      question: "Quelle commande permet d'ajouter des fichiers à la zone de staging ?",
+      options: ["git commit", "git stage", "git add", "git update"],
+      correctAnswer: 2,
+      explanation: "La commande 'git add' est utilisée pour ajouter des fichiers à la zone de staging (ou index), qui est une étape intermédiaire avant le commit."
     }
   ];
 
@@ -329,6 +388,64 @@ function App() {
     setCurrentChapter(chapterId);
     setCurrentLesson(1);
     setSelectedItem(`chapter-${chapterId}-lesson-1`);
+    setShowQuiz(false);
+  };
+
+  const handleNextLesson = () => {
+    if (currentChapter === null || currentLesson === null) return;
+    
+    const chapter = chapters.find(c => c.id === currentChapter);
+    if (!chapter) return;
+    
+    // Si ce n'est pas la dernière leçon du chapitre
+    if (currentLesson < chapter.lessons.length) {
+      setCurrentLesson(currentLesson + 1);
+      setSelectedItem(`chapter-${currentChapter}-lesson-${currentLesson + 1}`);
+    } 
+    // Si c'est la dernière leçon du chapitre mais pas le dernier chapitre
+    else if (currentChapter < chapters.length) {
+      // Afficher le quiz à la fin du chapitre
+      setShowQuiz(true);
+    }
+  };
+
+  const handleQuizComplete = () => {
+    if (currentChapter === null) return;
+    
+    // Si ce n'est pas le dernier chapitre, passer au chapitre suivant
+    if (currentChapter < chapters.length) {
+      setCurrentChapter(currentChapter + 1);
+      setCurrentLesson(1);
+      setSelectedItem(`chapter-${currentChapter + 1}-lesson-1`);
+    } else {
+      // Si c'est le dernier chapitre, retourner à l'accueil ou afficher un écran de félicitations
+      setSelectedItem('certificate');
+    }
+    setShowQuiz(false);
+  };
+
+  const handlePreviousLesson = () => {
+    if (currentChapter === null || currentLesson === null) return;
+    
+    if (showQuiz) {
+      setShowQuiz(false);
+      return;
+    }
+    
+    // Si ce n'est pas la première leçon du chapitre
+    if (currentLesson > 1) {
+      setCurrentLesson(currentLesson - 1);
+      setSelectedItem(`chapter-${currentChapter}-lesson-${currentLesson - 1}`);
+    } 
+    // Si c'est la première leçon du chapitre mais pas le premier chapitre
+    else if (currentChapter > 1) {
+      const prevChapter = chapters.find(c => c.id === currentChapter - 1);
+      if (prevChapter) {
+        setCurrentChapter(currentChapter - 1);
+        setCurrentLesson(prevChapter.lessons.length);
+        setSelectedItem(`chapter-${currentChapter - 1}-lesson-${prevChapter.lessons.length}`);
+      }
+    }
   };
 
   const renderMainContent = () => {
@@ -336,6 +453,42 @@ function App() {
     if (currentChapter !== null && currentLesson !== null) {
       const chapter = chapters.find(c => c.id === currentChapter);
       if (!chapter) return <div>Chapitre non trouvé</div>;
+      
+      // Si on doit afficher le quiz de fin de chapitre
+      if (showQuiz) {
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-white">Quiz - {chapter.title}</h2>
+              <p className="text-gray-300 mt-2">Testez vos connaissances sur ce chapitre</p>
+            </div>
+            
+            <QuizQuestion
+              question={quizQuestions[0].question}
+              options={quizQuestions[0].options}
+              correctAnswer={quizQuestions[0].correctAnswer}
+              explanation={quizQuestions[0].explanation}
+              onAnswer={() => {}}
+            />
+            
+            <div className="flex justify-between mt-8">
+              <button 
+                onClick={handlePreviousLesson}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg"
+              >
+                Retour à la leçon
+              </button>
+              
+              <button 
+                onClick={handleQuizComplete}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+              >
+                Terminer le chapitre
+              </button>
+            </div>
+          </div>
+        );
+      }
       
       const lesson = chapter.lessons.find(l => l.id === currentLesson);
       if (!lesson) return <div>Leçon non trouvée</div>;
@@ -350,21 +503,28 @@ function App() {
             difficulty="beginner"
           />
           
+          {lesson.image && (
+            <div className="rounded-lg overflow-hidden">
+              <img 
+                src={lesson.image} 
+                alt={lesson.title} 
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          )}
+          
+          {lesson.codeExample && (
+            <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+              <h3 className="text-white font-medium mb-2">Exemple de code:</h3>
+              <pre className="text-green-400 text-sm overflow-x-auto">
+                <code>{lesson.codeExample}</code>
+              </pre>
+            </div>
+          )}
+          
           <div className="flex justify-between">
             <button 
-              onClick={() => {
-                if (currentLesson > 1) {
-                  setCurrentLesson(currentLesson - 1);
-                  setSelectedItem(`chapter-${currentChapter}-lesson-${currentLesson - 1}`);
-                } else if (currentChapter > 1) {
-                  const prevChapter = chapters.find(c => c.id === currentChapter - 1);
-                  if (prevChapter) {
-                    setCurrentChapter(currentChapter - 1);
-                    setCurrentLesson(prevChapter.lessons.length);
-                    setSelectedItem(`chapter-${currentChapter - 1}-lesson-${prevChapter.lessons.length}`);
-                  }
-                }
-              }}
+              onClick={handlePreviousLesson}
               className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg"
               disabled={currentChapter === 1 && currentLesson === 1}
             >
@@ -372,18 +532,8 @@ function App() {
             </button>
             
             <button 
-              onClick={() => {
-                if (chapter.lessons.length > currentLesson) {
-                  setCurrentLesson(currentLesson + 1);
-                  setSelectedItem(`chapter-${currentChapter}-lesson-${currentLesson + 1}`);
-                } else if (currentChapter < chapters.length) {
-                  setCurrentChapter(currentChapter + 1);
-                  setCurrentLesson(1);
-                  setSelectedItem(`chapter-${currentChapter + 1}-lesson-1`);
-                }
-              }}
+              onClick={handleNextLesson}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
-              disabled={currentChapter === chapters.length && currentLesson === chapters[chapters.length - 1].lessons.length}
             >
               Suivant
             </button>
@@ -958,6 +1108,25 @@ function App() {
                 difficulty="beginner"
               />
               
+              {lesson.image && (
+                <div className="rounded-lg overflow-hidden">
+                  <img 
+                    src={lesson.image} 
+                    alt={lesson.title} 
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              )}
+              
+              {lesson.codeExample && (
+                <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                  <h3 className="text-white font-medium mb-2">Exemple de code:</h3>
+                  <pre className="text-green-400 text-sm overflow-x-auto">
+                    <code>{lesson.codeExample}</code>
+                  </pre>
+                </div>
+              )}
+              
               <div className="flex justify-between">
                 <button 
                   onClick={() => {
@@ -1035,6 +1204,7 @@ function App() {
                         setSelectedItem(item.id);
                         setCurrentChapter(null);
                         setCurrentLesson(null);
+                        setShowQuiz(false);
                       }}
                       className={`w-full text-left p-3 rounded-lg transition-all duration-200 border ${
                         selectedItem === item.id
