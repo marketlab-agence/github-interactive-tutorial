@@ -62,30 +62,30 @@ Sans contrôle de version, la collaboration serait chaotique, avec des échanges
 
 **macOS**:
 1. La façon la plus simple est d'installer les Command Line Tools:
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    xcode-select --install
-   \`\`\`
+   \\\`\\\`\\\`
 2. Ou utilisez Homebrew:
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    brew install git
-   \`\`\`
+   \\\`\\\`\\\`
 
 **Linux**:
 Utilisez le gestionnaire de paquets de votre distribution:
-\`\`\`bash
+\\\`\\\`\\\`bash
 # Debian/Ubuntu
 sudo apt-get update
 sudo apt-get install git
 
 # Fedora
 sudo dnf install git
-\`\`\`
+\\\`\\\`\\\`
 
 Une fois Git installé, vous devez configurer votre identité:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git config --global user.name "Votre Nom"
 git config --global user.email "votre.email@exemple.com"
-\`\`\`
+\\\`\\\`\\\`
 
 Cette configuration est essentielle car chaque commit Git utilisera ces informations.`,
         component: 'GitCommandSimulator',
@@ -196,17 +196,17 @@ Cette architecture distribuée est ce qui rend Git si puissant. Vous pouvez trav
 **1. Initialiser un nouveau dépôt local**
 
 Pour transformer un répertoire existant en dépôt Git:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git init
-\`\`\`
+\\\`\\\`\\\`
 Cette commande crée un sous-dossier caché .git qui contient toute la structure nécessaire au fonctionnement de Git.
 
 **2. Cloner un dépôt existant**
 
 Pour créer une copie locale d'un dépôt distant:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git clone https://github.com/utilisateur/depot.git
-\`\`\`
+\\\`\\\`\\\`
 Cette commande télécharge tout le dépôt avec son historique complet.
 
 **Création sur GitHub**
@@ -271,15 +271,15 @@ La compréhension de ce cycle est fondamentale pour utiliser Git efficacement. C
 Pour créer un commit:
 
 1. D'abord, ajoutez vos modifications à la zone de staging:
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git add fichier.txt     # Ajouter un fichier spécifique
    git add .               # Ajouter tous les fichiers modifiés
-   \`\`\`
+   \\\`\\\`\\\`
 
 2. Puis validez ces modifications:
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git commit -m "Description concise des changements"
-   \`\`\`
+   \\\`\\\`\\\`
 
 **Messages de commit efficaces**
 
@@ -290,9 +290,9 @@ Un bon message de commit:
 - Suit la convention de votre équipe ou projet
 
 Exemple:
-\`\`\`
+\\\`\\\`\\\`
 Fix: résolution du bug d'authentification
-\`\`\`
+\\\`\\\`\\\`
 
 **Commits atomiques**
 
@@ -315,41 +315,41 @@ Cette approche facilite la compréhension de l'historique, la recherche de bugs 
 **Afficher l'historique des commits**
 
 La commande de base:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git log
-\`\`\`
+\\\`\\\`\\\`
 
 Options utiles:
-- \`git log --oneline\`: Format compact, une ligne par commit
-- \`git log --graph\`: Visualisation graphique des branches
-- \`git log -p\`: Affiche les différences introduites par chaque commit
-- \`git log --author="nom"\`: Filtre par auteur
-- \`git log --since="2 weeks ago"\`: Filtre par date
+- \\\`git log --oneline\\\`: Format compact, une ligne par commit
+- \\\`git log --graph\\\`: Visualisation graphique des branches
+- \\\`git log -p\\\`: Affiche les différences introduites par chaque commit
+- \\\`git log --author="nom"\\\`: Filtre par auteur
+- \\\`git log --since="2 weeks ago"\\\`: Filtre par date
 
 **Examiner les modifications**
 
 Pour voir les modifications d'un commit spécifique:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git show <commit-hash>
-\`\`\`
+\\\`\\\`\\\`
 
 Pour comparer les différences entre deux commits:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git diff <commit1> <commit2>
-\`\`\`
+\\\`\\\`\\\`
 
 Pour voir les modifications d'un fichier spécifique:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git blame <fichier>
-\`\`\`
+\\\`\\\`\\\`
 Cette commande montre qui a modifié chaque ligne du fichier et dans quel commit.
 
 **Rechercher dans l'historique**
 
 Pour rechercher un terme dans tous les commits:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git log -S "terme-recherché"
-\`\`\`
+\\\`\\\`\\\`
 
 L'exploration de l'historique est précieuse pour comprendre pourquoi une certaine décision a été prise, trouver quand un bug a été introduit, ou simplement suivre l'évolution du projet au fil du temps.`,
         component: 'CommitHistoryExplorer',
@@ -473,32 +473,32 @@ git branch -a              # Liste toutes les branches (locales et distantes)
 \`\`\`
 
 **Créer une nouvelle branche**
-\`\`\`bash
+\\\`\\\`\\\`bash
 git branch nom-branche     # Crée une branche sans y basculer
 git checkout -b nom-branche # Crée une branche et y bascule immédiatement
-\`\`\`
+\\\`\\\`\\\`
 
 Avec Git récent, vous pouvez aussi utiliser:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git switch -c nom-branche   # Équivalent moderne de git checkout -b
-\`\`\`
+\\\`\\\`\\\`
 
 **Naviguer entre les branches**
-\`\`\`bash
+\\\`\\\`\\\`bash
 git checkout nom-branche    # Basculer vers une branche existante
 git switch nom-branche      # Alternative moderne
-\`\`\`
+\\\`\\\`\\\`
 
 **Renommer une branche**
-\`\`\`bash
+\\\`\\\`\\\`bash
 git branch -m ancien-nom nouveau-nom  # Renommer une branche
-\`\`\`
+\\\`\\\`\\\`
 
 **Supprimer une branche**
-\`\`\`bash
+\\\`\\\`\\\`bash
 git branch -d nom-branche   # Suppression sécurisée (échoue si non fusionnée)
 git branch -D nom-branche   # Suppression forcée (même non fusionnée)
-\`\`\`
+\\\`\\\`\\\`
 
 **Conventions de nommage**
 Pour les projets professionnels, on utilise souvent des préfixes:
@@ -532,17 +532,17 @@ Ces conventions facilitent l'organisation et la compréhension de l'objectif de 
 **Commandes de fusion**
 
 Pour fusionner la branche "feature" dans la branche actuelle:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git checkout main        # Basculer vers la branche cible (main)
 git merge feature        # Fusionner la branche "feature" dans main
-\`\`\`
+\\\`\\\`\\\`
 
 Options de fusion:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git merge --ff-only feature     # N'accepter que les fusions fast-forward
 git merge --no-ff feature       # Toujours créer un commit de fusion
 git merge --squash feature      # Squash tous les commits en un seul
-\`\`\`
+\\\`\\\`\\\`
 
 **Quand utiliser quel type de fusion?**
 
@@ -627,14 +627,14 @@ Contenu de la branche que vous fusionnez
    - Supprimer les marqueurs de conflit
 
 3. **Marquer les conflits comme résolus**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git add fichier-resolu.txt
-   \`\`\`
+   \\\`\\\`\\\`
 
 4. **Finaliser la fusion**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git commit
-   \`\`\`
+   \\\`\\\`\\\`
    (Git préparera un message de commit par défaut pour la fusion)
 
 **Conseils pour éviter les conflits**
@@ -734,25 +734,25 @@ Contenu de la branche que vous fusionnez
 3. **Forks**: Ce sont des copies personnelles d'un dépôt d'une autre personne. Ils vous permettent d'expérimenter librement sans affecter le projet original.
 
 **Afficher les dépôts distants configurés**
-\`\`\`bash
+\\\`\\\`\\\`bash
 git remote -v  # Affiche les URLs des dépôts distants
-\`\`\`
+\\\`\\\`\\\`
 
 **Ajouter un dépôt distant**
-\`\`\`bash
+\\\`\\\`\\\`bash
 git remote add nom-distant url-du-depot
 # Exemple: git remote add origin https://github.com/user/repo.git
-\`\`\`
+\\\`\\\`\\\`
 
 **Modifier l'URL d'un dépôt distant**
-\`\`\`bash
+\\\`\\\`\\\`bash
 git remote set-url nom-distant nouvelle-url
-\`\`\`
+\\\`\\\`\\\`
 
 **Supprimer un dépôt distant**
-\`\`\`bash
+\\\`\\\`\\\`bash
 git remote remove nom-distant
-\`\`\`
+\\\`\\\`\\\`
 
 Les dépôts distants sont essentiels pour:
 - Sauvegarder votre travail
@@ -771,47 +771,47 @@ Les dépôts distants sont essentiels pour:
 
 **Push: Envoyer des modifications locales vers le dépôt distant**
 
-\`\`\`bash
+\\\`\\\`\\\`bash
 git push <remote> <branche>
 # Exemple: git push origin main
-\`\`\`
+\\\`\\\`\\\`
 
 Lors du premier push d'une branche, vous devez définir la branche amont:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git push -u origin ma-branche
 # ou
 git push --set-upstream origin ma-branche
-\`\`\`
+\\\`\\\`\\\`
 
-Après cela, un simple \`git push\` suffira pour cette branche.
+Après cela, un simple \\\`git push\\\` suffira pour cette branche.
 
 **Pull: Récupérer et intégrer des modifications distantes**
 
-\`\`\`bash
+\\\`\\\`\\\`bash
 git pull <remote> <branche>
 # Exemple: git pull origin main
-\`\`\`
+\\\`\\\`\\\`
 
-La commande \`git pull\` est en fait une combinaison de deux opérations:
-1. \\\`git fetch\\\`: Télécharge les modifications du dépôt distant
-2. \\\`git merge\\\`: Fusionne ces modifications dans votre branche locale
+La commande \\\`git pull\\\` est en fait une combinaison de deux opérations:
+1. \\\\\\\`git fetch\\\\\\\`: Télécharge les modifications du dépôt distant
+2. \\\\\\\`git merge\\\\\\\`: Fusionne ces modifications dans votre branche locale
 
 Pour plus de contrôle, vous pouvez exécuter ces commandes séparément:
-\\\`\\\`\\\`bash
+\\\\\\\`\\\\\\\`\\\\\\\`bash
 git fetch origin
 git merge origin/main
-\\\`\\\`\\\`
+\\\\\\\`\\\\\\\`\\\\\\\`
 
 Ou utiliser un rebase au lieu d'un merge:
-\\\`\\\`\\\`bash
+\\\\\\\`\\\\\\\`\\\\\\\`bash
 git pull --rebase origin main
-\\\`\\\`\\\`
+\\\\\\\`\\\\\\\`\\\\\\\`
 
 **Bonnes pratiques**
 
-- Commitez localement souvent, mais poussez uniquement du code fonctionnel
+- Commités localement souvent, mais poussez uniquement du code fonctionnel
 - Utilisez des branches pour les fonctionnalités en cours de développement
-- Vérifiez toujours ce que vous poussez avec \`git status\``,
+- Vérifiez toujours ce que vous poussez avec \\\`git status\\\``,
         component: 'PushPullAnimator',
         objectives: ["Envoyer des modifications vers un dépôt distant", "Récupérer et intégrer des modifications distantes", "Comprendre la différence entre fetch, pull et push"]
       },
@@ -820,58 +820,58 @@ git pull --rebase origin main
         title: 'Gestion des branches distantes',
         type: 'theory',
         duration: 15,
-        content: \`Les branches distantes sont des références à l'état des branches dans le dépôt distant. Elles vous permettent de suivre les changements dans le dépôt distant sans modifier votre code local.
+        content: `Les branches distantes sont des références à l'état des branches dans le dépôt distant. Elles vous permettent de suivre les changements dans le dépôt distant sans modifier votre code local.
 
 **Visualiser les branches distantes**
 
-\`\`\`bash
+\\\`\\\`\\\`bash
 git branch -r               # Affiche uniquement les branches distantes
 git branch -a               # Affiche toutes les branches (locales et distantes)
-\`\`\`
+\\\`\\\`\\\`
 
-Les branches distantes sont préfixées par le nom du dépôt distant, comme \`origin/main`.
+Les branches distantes sont préfixées par le nom du dépôt distant, comme \\\`origin/main\\\`.
 
 **Créer une branche locale à partir d'une branche distante**
 
-\`\`\`bash
+\\\`\\\`\\\`bash
 git checkout -b ma-branche origin/ma-branche
 # Version moderne
 git switch -c ma-branche origin/ma-branche
-\`\`\`
+\\\`\\\`\\\`
 
 **Publier une branche locale sur le dépôt distant**
 
-\`\`\`bash
+\\\`\\\`\\\`bash
 git push -u origin ma-branche
-\`\`\`
-L'option `-u` (ou `--set-upstream`) établit une relation de suivi entre la branche locale et distante.
+\\\`\\\`\\\`
+L'option \\\`-u\\\` (ou \\\`--set-upstream\\\`) établit une relation de suivi entre la branche locale et distante.
 
 **Supprimer une branche distante**
 
-\`\`\`bash
+\\\`\\\`\\\`bash
 git push origin --delete ma-branche
 # ou
 git push origin :ma-branche
-\`\`\`
+\\\`\\\`\\\`
 
 **Mettre à jour la liste des branches distantes**
 
-\`\`\`bash
+\\\`\\\`\\\`bash
 git fetch --prune
-\`\`\`
+\\\`\\\`\\\`
 Cette commande supprime les références aux branches distantes qui n'existent plus sur le dépôt distant.
 
 **Relations de suivi**
 
 Quand une branche locale suit une branche distante:
-- \`git pull\` sans arguments sait quelle branche distante récupérer
-- \`git push\` sans arguments sait où pousser les changements
-- \`git status\` indique si votre branche est en avance, en retard ou les deux par rapport à la branche distante
+- \\\`git pull\\\` sans arguments sait quelle branche distante récupérer
+- \\\`git push\\\` sans arguments sait où pousser les changements
+- \\\`git status\\\` indique si votre branche est en avance, en retard ou les deux par rapport à la branche distante
 
 Pour voir les relations de suivi configurées:
-\`\`\`bash
+\\\`\\\`\\\`bash
 git branch -vv
-\`\`\``,
+\\\`\\\`\\\``,
         component: 'SyncStatusIndicator',
         objectives: ["Visualiser et gérer les branches distantes", "Configurer des relations de suivi entre branches locales et distantes", "Supprimer des branches du dépôt distant"]
       },
@@ -885,15 +885,15 @@ git branch -vv
 **Avant de commencer à travailler**
 
 1. **Mettre à jour votre dépôt local**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git pull origin main  # ou la branche sur laquelle vous travaillez
-   \`\`\`
+   \\\`\\\`\\\`
    Cela évite les conflits futurs en intégrant dès le départ les changements des autres.
 
 2. **Créer une branche dédiée**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git checkout -b feature/ma-fonctionnalite
-   \`\`\`
+   \\\`\\\`\\\`
    Travaillez toujours sur une branche spécifique, pas directement sur main.
 
 **Pendant le développement**
@@ -904,49 +904,49 @@ git branch -vv
    - Ajouter un message de commit descriptif
 
 4. **Rester à jour**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git fetch origin          # Récupérer sans fusionner
    git merge origin/main     # Fusionner si nécessaire
    # ou
    git pull origin main      # Récupérer et fusionner
-   \`\`\`
+   \\\`\\\`\\\`
 
 5. **Rebaser si nécessaire**
    Si la branche principale a beaucoup évolué:
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git pull --rebase origin main
-   \`\`\`
+   \\\`\\\`\\\`
    Cela réapplique vos commits sur la version la plus récente.
 
 **Avant de pousser**
 
 6. **Vérifier les changements**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git status
    git diff
-   \`\`\`
+   \\\`\\\`\\\`
 
 7. **Test local**
    Assurez-vous que votre code fonctionne avant de le partager.
 
 8. **Push avec suivi la première fois**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git push -u origin ma-branche
-   \`\`\`
+   \\\`\\\`\\\`
 
 **Gestion avancée**
 
 9. **Nettoyer régulièrement**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git fetch --prune        # Nettoyer les références obsolètes
    git branch -d branches-fusionnées  # Supprimer les branches fusionnées
-   \`\`\`
+   \\\`\\\`\\\`
 
 10. **Utiliser des tags pour les versions**
-    \`\`\`bash
+    \\\`\\\`\\\`bash
     git tag v1.0.0
     git push --tags
-    \`\`\`
+    \\\`\\\`\\\`
 
 En suivant ces pratiques, vous minimiserez les conflits et maintiendrez un historique clair et propre de votre projet.`,
         objectives: ["Adopter un workflow efficace pour la synchronisation", "Éviter les conflits grâce à une bonne gestion des branches", "Maintenir un dépôt propre et à jour"]
@@ -1053,9 +1053,9 @@ Un fork crée une copie personnelle du dépôt de quelqu'un d'autre sur votre co
 1. Forkez le dépôt original sur GitHub (via l'interface web)
 2. Clonez VOTRE fork sur votre machine locale
 3. Ajoutez le dépôt original comme "upstream"
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git remote add upstream https://github.com/original-owner/original-repo.git
-   \`\`\`
+   \\\`\\\`\\\`
 4. Créez une branche pour vos modifications
 5. Poussez vos changements vers VOTRE fork
 6. Créez une Pull Request du fork vers le dépôt original
@@ -1087,9 +1087,9 @@ Une Pull Request est une demande d'intégration de vos modifications dans une br
 **Créer une Pull Request**
 
 1. Poussez votre branche vers GitHub:
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git push origin ma-branche-fonctionnalite
-   \`\`\`
+   \\\`\\\`\\\`
 
 2. Sur GitHub:
    - Naviguez vers le dépôt
@@ -1246,12 +1246,10 @@ La simulation suivante vous permettra d'expérimenter un workflow de collaborati
    - Clonez votre fork localement
    - Configurez le dépôt upstream
    \`\`\`bash
-   git remote add upstream https://github.com/original-owner/repo.git
-   \`\`\`
-   - Créez une branche pour votre contribution
-   \`\`\`bash
-   git checkout -b fix/issue-description
-   \`\`\`
+\\\`\\\`\\\`bash
+\\\`\\\`\\\`
+\\\`\\\`\\\`bash
+\\\`\\\`\\\`
 
 4. **Développer et tester votre contribution**
    - Suivez les conventions du projet
@@ -1260,7 +1258,7 @@ La simulation suivante vous permettra d'expérimenter un workflow de collaborati
 
 5. **Soumettre votre contribution**
    - Poussez votre branche vers votre fork
-   \`\`\`bash
+  \\\`\\\`\\\`bash
    git push origin fix/issue-description
    \`\`\`
    - Créez une Pull Request
@@ -1496,7 +1494,7 @@ Le GitHub Flow est excellent pour commencer avec Git en équipe, car il offre un
 **Le workflow Git Flow étape par étape**
 
 1. **Développement de fonctionnalité**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git checkout develop
    git checkout -b feature/nouvelle-fonctionnalite
    # Développement...
@@ -1504,32 +1502,32 @@ Le GitHub Flow est excellent pour commencer avec Git en équipe, car il offre un
    git commit -m "Add feature X"
    git push origin feature/nouvelle-fonctionnalite
    # Après revue (PR), fusion dans develop
-   \`\`\`
+   \\\`\\\`\\\`
 
 2. **Préparation d'une release**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git checkout develop
    git checkout -b release/1.0.0
    # Corrections mineures, préparation...
    git add .
    git commit -m "Bump version to 1.0.0"
    # Après tests, fusion dans main ET develop
-   \`\`\`
+   \\\`\\\`\\\`
 
 3. **Correction urgente en production**
-   \`\`\`bash
+   \\\`\\\`\\\`bash
    git checkout main
    git checkout -b hotfix/critical-bug
    # Correction...
    git add .
    git commit -m "Fix critical bug"
    # Fusion dans main ET develop
-   \`\`\`
+   \\\`\\\`\\\`
 
 **Outils pour Git Flow**
 
 Il existe une extension Git qui simplifie l'utilisation de Git Flow:
-\`\`\`bash
+\\\`\\\`\\\`bash
 # Installation
 git flow init  # Configuration initiale
 
@@ -1542,7 +1540,7 @@ git flow release finish 1.0.0
 
 git flow hotfix start bug-critique
 git flow hotfix finish bug-critique
-\`\`\`
+\\\`\\\`\\\`
 
 **Avantages de Git Flow**
 
@@ -1644,16 +1642,16 @@ Les protections de branches permettent de:
 Au-delà des protections techniques, établissez des conventions claires:
 
 1. **Nommage des branches**
-   \`\`\`
+   \\\`\\\`\\\`
    feature/<ticket-id>-description-courte
    bugfix/<ticket-id>-description-courte
    hotfix/description-urgence
-   \`\`\`
+   \\\`\\\`\\\`
 
 2. **Conventions de commit**
-   - Format: `<type>(<scope>): <description>`
+   - Format: \\\`<type>(<scope>): <description>\\\`
    - Types: feat, fix, docs, style, refactor, test, chore
-   - Exemple: `feat(auth): add OAuth2 login`
+   - Exemple: \\\`feat(auth): add OAuth2 login\\\`
    - Considérez l'utilisation de Conventional Commits
 
 3. **Processus de revue de code**
