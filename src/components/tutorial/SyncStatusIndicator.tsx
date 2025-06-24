@@ -397,7 +397,7 @@ const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({ onComplete })
           );
         })}
       </div>
-
+      
       {/* Légende */}
       <Card>
         <h3 className="text-lg font-semibold text-white mb-4">Légende des Statuts</h3>
