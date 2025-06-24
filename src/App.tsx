@@ -405,12 +405,6 @@ function App() {
         {selectedItem !== 'accueil' && selectedItem !== 'auth' && selectedItem !== 'certificate' && selectedItem !== 'settings' && (
           <Sidebar selectedItem={selectedItem} onSelectItem={handleSelectItem} />
         )}
-
-        {/* Main Content - adapte sa largeur selon la présence du sidebar */}
-        <div className={`${selectedItem !== 'accueil' && selectedItem !== 'auth' && selectedItem !== 'certificate' && selectedItem !== 'settings' ? 'flex-1' : 'w-full'} p-8`}>
-          {renderMainContent()}
-        </div>
-      </div>
     </div>
   );
 }
