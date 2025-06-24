@@ -403,7 +403,6 @@ function App() {
         <main className="flex-1 p-6">
           {renderMainContent()}
         </main>
-        </main>
       </div>
     </div>
   );
