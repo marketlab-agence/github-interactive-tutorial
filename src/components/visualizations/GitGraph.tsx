@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { GitBranch, GitCommit, GitMerge, Maximize2 } from 'lucide-react';
+import * as d3 from 'd3';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 
@@ -30,8 +32,12 @@ const GitGraph: React.FC<GitGraphProps> = ({
   ],
   className
 }) => {
-  const [selectedNode, setSelectedNode] = useState<GitNode | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+
+  // Get the currently selected node object
+  const selectedNode = nodes.find(node => node.id === selectedNodeId);
 
   const getNodeIcon = (type: string) => {
     switch (type) {
@@ -42,30 +48,135 @@ const GitGraph: React.FC<GitGraphProps> = ({
     }
   };
 
-  const renderConnections = () => {
-    return nodes.map(node => 
+  // D3.js integration
+  useEffect(() => {
+    if (!svgRef.current) return;
+    
+    const svg = d3.select(svgRef.current);
+    // Clear any existing elements
+    svg.selectAll("*").remove();
+    
+    const g = svg.append("g"); // Group to hold all our elements
+    
+    // Set up the D3 visualization
+    const width = 600;
+    const height = 300;
+    
+    // Add zoom behavior
+    const zoom = d3.zoom()
+      .scaleExtent([0.5, 3])
+      .on("zoom", (event) => {
+        g.attr("transform", event.transform);
+      });
+    
+    svg.call(zoom);
+    
+    // Create connections using D3
+    const connections = nodes.flatMap(node => 
       node.parents.map(parentId => {
         const parent = nodes.find(n => n.id === parentId);
-        if (!parent) return null;
+        return parent ? { source: parent, target: node } : null;
+      }).filter(Boolean)
+    );
+    
+    // Draw connections
+    g.selectAll(".connection")
+      .data(connections)
+      .enter()
+      .append("path")
+      .attr("class", "connection")
+      .attr("stroke", "#6b7280")
+      .attr("stroke-width", 2)
+      .attr("fill", "none")
+      .attr("opacity", 0.6)
+      .attr("d", (d: any) => {
+        const sourceX = d.source.x;
+        const sourceY = d.source.y;
+        const targetX = d.target.x;
+        const targetY = d.target.y;
         
-        return (
-          <motion.line
-            key={`${parentId}-${node.id}`}
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 0.5 }}
-            x1={parent.x}
-            y1={parent.y}
-            x2={node.x}
-            y2={node.y}
-            stroke="#6b7280"
-            strokeWidth="2"
-            className="opacity-60"
-          />
-        );
-      })
-    ).flat();
-  };
+        // Use curved paths for connections that aren't straight horizontal
+        if (Math.abs(targetY - sourceY) > 10) {
+          const midX = (sourceX + targetX) / 2;
+          return `M ${sourceX} ${sourceY} C ${midX} ${sourceY}, ${midX} ${targetY}, ${targetX} ${targetY}`;
+        }
+        
+        // Use straight lines for horizontal connections
+        return `M ${sourceX} ${sourceY} L ${targetX} ${targetY}`;
+      });
+    
+    // Draw nodes
+    const nodeGroups = g.selectAll(".node")
+      .data(nodes)
+      .enter()
+      .append("g")
+      .attr("class", "node")
+      .attr("transform", d => `translate(${d.x}, ${d.y})`)
+      .style("cursor", "pointer")
+      .on("click", function(event, d) {
+        event.stopPropagation();
+        setSelectedNodeId(prev => prev === d.id ? null : d.id);
+      });
+    
+    // Add circles for nodes
+    nodeGroups.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", 20)
+      .attr("fill", d => d.color)
+      .attr("stroke", d => d.id === selectedNodeId ? "#ffffff" : "#1f2937")
+      .attr("stroke-width", d => d.id === selectedNodeId ? 3 : 2)
+      .attr("class", "node-circle")
+      .style("transition", "all 0.3s ease");
+    
+    // Add text labels
+    nodeGroups.append("text")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("dy", 30)
+      .attr("text-anchor", "middle")
+      .attr("class", "fill-white text-xs font-medium")
+      .text(d => d.message.split(' ')[0]);
+    
+    // Add icon markers
+    nodeGroups.each(function(d) {
+      // We can't directly add React components to D3, so we'll add simple text or SVG paths
+      const group = d3.select(this);
+      if (d.type === 'commit') {
+        group.append("text")
+          .attr("y", 5)
+          .attr("x", 0)
+          .attr("text-anchor", "middle")
+          .attr("class", "fill-white text-xs")
+          .text("C");
+      } else if (d.type === 'merge') {
+        group.append("text")
+          .attr("y", 5)
+          .attr("x", 0)
+          .attr("text-anchor", "middle")
+          .attr("class", "fill-white text-xs")
+          .text("M");
+      } else {
+        group.append("text")
+          .attr("y", 5)
+          .attr("x", 0)
+          .attr("text-anchor", "middle")
+          .attr("class", "fill-white text-xs")
+          .text("B");
+      }
+    });
+    
+    // Add hover effects
+    nodeGroups.on("mouseenter", function() {
+      d3.select(this).select("circle")
+        .attr("r", 22)
+        .attr("stroke-width", 3);
+    }).on("mouseleave", function(event, d) {
+      d3.select(this).select("circle")
+        .attr("r", 20)
+        .attr("stroke-width", d.id === selectedNodeId ? 3 : 2);
+    });
+  }, [nodes, selectedNodeId]);
 
   return (
     <div className={`bg-gray-800/50 rounded-xl p-6 border border-gray-700 ${className}`}>
@@ -86,54 +197,13 @@ const GitGraph: React.FC<GitGraphProps> = ({
       <div className={`relative bg-gray-900/50 rounded-lg overflow-hidden ${
         isExpanded ? 'h-96' : 'h-64'
       }`}>
-        <svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 600 300"
+        <svg 
+          ref={svgRef}
+          width="100%" 
+          height="100%" 
+          viewBox="0 0 600 300" 
           className="absolute inset-0"
-        >
-          {/* Connections */}
-          <g>
-            {renderConnections()}
-          </g>
-
-          {/* Nodes */}
-          <g>
-            {nodes.map((node, index) => {
-              const Icon = getNodeIcon(node.type);
-              return (
-                <motion.g
-                  key={node.id}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: index * 0.2 }}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedNode(node)}
-                >
-                  <circle
-                    cx={node.x}
-                    cy={node.y}
-                    r="20"
-                    fill={node.color}
-                    stroke="#1f2937"
-                    strokeWidth="3"
-                    className={`transition-all ${
-                      selectedNode?.id === node.id ? 'stroke-white stroke-4' : ''
-                    }`}
-                  />
-                  <foreignObject
-                    x={node.x - 8}
-                    y={node.y - 8}
-                    width="16"
-                    height="16"
-                  >
-                    <Icon className="h-4 w-4 text-white" />
-                  </foreignObject>
-                </motion.g>
-              );
-            })}
-          </g>
-        </svg>
+        />
 
         {/* Node Details Overlay */}
         {selectedNode && (
@@ -154,7 +224,7 @@ const GitGraph: React.FC<GitGraphProps> = ({
               <Button
                 size="sm"
                 variant="ghost"
-                onClick={() => setSelectedNode(null)}
+                onClick={() => setSelectedNodeId(null)}
               >
                 ×
               </Button>
@@ -178,6 +248,30 @@ const GitGraph: React.FC<GitGraphProps> = ({
           <span className="text-gray-300">Fusions</span>
         </div>
       </div>
+
+      {/* Explanation of D3.js Integration */}
+      {!selectedNode && (
+        <Card className="mt-4">
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-white">D3.js Integration</h3>
+            <p className="text-gray-300 text-sm">
+              Cette visualisation utilise D3.js pour le rendu des noeuds et des connexions. 
+              D3.js est responsable de dessiner le graphique dans l'élément SVG, tandis que React gère 
+              l'état du composant et les contrôles d'interface utilisateur.
+            </p>
+            <p className="text-gray-300 text-sm">
+              Caractéristiques de D3.js dans cet exemple :
+            </p>
+            <ul className="list-disc pl-5 text-sm text-gray-300 space-y-1">
+              <li>Rendu de noeuds et connexions basé sur les données</li>
+              <li>Chemins courbes pour les connexions non-horizontales</li>
+              <li>Zoom et panoramique de la visualisation</li>
+              <li>Interactions de survol et de clic</li>
+              <li>Gestion efficace des transitions et animations</li>
+            </ul>
+          </div>
+        </Card>
+      )}
     </div>
   );
 };
