@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import ChapterIntro from './tutorial/ChapterIntro';
 import LessonContent from './tutorial/LessonContent';
@@ -23,10 +23,32 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       ? userProgress.lastPosition.view as any 
       : 'chapter-intro'
   );
-  const [currentChapter, setCurrentChapter] = useState<number>(userProgress.currentChapter);
-  const [currentLesson, setCurrentLesson] = useState<number>(userProgress.currentLesson);
+  const [currentChapter, setCurrentChapter] = useState<number>(userProgress.currentChapter || 0);
+  const [currentLesson, setCurrentLesson] = useState<number>(userProgress.currentLesson || 0);
   const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(userProgress.lastPosition.quizIndex || 0);
   const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+
+  // Initialiser l'état en fonction de la dernière position sauvegardée
+  useEffect(() => {
+    if (userProgress.lastPosition.chapterId) {
+      const chapterIndex = chapters.findIndex(c => c.id === userProgress.lastPosition.chapterId);
+      if (chapterIndex !== -1) {
+        setCurrentChapter(chapterIndex);
+        
+        if (userProgress.lastPosition.view === 'lesson' && userProgress.lastPosition.lessonId) {
+          const lessonIndex = chapters[chapterIndex].lessons.findIndex(l => l.id === userProgress.lastPosition.lessonId);
+          if (lessonIndex !== -1) {
+            setCurrentLesson(lessonIndex);
+          }
+        }
+        
+        if (userProgress.lastPosition.view === 'quiz' && userProgress.lastPosition.quizIndex !== undefined) {
+          setCurrentQuizIndex(userProgress.lastPosition.quizIndex);
+        }
+      }
+    }
+  }, [userProgress.lastPosition]);
 
   const startChapter = (chapterId: string) => {
     const chapterIndex = chapters.findIndex(c => c.id === chapterId);
@@ -77,6 +99,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       // Toutes les leçons sont terminées, passer au quiz
       setCurrentView('quiz');
       setCurrentQuizIndex(0);
+      setSelectedAnswer(null);
       
       setLastPosition({
         view: 'quiz',
@@ -92,6 +115,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       if (currentQuizIndex < chapters[currentChapter].quiz.length - 1) {
         // Passer à la question suivante
         setCurrentQuizIndex(currentQuizIndex + 1);
+        setSelectedAnswer(null);
         
         setLastPosition({
           view: 'quiz',
@@ -126,6 +150,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
       setCurrentView('chapter-intro');
       setCurrentQuizIndex(0);
       setQuizCompleted(false);
+      setSelectedAnswer(null);
       
       // Mettre à jour la progression
       updateProgress({
