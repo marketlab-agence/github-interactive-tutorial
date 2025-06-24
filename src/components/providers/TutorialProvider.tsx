@@ -239,21 +239,26 @@ export const TutorialProvider: React.FC<TutorialProviderProps> = ({ children }) 
       
       if (saved) {
         const parsed = JSON.parse(saved);
+        
+        // Safely construct the progress object with fallbacks to initial state
         const progress: TutorialProgress = {
-          ...parsed.progress,
-          startedAt: new Date(parsed.progress.startedAt),
-          lastAccessedAt: new Date(parsed.progress.lastAccessedAt)
+          currentChapter: parsed.progress?.currentChapter ?? initialState.progress.currentChapter,
+          currentLesson: parsed.progress?.currentLesson ?? initialState.progress.currentLesson,
+          completedLessons: parsed.progress?.completedLessons ?? initialState.progress.completedLessons,
+          totalProgress: parsed.progress?.totalProgress ?? initialState.progress.totalProgress,
+          startedAt: parsed.progress?.startedAt ? new Date(parsed.progress.startedAt) : initialState.progress.startedAt,
+          lastAccessedAt: parsed.progress?.lastAccessedAt ? new Date(parsed.progress.lastAccessedAt) : initialState.progress.lastAccessedAt
         };
         
         dispatch({ type: 'SET_PROGRESS', payload: progress });
         
-        if (parsed.bookmarks) {
+        if (parsed.bookmarks && Array.isArray(parsed.bookmarks)) {
           parsed.bookmarks.forEach((bookmark: string) => {
             dispatch({ type: 'ADD_BOOKMARK', payload: bookmark });
           });
         }
         
-        if (parsed.achievements) {
+        if (parsed.achievements && Array.isArray(parsed.achievements)) {
           parsed.achievements.forEach((achievement: string) => {
             dispatch({ type: 'ADD_ACHIEVEMENT', payload: achievement });
           });
