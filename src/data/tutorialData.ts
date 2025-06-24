@@ -6,20 +6,20 @@ export const menuItems = {
       id: 'accueil',
       title: 'Page d\'Accueil',
       subtitle: 'Vue d\'ensemble principale avec présentation du contenu',
-      icon: Home,
+      icon: 'Home',
       completed: true
     },
     {
       id: 'auth',
       title: 'Authentification',
       subtitle: 'Connexion système et gestion compte programmeur',
-      icon: Lock
+      icon: 'Lock'
     },
     {
       id: 'dashboard',
       title: 'Tableau de Bord',
       subtitle: 'Vue d\'ensemble de la progression et éléments clés du système',
-      icon: LayoutDashboard
+      icon: 'LayoutDashboard'
     }
   ],
   learning: [
@@ -27,31 +27,31 @@ export const menuItems = {
       id: 'intro',
       title: 'Chapitre 1: Introduction',
       subtitle: 'Git vs GitHub, concepts de base',
-      icon: BookOpen
+      icon: 'BookOpen'
     },
     {
       id: 'repositories',
       title: 'Chapitre 2: Dépôts',
       subtitle: 'Création, commits, historique',
-      icon: Repository
+      icon: 'Repository'
     },
     {
       id: 'branches',
       title: 'Chapitre 3: Branches',
       subtitle: 'Création, fusion, workflows',
-      icon: GitBranch
+      icon: 'GitBranch'
     },
     {
       id: 'remote',
       title: 'Chapitre 4: Dépôts Distants',
       subtitle: 'Push, pull, synchronisation',
-      icon: Cloud
+      icon: 'Cloud'
     },
     {
       id: 'collaboration',
       title: 'Chapitre 5: Collaboration',
       subtitle: 'Pull Requests, revue de code',
-      icon: Users
+      icon: 'Users'
     }
   ]
 };
@@ -526,7 +526,7 @@ git commit`,
    - Branches de fonctionnalités
    - Branches d'environnement (staging, production)
 
-Le choix du workflow dépend de la taille de votre équipe, de la complexité du projet et de votre stratégie de déploiement.`,
+Le choix du workflow dépend de la taille de votre équipe, de la nature du projet et de votre stratégie de déploiement.`,
         duration: 20,
         codeExample: `# Exemple de GitHub Flow
 git checkout -b feature-login

@@ -27,27 +27,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
       color: 'text-blue-400',
       bgColor: 'bg-blue-900/20',
       borderColor: 'border-blue-500/30',
-      items: [
-        {
-          id: 'accueil',
-          title: 'Page d\'Accueil',
-          subtitle: 'Vue d\'ensemble principale avec présentation du contenu',
-          icon: 'Home',
-          completed: true
-        },
-        {
-          id: 'auth',
-          title: 'Authentification',
-          subtitle: 'Connexion système et gestion compte programmeur',
-          icon: 'Lock'
-        },
-        {
-          id: 'dashboard',
-          title: 'Tableau de Bord',
-          subtitle: 'Vue d\'ensemble de la progression et éléments clés du système',
-          icon: 'LayoutDashboard'
-        }
-      ]
+      items: menuItems.entry
     },
     {
       id: 'learning',

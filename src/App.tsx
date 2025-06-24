@@ -33,24 +33,6 @@ import Sidebar from './components/Sidebar';
 import Certificate from './components/Certificate';
 import { useTutorial } from './context/TutorialContext';
 
-interface MenuItem {
-  id: string;
-  title: string;
-  subtitle: string;
-  icon: React.ComponentType<any>;
-  completed?: boolean;
-  inProgress?: boolean;
-}
-
-interface Section {
-  id: string;
-  title: string;
-  color: string;
-  bgColor: string;
-  borderColor: string;
-  items: MenuItem[];
-}
-
 function App() {
   const { userProgress, setLastPosition } = useTutorial();
   const [selectedItem, setSelectedItem] = useState<string>(

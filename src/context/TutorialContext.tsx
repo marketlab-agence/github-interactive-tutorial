@@ -24,6 +24,7 @@ interface TutorialContextType {
   completeQuiz: (chapterId: string, score?: number) => void;
   setLastPosition: (position: UserProgress['lastPosition']) => void;
   calculateGlobalScore: () => number;
+  resetProgress: () => void;
 }
 
 const TutorialContext = createContext<TutorialContextType | undefined>(undefined);
@@ -34,6 +35,19 @@ export const useTutorial = () => {
     throw new Error('useTutorial must be used within a TutorialProvider');
   }
   return context;
+};
+
+const initialProgress: UserProgress = {
+  currentChapter: 0,
+  currentLesson: 0,
+  completedLessons: [],
+  completedChapters: [],
+  completedQuizzes: [],
+  quizScores: {},
+  lastPosition: {
+    view: 'accueil'
+  },
+  globalScore: 0
 };
 
 export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -56,30 +70,10 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       } catch (error) {
         console.error("Error parsing saved progress:", error);
         // Return default state if parsing fails
-        return {
-          currentChapter: 0,
-          currentLesson: 0,
-          completedLessons: [],
-          completedChapters: [],
-          completedQuizzes: [],
-          quizScores: {},
-          lastPosition: { view: 'accueil' },
-          globalScore: 0
-        };
+        return initialProgress;
       }
     }
-    return {
-      currentChapter: 0,
-      currentLesson: 0,
-      completedLessons: [],
-      completedChapters: [],
-      completedQuizzes: [],
-      quizScores: {},
-      lastPosition: {
-        view: 'accueil'
-      },
-      globalScore: 0
-    };
+    return initialProgress;
   });
 
   useEffect(() => {
@@ -212,6 +206,12 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return calculateGlobalScoreInternal(userProgress);
   };
 
+  // Fonction pour réinitialiser la progression
+  const resetProgress = () => {
+    setUserProgress(initialProgress);
+    localStorage.removeItem('tutorial-progress');
+  };
+
   return (
     <TutorialContext.Provider value={{
       userProgress,
@@ -220,7 +220,8 @@ export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       completeChapter,
       completeQuiz,
       setLastPosition,
-      calculateGlobalScore
+      calculateGlobalScore,
+      resetProgress
     }}>
       {children}
     </TutorialContext.Provider>
