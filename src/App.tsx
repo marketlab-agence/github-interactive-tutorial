@@ -42,8 +42,23 @@ interface Section {
   items: MenuItem[];
 }
 
+interface Chapter {
+  id: number;
+  title: string;
+  description: string;
+  lessons: Lesson[];
+}
+
+interface Lesson {
+  id: number;
+  title: string;
+  content: string;
+}
+
 function App() {
   const [selectedItem, setSelectedItem] = useState<string>('accueil');
+  const [currentChapter, setCurrentChapter] = useState<number | null>(null);
+  const [currentLesson, setCurrentLesson] = useState<number | null>(null);
 
   const sections: Section[] = [
     {
@@ -197,7 +212,186 @@ function App() {
     }
   ];
 
+  const chapters: Chapter[] = [
+    {
+      id: 1,
+      title: "Introduction à Git et GitHub",
+      description: "Découvrez les concepts fondamentaux du contrôle de version et la différence entre Git et GitHub.",
+      lessons: [
+        {
+          id: 1,
+          title: "Qu'est-ce que Git?",
+          content: "Git est un système de contrôle de version distribué qui permet de suivre les modifications de code source pendant le développement logiciel."
+        },
+        {
+          id: 2,
+          title: "Différence entre Git et GitHub",
+          content: "Git est un outil de contrôle de version, tandis que GitHub est une plateforme d'hébergement de code qui utilise Git."
+        },
+        {
+          id: 3,
+          title: "Installation et configuration de Git",
+          content: "Apprenez à installer Git sur votre système et à configurer les paramètres de base."
+        }
+      ]
+    },
+    {
+      id: 2,
+      title: "Dépôts et Commits",
+      description: "Apprenez à créer et gérer des dépôts Git, ainsi qu'à effectuer vos premiers commits.",
+      lessons: [
+        {
+          id: 1,
+          title: "Création d'un dépôt",
+          content: "Apprenez à initialiser un nouveau dépôt Git avec la commande git init."
+        },
+        {
+          id: 2,
+          title: "Comprendre la zone de staging",
+          content: "La zone de staging est une étape intermédiaire avant le commit où vous préparez vos modifications."
+        },
+        {
+          id: 3,
+          title: "Effectuer des commits",
+          content: "Les commits sont des instantanés de votre code à un moment donné."
+        }
+      ]
+    },
+    {
+      id: 3,
+      title: "Branches et Fusion",
+      description: "Maîtrisez la création de branches et les techniques de fusion pour un développement parallèle.",
+      lessons: [
+        {
+          id: 1,
+          title: "Création de branches",
+          content: "Les branches permettent de travailler sur différentes fonctionnalités en parallèle."
+        },
+        {
+          id: 2,
+          title: "Fusion de branches",
+          content: "La fusion permet de combiner les modifications de différentes branches."
+        },
+        {
+          id: 3,
+          title: "Résolution de conflits",
+          content: "Apprenez à résoudre les conflits qui peuvent survenir lors de la fusion."
+        }
+      ]
+    },
+    {
+      id: 4,
+      title: "Dépôts Distants",
+      description: "Apprenez à synchroniser votre travail avec des dépôts distants et à collaborer efficacement.",
+      lessons: [
+        {
+          id: 1,
+          title: "Configuration des dépôts distants",
+          content: "Apprenez à configurer des dépôts distants pour collaborer avec d'autres développeurs."
+        },
+        {
+          id: 2,
+          title: "Push et Pull",
+          content: "Les commandes push et pull permettent d'envoyer et de récupérer des modifications."
+        },
+        {
+          id: 3,
+          title: "Gestion des branches distantes",
+          content: "Apprenez à gérer les branches distantes et à les synchroniser avec vos branches locales."
+        }
+      ]
+    },
+    {
+      id: 5,
+      title: "Collaboration et Pull Requests",
+      description: "Découvrez les outils de collaboration GitHub et les bonnes pratiques de travail en équipe.",
+      lessons: [
+        {
+          id: 1,
+          title: "Création de Pull Requests",
+          content: "Les Pull Requests permettent de proposer des modifications à un projet."
+        },
+        {
+          id: 2,
+          title: "Revue de code",
+          content: "La revue de code est une pratique essentielle pour maintenir la qualité du code."
+        },
+        {
+          id: 3,
+          title: "Gestion des workflows d'équipe",
+          content: "Apprenez à gérer les workflows d'équipe avec GitHub."
+        }
+      ]
+    }
+  ];
+
+  const handleStartChapter = (chapterId: number) => {
+    setCurrentChapter(chapterId);
+    setCurrentLesson(1);
+    setSelectedItem(`chapter-${chapterId}-lesson-1`);
+  };
+
   const renderMainContent = () => {
+    // Si nous sommes dans une leçon spécifique
+    if (currentChapter !== null && currentLesson !== null) {
+      const chapter = chapters.find(c => c.id === currentChapter);
+      if (!chapter) return <div>Chapitre non trouvé</div>;
+      
+      const lesson = chapter.lessons.find(l => l.id === currentLesson);
+      if (!lesson) return <div>Leçon non trouvée</div>;
+      
+      return (
+        <div className="space-y-8">
+          <LessonContent
+            title={`${chapter.title} - ${lesson.title}`}
+            content={lesson.content}
+            duration={15}
+            objectives={["Comprendre les concepts clés", "Maîtriser les commandes de base", "Appliquer les connaissances"]}
+            difficulty="beginner"
+          />
+          
+          <div className="flex justify-between">
+            <button 
+              onClick={() => {
+                if (currentLesson > 1) {
+                  setCurrentLesson(currentLesson - 1);
+                  setSelectedItem(`chapter-${currentChapter}-lesson-${currentLesson - 1}`);
+                } else if (currentChapter > 1) {
+                  const prevChapter = chapters.find(c => c.id === currentChapter - 1);
+                  if (prevChapter) {
+                    setCurrentChapter(currentChapter - 1);
+                    setCurrentLesson(prevChapter.lessons.length);
+                    setSelectedItem(`chapter-${currentChapter - 1}-lesson-${prevChapter.lessons.length}`);
+                  }
+                }
+              }}
+              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg"
+              disabled={currentChapter === 1 && currentLesson === 1}
+            >
+              Précédent
+            </button>
+            
+            <button 
+              onClick={() => {
+                if (chapter.lessons.length > currentLesson) {
+                  setCurrentLesson(currentLesson + 1);
+                  setSelectedItem(`chapter-${currentChapter}-lesson-${currentLesson + 1}`);
+                } else if (currentChapter < chapters.length) {
+                  setCurrentChapter(currentChapter + 1);
+                  setCurrentLesson(1);
+                  setSelectedItem(`chapter-${currentChapter + 1}-lesson-1`);
+                }
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+              disabled={currentChapter === chapters.length && currentLesson === chapters[chapters.length - 1].lessons.length}
+            >
+              Suivant
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     switch (selectedItem) {
       case 'accueil':
         return (
@@ -274,7 +468,7 @@ function App() {
               "Maîtriser les commandes Git essentielles"
             ]}
             estimatedTime={45}
-            onStart={() => setSelectedItem('repositories')}
+            onStart={() => handleStartChapter(1)}
           />
         );
 
@@ -292,7 +486,7 @@ function App() {
                 "Naviguer dans l'historique des commits"
               ]}
               estimatedTime={60}
-              onStart={() => {}}
+              onStart={() => handleStartChapter(2)}
             />
             <GitRepositoryPlayground />
             <CommitTimeline />
@@ -313,7 +507,7 @@ function App() {
                 "Utiliser les workflows de branches"
               ]}
               estimatedTime={75}
-              onStart={() => {}}
+              onStart={() => handleStartChapter(3)}
             />
             <BranchCreator />
             <BranchDiagram />
@@ -335,7 +529,7 @@ function App() {
                 "Comprendre fetch vs pull"
               ]}
               estimatedTime={50}
-              onStart={() => {}}
+              onStart={() => handleStartChapter(4)}
             />
             <AnimatedFlow />
             <GitGraph />
@@ -356,7 +550,7 @@ function App() {
                 "Utiliser les outils de collaboration GitHub"
               ]}
               estimatedTime={90}
-              onStart={() => {}}
+              onStart={() => handleStartChapter(5)}
             />
             <PullRequestCreator />
             <CollaborationSimulator />
@@ -742,6 +936,64 @@ function App() {
         );
 
       default:
+        // Vérifier si c'est une leçon spécifique
+        if (selectedItem.startsWith('chapter-')) {
+          const parts = selectedItem.split('-');
+          const chapterNum = parseInt(parts[1]);
+          const lessonNum = parseInt(parts[3]);
+          
+          const chapter = chapters.find(c => c.id === chapterNum);
+          if (!chapter) return <div>Chapitre non trouvé</div>;
+          
+          const lesson = chapter.lessons.find(l => l.id === lessonNum);
+          if (!lesson) return <div>Leçon non trouvée</div>;
+          
+          return (
+            <div className="space-y-8">
+              <LessonContent
+                title={`${chapter.title} - ${lesson.title}`}
+                content={lesson.content}
+                duration={15}
+                objectives={["Comprendre les concepts clés", "Maîtriser les commandes de base", "Appliquer les connaissances"]}
+                difficulty="beginner"
+              />
+              
+              <div className="flex justify-between">
+                <button 
+                  onClick={() => {
+                    if (lessonNum > 1) {
+                      setSelectedItem(`chapter-${chapterNum}-lesson-${lessonNum - 1}`);
+                    } else if (chapterNum > 1) {
+                      const prevChapter = chapters.find(c => c.id === chapterNum - 1);
+                      if (prevChapter) {
+                        setSelectedItem(`chapter-${chapterNum - 1}-lesson-${prevChapter.lessons.length}`);
+                      }
+                    }
+                  }}
+                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg"
+                  disabled={chapterNum === 1 && lessonNum === 1}
+                >
+                  Précédent
+                </button>
+                
+                <button 
+                  onClick={() => {
+                    if (chapter.lessons.length > lessonNum) {
+                      setSelectedItem(`chapter-${chapterNum}-lesson-${lessonNum + 1}`);
+                    } else if (chapterNum < chapters.length) {
+                      setSelectedItem(`chapter-${chapterNum + 1}-lesson-1`);
+                    }
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+                  disabled={chapterNum === chapters.length && lessonNum === chapters[chapters.length - 1].lessons.length}
+                >
+                  Suivant
+                </button>
+              </div>
+            </div>
+          );
+        }
+        
         return (
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
@@ -779,7 +1031,11 @@ function App() {
                   {section.items.map((item) => (
                     <button
                       key={item.id}
-                      onClick={() => setSelectedItem(item.id)}
+                      onClick={() => {
+                        setSelectedItem(item.id);
+                        setCurrentChapter(null);
+                        setCurrentLesson(null);
+                      }}
                       className={`w-full text-left p-3 rounded-lg transition-all duration-200 border ${
                         selectedItem === item.id
                           ? 'bg-white/10 border-white/30'
