@@ -33,7 +33,7 @@ const UndoCommandComparison: React.FC = () => {
       description: 'Restaure les fichiers dans le répertoire de travail à leur état dans le dernier commit',
       useCases: [
         'Annuler des modifications locales non commitées',
-        'Récupérer la version d'un fichier d'un commit précédent'
+        'Récupérer la version d\'un fichier d'un commit précédent'
       ],
       example: 'git checkout -- path/to/file.js',
       level: 'safe',
