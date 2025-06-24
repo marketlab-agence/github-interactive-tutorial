@@ -28,7 +28,7 @@ const Card: React.FC<CardProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className={clsx(
-        'rounded-xl overflow-hidden',
+        'rounded-xl overflow-hidden shadow-md',
         variantClasses[variant],
         className
       )}
@@ -38,7 +38,7 @@ const Card: React.FC<CardProps> = ({
           {header}
         </div>
       )}
-      <div className="p-6">
+      <div className="p-3 sm:p-6 card-content">
         {children}
       </div>
       {footer && (

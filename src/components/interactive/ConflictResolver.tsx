@@ -102,7 +102,7 @@ export default Header;`,
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center px-4 sm:px-0"
+        className="text-center"
       >
         <h2 className="text-2xl font-bold text-white mb-2">Résolution de Conflits Git</h2>
         <p className="text-gray-300">Pratiquez la résolution de conflits de fusion dans un environnement sécurisé</p>
@@ -122,8 +122,9 @@ export default Header;`,
       )}
 
       <div className="grid md:grid-cols-3 gap-6">
-        {/* Liste des fichiers */}
-        <Card
+        {/* Liste des fichiers - occupe toute la largeur sur mobile */}
+        <div className="md:col-span-1">
+          <Card
           header={
             <h3 className="font-semibold text-white flex items-center">
               <AlertTriangle className="h-5 w-5 mr-2 text-orange-400" />
@@ -131,7 +132,7 @@ export default Header;`,
             </h3>
           }
         >
-          <div className="space-y-2">
+          <div className="space-y-2 max-h-[300px] md:max-h-[200px] overflow-y-auto">
             {conflicts.map((file, index) => (
               <button
                 key={index}
@@ -157,10 +158,11 @@ export default Header;`,
               </button>
             ))}
           </div>
-        </Card>
+          </Card>
+        </div>
 
-        {/* Éditeur de Code */}
-        <div className="lg:col-span-2">
+        {/* Éditeur de Code - occupe toute la largeur sur mobile */}
+        <div className="md:col-span-2">
           <Card
             header={
               <div className="flex items-center justify-between">
@@ -216,6 +218,11 @@ export default Header;`,
                     <li>• Tenez compte du contexte et de l'objectif de chaque modification</li>
                   </ul>
                 </div>
+                
+                {/* Message sur petit écran */}
+                <div className="block md:hidden mt-2 text-xs text-gray-400 text-center">
+                  Conseil : Tournez votre téléphone en mode paysage pour éditer plus facilement
+                </div>
               </div>
             ) : (
               <div className="text-center text-gray-400 py-12">
@@ -230,20 +237,20 @@ export default Header;`,
       <AnimatePresence>
         {allResolved && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             className="text-center"
           >
             <Card>
               <div className="space-y-4">
                 <CheckCircle className="h-12 w-12 text-green-400 mx-auto" />
-                <h3 className="text-xl font-semibold text-white">Ready to Complete Merge</h3>
+                <h3 className="text-xl font-semibold text-white">Prêt à terminer la fusion</h3>
                 <p className="text-gray-300">
-                  All conflicts have been resolved. You can now complete the merge operation.
+                  Tous les conflits sont résolus. Vous pouvez maintenant terminer l'opération de fusion.
                 </p>
-                <Button size="lg">
+                <Button size="lg" className="w-full sm:w-auto">
                   <GitMerge className="h-5 w-5 mr-2" />
-                  Complete Merge
+                  Terminer la fusion
                 </Button>
               </div>
             </Card>

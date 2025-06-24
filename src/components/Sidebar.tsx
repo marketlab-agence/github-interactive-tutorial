@@ -3,9 +3,14 @@ import { GitCommit, CheckCircle } from 'lucide-react';
 import { useTutorial } from '../context/TutorialContext';
 import { chapters, menuItems } from '../data/tutorialData';
 
+// Importer l'icône de fermeture pour la version mobile
+import { X } from 'lucide-react';
+
 interface SidebarProps {
   selectedItem: string;
   onSelectItem: (itemId: string) => void;
+  mobileMenuOpen?: boolean;
+  onCloseMobileMenu?: () => void;
 }
 
 interface Section {
@@ -17,7 +22,12 @@ interface Section {
   items: any[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
+const Sidebar: React.FC<SidebarProps> = ({ 
+  selectedItem, 
+  onSelectItem, 
+  mobileMenuOpen = false, 
+  onCloseMobileMenu = () => {} 
+}) => {
   const { userProgress } = useTutorial();
 
   // Fonction pour vérifier si un chapitre est déverrouillé
@@ -167,18 +177,24 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
   };
 
   return (
-    <div className="w-64 md:w-72 lg:w-80 bg-gray-800/50 border-r border-gray-700 min-h-screen">
-      <div className="p-6 border-b border-gray-700">
-        <div className="flex items-center space-x-3">
+    <div className={`${mobileMenuOpen ? 'mobile-sidebar open' : 'hidden md:block'} w-64 md:w-72 lg:w-80 bg-gray-800/50 border-r border-gray-700 min-h-screen z-40`}>
+      <div className="p-4 md:p-6 border-b border-gray-700 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
           <GitCommit className="h-8 w-8 text-blue-400" />
           <div>
-            <h1 className="text-lg md:text-xl font-bold">Tutoriel GitHub Interactif</h1>
+            <h1 className="text-base md:text-xl font-bold">Tutoriel GitHub</h1>
             <p className="text-sm text-gray-400">Flux UI</p>
           </div>
         </div>
+        <button 
+          className="md:hidden text-gray-400 hover:text-white"
+          onClick={onCloseMobileMenu}
+        >
+          <X className="h-6 w-6" />
+        </button>
       </div>
 
-      <div className="p-3 md:p-4 space-y-4 md:space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+      <div className="p-3 md:p-4 space-y-3 md:space-y-4 overflow-y-auto max-h-[calc(100vh-150px)]">
         {sections.map((section) => (
           <div key={section.id} className={`${section.bgColor} rounded-xl p-4 border ${section.borderColor}`}>
             <h2 className={`font-bold mb-4 flex items-center ${section.color}`}>
@@ -218,14 +234,14 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onSelectItem }) => {
                     </div>
                   </div>
                 </button>
-              ))}
+              <p className="text-xs text-gray-400 mt-1 line-clamp-1">{item.subtitle}</p>
             </div>
           </div>
         ))}
       </div>
 
       {/* Legend */}
-      <div className="p-4 border-t border-gray-700">
+      <div className="p-3 border-t border-gray-700">
         <div className="flex flex-wrap gap-4 text-xs">
           <div className="flex items-center space-x-2">
             <div className="w-3 h-3 bg-blue-500 rounded-full"></div>

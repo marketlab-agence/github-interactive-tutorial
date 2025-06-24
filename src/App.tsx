@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Home, Lock, LayoutDashboard, BookOpen, GitBranch, Cloud, Users, Settings as SettingsIcon, Play, PenTool, CheckCircle, MessageSquare, TrendingUp, Award, Share, Download, ChevronRight, GitCommit, Factory as Repository } from 'lucide-react';
 
 // Import des composants
@@ -41,6 +41,7 @@ import { chapters } from './data/tutorialData';
 
 function App() {
   const { userProgress, setLastPosition } = useTutorial();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string>(
     userProgress.lastPosition.view === 'chapter-intro' || 
     userProgress.lastPosition.view === 'lesson' || 
@@ -53,18 +54,7 @@ function App() {
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
-  // Fonction pour vérifier si un chapitre est déverrouillé
-  const isChapterUnlocked = (chapterId: string) => {
-    const chapterIndex = chapters.findIndex(c => c.id === chapterId);
-    
-    // Le premier chapitre est toujours déverrouillé
-    if (chapterIndex === 0) return true;
-    
-    // Pour les autres chapitres, vérifier si le chapitre précédent est complété
-    const previousChapterId = chapters[chapterIndex - 1]?.id;
-    return previousChapterId && userProgress.completedChapters.includes(previousChapterId);
-  };
-
+  // Fermer le menu mobile quand l'utilisateur clique sur un item
   const handleSelectItem = (itemId: string) => {
     // Si c'est un chapitre, vérifier s'il est déverrouillé
     if (['intro', 'repositories', 'branches', 'remote', 'collaboration', 'workflows'].includes(itemId)) {
@@ -75,6 +65,7 @@ function App() {
     }
     
     setSelectedItem(itemId);
+    setMobileMenuOpen(false); // Fermer le menu mobile
     
     // Si l'utilisateur sélectionne un chapitre, mettre à jour la position
     if (['intro', 'repositories', 'branches', 'remote', 'collaboration', 'workflows'].includes(itemId)) {
@@ -87,6 +78,31 @@ function App() {
         view: itemId
       });
     }
+  };
+
+  // Désactiver le défilement du body quand le menu mobile est ouvert
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // Fonction pour vérifier si un chapitre est déverrouillé
+  const isChapterUnlocked = (chapterId: string) => {
+    const chapterIndex = chapters.findIndex(c => c.id === chapterId);
+    
+    // Le premier chapitre est toujours déverrouillé
+    if (chapterIndex === 0) return true;
+    
+    // Pour les autres chapitres, vérifier si le chapitre précédent est complété
+    const previousChapterId = chapters[chapterIndex - 1]?.id;
+    return previousChapterId && userProgress.completedChapters.includes(previousChapterId);
   };
 
   const handleNavigate = (view: string, chapterId?: string, lessonId?: string, quizIndex?: number) => {
@@ -387,16 +403,27 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header - visible sur toutes les pages */}
-      <Header onNavigate={handleSelectItem} />
-      
-      <div className="flex">
+      <Header onNavigate={handleSelectItem} onMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)} />
+
+      {/* Mobile menu overlay */}
+      <div 
+        className={`mobile-sidebar-overlay ${mobileMenuOpen ? 'active' : ''}`}
+        onClick={() => setMobileMenuOpen(false)}
+      ></div>
+
+      <div className="flex flex-col md:flex-row">
         {/* Sidebar - visible uniquement sur les pages qui en ont besoin */}
         {selectedItem !== 'accueil' && selectedItem !== 'auth' && selectedItem !== 'certificate' && selectedItem !== 'settings' && (
-          <Sidebar selectedItem={selectedItem} onSelectItem={handleSelectItem} />
+          <Sidebar 
+            selectedItem={selectedItem} 
+            onSelectItem={handleSelectItem}
+            mobileMenuOpen={mobileMenuOpen}
+            onCloseMobileMenu={() => setMobileMenuOpen(false)}
+          />
         )}
         
         {/* Main content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-3 md:p-6">
           {renderMainContent()}
         </main>
       </div>
