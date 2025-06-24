@@ -1084,12 +1084,12 @@ git rebase -i HEAD~3  # Pour modifier les 3 derniers commits
 \`\`\`
 
 Options disponibles :
-- \`pick` : utiliser le commit
-- `reword` : modifier le message du commit
-- `edit` : modifier le contenu du commit
-- `squash` : fusionner avec le commit précédent
-- `fixup` : comme squash, mais ignorer le message
-- `drop` : supprimer le commit
+  - \`pick\` : utiliser le commit
+  - \`reword\` : modifier le message du commit
+  - \`edit\` : modifier le contenu du commit
+  - \`squash\` : fusionner avec le commit précédent
+  - \`fixup\` : comme squash, mais ignorer le message
+  - \`drop\` : supprimer le commit
 
 **Cas d'utilisation** : Nettoyer l\'historique avant de pousser, combiner plusieurs petits commits en un seul commit logique.
 
