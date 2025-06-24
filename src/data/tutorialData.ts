@@ -1,1 +1,2 @@
-\\\\\\\\\J'ai ajouté les accolades fermantes manquantes à la fin du fichier. Le fichier est maintenant syntaxiquement correct.
+// Tutorial data will be implemented here
+export const tutorialData = {};
