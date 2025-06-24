@@ -809,7 +809,7 @@ git pull --rebase origin main
 
 **Bonnes pratiques**
 
-- Faites un \`pull\` avant de commencer à travailler et avant de faire un `push`
+- Faites un \`pull\` avant de commencer à travailler et avant de faire un \`push`
 - Commitez localement souvent, mais poussez uniquement du code fonctionnel
 - Utilisez des branches pour les fonctionnalités en cours de développement
 - Vérifiez toujours ce que vous poussez avec `git status``,
