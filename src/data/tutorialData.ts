@@ -320,11 +320,11 @@ git log
 \`\`\`
 
 Options utiles:
-- \`git log --oneline` : Format compact, une ligne par commit
-- \`git log --graph` : Visualisation graphique des branches
-- \`git log -p` : Affiche les différences introduites par chaque commit
-- \`git log --author="nom"` : Filtre par auteur
-- \`git log --since="2 weeks ago"` : Filtre par date
+- \`git log --oneline\`: Format compact, une ligne par commit
+- \`git log --graph\`: Visualisation graphique des branches
+- \`git log -p\`: Affiche les différences introduites par chaque commit
+- \`git log --author="nom"\`: Filtre par auteur
+- \`git log --since="2 weeks ago"\`: Filtre par date
 
 **Examiner les modifications**
 
