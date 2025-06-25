@@ -3,7 +3,11 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 export interface UserProgress {
   currentChapter: number;
   currentLesson: number;
+  globalScore: number;
   completedLessons: string[];
+  completedChapters: string[];
+  completedQuizzes: string[];
+  quizScores: Record<string, number>; // chapterId -> score
   completedChapters: string[];
   completedQuizzes: string[];
   quizScores: Record<string, number>; // chapterId -> score
@@ -40,14 +44,17 @@ export const useTutorial = () => {
 const initialProgress: UserProgress = {
   currentChapter: 0,
   currentLesson: 0,
+  globalScore: 0,
   completedLessons: [],
+  completedChapters: [],
+  completedQuizzes: [],
+  quizScores: {},
   completedChapters: [],
   completedQuizzes: [],
   quizScores: {},
   lastPosition: {
     view: 'accueil'
   },
-  globalScore: 0
 };
 
 export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

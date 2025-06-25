@@ -21,12 +21,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   // Fonction pour vérifier si un chapitre est déverrouillé
   const isChapterUnlocked = (chapterId: string, index: number) => {
     // Le premier chapitre est toujours déverrouillé
-    if (index === 0) return true;
+    if (index === 0 || userProgress.completedChapters.includes(chapterId)) return true;
     
     // Pour les autres chapitres, vérifier si le chapitre précédent est complété ou si le chapitre lui-même est déjà complété
     const previousChapterId = chapters[index - 1]?.id;
-    return (previousChapterId && userProgress.completedChapters.includes(previousChapterId)) || 
-           userProgress.completedChapters.includes(chapterId);
+    return (previousChapterId && userProgress.completedChapters.includes(previousChapterId));
   };
 
   const sections = [
@@ -61,9 +60,9 @@ const Sidebar: React.FC<SidebarProps> = ({
     {
       id: 'learning',
       title: 'Parcours d\'Apprentissage',
-      color: 'text-green-400',
-      bgColor: 'bg-green-900/20',
-      borderColor: 'border-green-500/30',
+      color: 'text-blue-400',
+      bgColor: 'bg-blue-900/20',
+      borderColor: 'border-blue-500/30',
       items: chapters.map((chapter, index) => ({
         id: chapter.id,
         title: `Chapitre ${index + 1}: ${chapter.title}`,

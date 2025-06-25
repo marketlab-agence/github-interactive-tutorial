@@ -57,7 +57,7 @@ function App() {
   // Fermer le menu mobile quand l'utilisateur clique sur un item
   const handleSelectItem = (itemId: string) => {
     // Si c'est un chapitre, vérifier s'il est déverrouillé
-    if (['intro', 'repositories', 'branches', 'remote', 'collaboration', 'workflows'].includes(itemId)) {
+    if (['git-basics', 'repositories', 'branching', 'remote-repos', 'collaboration', 'workflows'].includes(itemId)) {
       if (!isChapterUnlocked(itemId)) {
         // Chapitre verrouillé, ne pas changer de vue
         return;
@@ -96,10 +96,10 @@ function App() {
   // Fonction pour vérifier si un chapitre est déverrouillé
   const isChapterUnlocked = (chapterId: string) => {
     const chapterIndex = chapters.findIndex(c => c.id === chapterId);
-    
+
     // Le premier chapitre est toujours déverrouillé
     if (chapterIndex === 0) return true;
-    
+
     // Pour les autres chapitres, vérifier si le chapitre précédent est complété
     const previousChapterId = chapters[chapterIndex - 1]?.id;
     return previousChapterId && userProgress.completedChapters.includes(previousChapterId);
@@ -107,7 +107,7 @@ function App() {
 
   const handleNavigate = (view: string, chapterId?: string, lessonId?: string, quizIndex?: number) => {
     // Si c'est un chapitre, vérifier s'il est déverrouillé
-    if (chapterId && view === 'chapter-intro') {
+    if (chapterId) {
       if (!isChapterUnlocked(chapterId)) {
         // Chapitre verrouillé, ne pas naviguer
         return;
@@ -196,7 +196,10 @@ function App() {
       case 'intro':
       case 'repositories':
       case 'branches':
+      case 'git-basics':
+      case 'branching':
       case 'remote':
+      case 'remote-repos':
       case 'collaboration':
       case 'workflows':
         // Vérifier si le chapitre est déverrouillé

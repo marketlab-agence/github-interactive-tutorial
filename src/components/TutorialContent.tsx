@@ -82,7 +82,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
   // Vérifier si le chapitre actuel est déverrouillé
   const isChapterUnlocked = (chapterIndex: number) => {
     // Le premier chapitre est toujours déverrouillé
-    if (chapterIndex === 0) return true;
+    if (chapterIndex === 0 || userProgress.completedChapters.includes(chapters[chapterIndex].id)) return true;
     
     // Pour les autres chapitres, vérifier si le chapitre précédent est complété
     const previousChapterId = chapters[chapterIndex - 1]?.id;
@@ -309,10 +309,10 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
   const renderComponent = (componentName: string, workflowType?: string) => {
     switch (componentName) {
       // Composants Chapitre 1 (Introduction)
-      case 'GitVsGitHubComparison':
-        return <GitVsGitHubComparison />;
       case 'VersioningDemo':
         return <VersioningDemo />;
+      case 'GitVsGitHubComparison':
+        return <GitVsGitHubComparison />;
       case 'LocalVsRemoteVisual':
         return <LocalVsRemoteVisual onComplete={handleCompleteLesson} />;
 
@@ -386,7 +386,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
   if (!isChapterUnlocked(currentChapter)) {
     return (
       <div className="max-w-2xl mx-auto space-y-6">
-        <Card>
+        <Card className="mt-8">
           <div className="text-center space-y-6 py-8">
             <span className="text-5xl">🔒</span>
             <h2 className="text-2xl font-bold text-white">Chapitre verrouillé</h2>
@@ -458,7 +458,7 @@ const TutorialContent: React.FC<TutorialContentProps> = ({ onReturnToHome }) => 
         <LessonContent
           title={lesson.title}
           content={lesson.content}
-          duration={lesson.duration}
+          duration={lesson.duration || 20}
           objectives={chapters[currentChapter].objectives}
           difficulty="beginner"
         />

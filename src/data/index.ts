@@ -15,12 +15,12 @@ import { finalProjectChapter } from './chapters/final-project';
 
 // Combine all chapters
 export const chapters: Chapter[] = [
-  gitBasicsChapter,
-  repositoriesChapter,
-  branchingChapter,
-  remoteReposChapter,
-  collaborationChapter,
-  workflowsChapter,
+  gitBasicsChapter,      // Chapitre 1
+  repositoriesChapter,   // Chapitre 2
+  branchingChapter,      // Chapitre 3
+  remoteReposChapter,    // Chapitre 4
+  collaborationChapter,  // Chapitre 5
+  workflowsChapter,      // Chapitre 6
   conflictsChapter,
   undoingChapter,
   githubFeaturesChapter,

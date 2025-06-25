@@ -4,7 +4,7 @@ export const gitBasicsChapter: Chapter = {
   id: 'git-basics',
   title: 'Git Basics',
   description: 'Learn the fundamental concepts of Git version control',
-  estimatedTime: 45,
+  estimatedTime: 60,
   difficulty: 'beginner',
   objectives: [
     'Understand what version control is and why it\'s important',
@@ -18,7 +18,7 @@ export const gitBasicsChapter: Chapter = {
       title: 'What is Git?',
       content: 'Git is a distributed version control system that tracks changes in any set of computer files, usually used for coordinating work among programmers collaboratively developing source code during software development.',
       type: 'theory',
-      duration: 15,
+      duration: 20,
       objectives: [
         'Understand what version control is',
         'Learn about distributed vs centralized systems',
